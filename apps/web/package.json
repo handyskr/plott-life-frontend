@@ -1,0 +1,22 @@
+{
+  "name": "@plott-life/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "dependencies": {
+    "@plott-life/ui": "workspace:*",
+    "@plott-life/utils": "workspace:*",
+    "astro": "^5.13.5"
+  },
+  "devDependencies": {
+    "@astrojs/node": "^9.4.3",
+    "@astrojs/preact": "^4.1.0",
+    "@plott-life/dev": "workspace:*",
+    "@tailwindcss/vite": "^4.1.13",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2"
+  }
+}

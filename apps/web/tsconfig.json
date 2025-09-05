@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": [
+    "astro/tsconfigs/strict",
+    "@plott-life/utils/tsconfig",
+    "@plott-life/ui/tsconfig"
+  ],
+  "include": [
+    ".astro/types.d.ts",
+    "**/*"
+  ],
+  "exclude": [
+    "dist"
+  ]
+}

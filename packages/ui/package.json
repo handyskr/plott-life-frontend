@@ -1,0 +1,28 @@
+{
+  "name": "@plott-life/ui",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint.config.mjs",
+    "./tsconfig": "./tsconfig.json",
+    "./components": "./components/index.ts",
+    "./style": "./styles/index.css"
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@plott-life/utils": "*",
+    "daisyui": "^5.1.7",
+    "preact": "^10.27.1",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@plott-life/dev": "workspace:*",
+    "eslint": "^9.34.0",
+    "eslint-config-preact": "^2.0.0",
+    "typescript": "^5.9.2"
+  }
+}

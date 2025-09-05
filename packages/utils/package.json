@@ -1,0 +1,18 @@
+{
+  "name": "@plott-life/utils",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint.config.mjs",
+    "./tsconfig": "./tsconfig.json",
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --debug"
+  },
+  "devDependencies": {
+    "@plott-life/dev": "workspace:*",
+    "eslint": "^9.34.0",
+    "typescript": "^5.9.2"
+  }
+}
