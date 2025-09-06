@@ -1,0 +1,42 @@
+options:
+  dynamicSubstitutions: true
+  machineType: E2_HIGHCPU_8
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  _REGION: "asia-northeast3"
+  _IMAGE: "web-dev"
+  _SERVICE: "dev-plott-life-web"
+  _IMAGE_NAME: "${_REGION}-docker.pkg.dev/${PROJECT_ID}/plott-life-frontend/${_IMAGE}"
+
+steps:
+  - id: "Build Docker image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - -t
+      - ${_IMAGE_NAME}:latest
+      - -t
+      - ${_IMAGE_NAME}:${SHORT_SHA}"
+      - -f
+      - apps/web/Dockerfile
+      - .
+
+  - id: "Push to Artifact Registry"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - -a
+
+  - id: "Deploy to Cloud Run"
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "${_SERVICE}"
+      - "--region"
+      - "${_REGION}"
+      - "--image"
+      - "${_IMAGE_NAME}:latest"
+      - --labels=repo=${REPO_NAME},commit=${SHORT_SHA},build_id="${BUILD_ID}"
