@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build"
+    "build": "astro build",
+    "start": "astro preview",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@plott-life/ui": "workspace:*",

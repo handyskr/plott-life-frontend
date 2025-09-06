@@ -1,4 +1,9 @@
 import eslint from "@plott-life/ui/eslint";
 
-/** @type {import("eslint").Linter.Config} */
-export default eslint
+/** @type {import("eslint").Linter.Config[]} */
+export default [
+  ...eslint,
+  {
+    ignores: ["node_modules/**", ".astro/**", "dist/**", "public/**"],
+  }
+]
