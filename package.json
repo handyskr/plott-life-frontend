@@ -10,9 +10,8 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "lint": "turbo run lint",
-    "base": "yarn workspace @plott-life/base",
-    "ui": "yarn workspace @plott-life/ui"
+    "start": "turbo run start",
+    "lint": "turbo run lint"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

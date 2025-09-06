@@ -13,7 +13,16 @@
         "dist/**"
       ]
     },
-    "lint": {},
-    "typecheck": {}
+    "test": {
+      "dependsOn": [
+        "lint"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint": {}
   }
 }

@@ -1,1 +1,1 @@
-export const increment = (a: number) => a + 1;
+export const increment = (a: number) => a - 1;

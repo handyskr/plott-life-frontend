@@ -7,10 +7,11 @@
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
     "./components": "./components/index.ts",
-    "./style": "./styles/index.css"
+    "./style": "./dist/output.css"
   },
   "scripts": {
-    "build": "tsc",
+    "dev": "tailwindcss -i ./styles/index.css -o ./dist/output.css --watch",
+    "build": "tailwindcss -i ./styles/index.css -o ./dist/output.css",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "@plott-life/dev": "workspace:*",
+    "@tailwindcss/cli": "^4.1.13",
     "eslint": "^9.34.0",
     "eslint-config-preact": "^2.0.0",
     "typescript": "^5.9.2"
