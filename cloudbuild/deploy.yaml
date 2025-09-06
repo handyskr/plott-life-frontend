@@ -26,7 +26,8 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "push"
-      - "-a"
+      - "${_IMAGE_NAME}"
+      - "--all-tags"
 
   - id: "Deploy to Cloud Run"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
