@@ -13,20 +13,20 @@ steps:
   - id: "Build Docker image"
     name: 'gcr.io/cloud-builders/docker'
     args:
-      - build
-      - -t
-      - ${_IMAGE_NAME}:latest
-      - -t
-      - ${_IMAGE_NAME}:${SHORT_SHA}"
-      - -f
-      - apps/web/Dockerfile
+      - "build"
+      - "-t"
+      - "${_IMAGE_NAME}:latest"
+      - "-t"
+      - "${_IMAGE_NAME}:${SHORT_SHA}"
+      - "-f"
+      - "apps/web/Dockerfile"
       - .
 
   - id: "Push to Artifact Registry"
     name: 'gcr.io/cloud-builders/docker'
     args:
-      - push
-      - -a
+      - "push"
+      - "-a"
 
   - id: "Deploy to Cloud Run"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
@@ -39,4 +39,4 @@ steps:
       - "${_REGION}"
       - "--image"
       - "${_IMAGE_NAME}:latest"
-      - --labels=repo=${REPO_NAME},commit=${SHORT_SHA},build_id="${BUILD_ID}"
+      - "--labels=repo=${REPO_NAME},commit=${SHORT_SHA},build_id=${BUILD_ID}"

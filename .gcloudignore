@@ -1,0 +1,7 @@
+#!include:.gitignore
+.idea
+.yarn
+node_modules
+dist
+out
+README.md
