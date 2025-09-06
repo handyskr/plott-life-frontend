@@ -1,6 +1,6 @@
-import eslint from "@plott-life/utils/eslint";
+import eslint from "@plott-life/dev/eslint";
 import preact from "eslint-config-preact";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
 
-/** @type {import("eslint").Linter.Config} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [...eslint, ...preact, eslintConfigPrettier];

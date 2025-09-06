@@ -1,9 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@plott-life/dev/tsconfig",
-  "compilerOptions": {
-    "outDir": "dist"
-  },
   "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }

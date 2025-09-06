@@ -3,12 +3,12 @@ import tseslint from "typescript-eslint";
 import importPlugin from "eslint-plugin-import";
 import turbo from "eslint-plugin-turbo";
 
-/** @type {import("eslint").Linter.Config} */
+/** @type {import("eslint").Linter.Config[]} */
 export default [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.config({
-    files: ['**/*.{ts,tsx}'],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
@@ -22,4 +22,16 @@ export default [
       "turbo/no-undeclared-env-vars": "error",
     },
   },
-]
+  {
+    settings: {
+      "import/resolver": {
+        typescript: {
+          alwaysTryTypes: true,
+        },
+      },
+    },
+  },
+  {
+    ignores: ["node_modules/**", "dist/**"],
+  }
+];

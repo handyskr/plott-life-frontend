@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    ".": "./src/index.ts",
     "./eslint": "./eslint.config.mjs",
-    "./tsconfig": "./tsconfig.json",
-    ".": "./src/index.ts"
+    "./tsconfig": "./tsconfig.json"
   },
   "scripts": {
     "lint": "eslint . --debug"
