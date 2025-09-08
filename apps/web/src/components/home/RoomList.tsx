@@ -1,6 +1,6 @@
 /** @jsxImportSource preact */
+import { useState, useEffect, useRef } from "preact/hooks";
 import { Card } from '@plott-life/ui';
-import { useState, useEffect, useRef } from 'preact/hooks';
 
 interface Room {
   id: string;
@@ -79,7 +79,7 @@ export default function RoomList({ initialRooms, responsive = false }: Props) {
   const gridCols = responsive ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-2';
 
   return (
-    <div className='max-w-[600px] mx-auto'>
+    <div className="max-w-[600px] mx-auto">
       <div className={`grid ${gridCols} gap-4`}>
         {rooms.map((room) => (
           <Card
@@ -93,7 +93,7 @@ export default function RoomList({ initialRooms, responsive = false }: Props) {
         ))}
       </div>
       {hasMore ? (
-        <div ref={loaderRef} className='h-12 flex justify-center items-center text-gray-400'>
+        <div ref={loaderRef} className="h-12 flex justify-center items-center text-gray-400">
           Loading…
         </div>
       ) : (

@@ -1,5 +1,5 @@
-import { useState } from "preact/hooks";
 import { increment } from "@plott-life/utils";
+import { useState } from "preact/hooks";
 
 export const Sample = () => {
   const [value, setValue] = useState(0);

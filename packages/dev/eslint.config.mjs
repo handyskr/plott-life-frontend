@@ -1,15 +1,15 @@
 import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
 import importPlugin from "eslint-plugin-import";
-import turbo from "eslint-plugin-turbo";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
+import turbo from "eslint-plugin-turbo";
+import tseslint from "typescript-eslint";
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.config({
-    files: ["**/*.{ts,tsx}"],
+    files: ["**/*.{ts,tsx,astro}"],
     extends: [
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,
