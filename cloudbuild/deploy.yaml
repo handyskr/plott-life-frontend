@@ -8,6 +8,7 @@ substitutions:
   _IMAGE: "web-dev"
   _SERVICE: "dev-plott-life-web"
   _IMAGE_NAME: "${_REGION}-docker.pkg.dev/${PROJECT_ID}/plott-life-frontend/${_IMAGE}"
+  _ASSETS_BUCKET: "dev-plott-life-assets"
 
 steps:
   - id: "Build Docker image"
@@ -28,6 +29,37 @@ steps:
       - "push"
       - "${_IMAGE_NAME}"
       - "--all-tags"
+
+  - id: "Extract assets from Docker image"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "create"
+      - "--name"
+      - "assets-container"
+      - "${_IMAGE_NAME}:latest"
+
+  - id: "Copy assets from container"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "cp"
+      - "assets-container:/app/apps/web/dist/client/."
+      - "/workspace/assets/"
+
+  - id: "Remove temporary container"
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - "rm"
+      - "assets-container"
+
+  - id: "Upload assets to GCS bucket"
+    name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+    entrypoint: "gsutil"
+    args:
+      - "-m"
+      - "rsync"
+      - "-r"
+      - "/workspace/assets"
+      - "gs://${_ASSETS_BUCKET}"
 
   - id: "Deploy to Cloud Run"
     name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
