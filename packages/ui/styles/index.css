@@ -1,13 +1,11 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark;
-}
 
 @plugin "daisyui/theme" {
   name: "light";
-  default: false;
+  default: true;
   prefersdark: false;
-  color-scheme: "light";
+  color-scheme: light;
+
   --color-base-100: #f7f7f7;
   --color-base-200: #f2f2f2;
   --color-base-300: #e9e9e9;

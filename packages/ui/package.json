@@ -7,13 +7,13 @@
     ".": "./components/index.ts",
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
-    "./style": "./dist/output.css",
+    "./style": "./dist/style.css",
     "./components/*": "./components/*",
     "./icons/*": "./icons/*"
   },
   "scripts": {
-    "dev": "tailwindcss -i ./styles/index.css -o ./dist/output.css --watch",
-    "build": "tailwindcss -i ./styles/index.css -o ./dist/output.css",
+    "dev": "tailwindcss -i styles/index.css -o ./dist/style.css --watch",
+    "build": "tailwindcss -i styles/index.css -o ./dist/style.css",
     "lint": "eslint ."
   },
   "dependencies": {
