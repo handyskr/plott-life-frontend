@@ -1,9 +1,33 @@
 ---
-import '../styles/style.css';
+import Meta from '@layouts/Meta.astro';
+import Scripts from '@layouts/Scripts.astro';
+import '@styles/style.css';
+
+const {
+  metaData = {
+    title: '홈페이지',
+    description: '홈페이지 설명',
+    image: '/social.png',
+  },
+} = Astro.props;
 ---
 
-<html lang="ko" data-theme="light">
-  <body class="flex justify-center items-center max-h-screen min-h-screen">
-  <slot />
+<html
+  lang='ko'
+  data-theme='light'
+>
+  <head>
+    <Meta {...metaData} />
+    <Scripts />
+  </head>
+  <body class='flex justify-center min-h-screen'>
+    <div class='relative flex flex-col w-full min-h-screen bg-gray-100 shadow-lg'>
+      <main class='flex-1 max-w-[600px] bg-white mx-auto w-full'>
+        <slot name='header' />
+        <slot />
+        <slot name='footer' />
+      </main>
+      <!--<button class="fixed bottom-4 right-1/2 translate-x-1/2 btn btn-primary rounded-full shadow-lg"> + </button>-->
+    </div>
   </body>
 </html>

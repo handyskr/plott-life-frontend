@@ -1,0 +1,280 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import BottomNav from '@components/template/BottomNav.astro';
+
+import { Input, Typography, Text } from '@plott-life/ui';
+import RoomList from '@components/home/RoomList';
+import Footer from '@components/template/Footer.astro';
+import { ImageSwiper } from '@components/room';
+
+const { id } = Astro.params;
+
+const images = [
+  'https://picsum.photos/id/1015/800/600',
+  'https://picsum.photos/id/1016/800/600',
+  'https://picsum.photos/id/1025/800/600',
+  'https://picsum.photos/id/1035/800/600',
+  'https://picsum.photos/id/1045/800/600',
+];
+
+const room = {
+  title: '어반스테이 명동점',
+  address: '서울 중구 인현동1가 15B',
+  description:
+    '명동역 근처로 출장이나 여행객에게 최적화된 방입니다. 인터넷, TV, 에어컨 등 필수 시설이 완비되어 있어 입주 즉시 편리하고 안정적으로 지내실 수 있습니다. 쾌적하고 아늑한 분위기 속에서 휴식은 물론, 업무 공간으로도 활용하기 좋습니다. 인근에 다양한 맛집...',
+  size: '46㎡ / 6평',
+  structure: '침실 1개, 욕실 1개, 주방/거실',
+  capacity: '최대 2인',
+  floor: '13층',
+  buildingType: '오피스텔',
+  rent: '₩300,000 / 1주',
+  maintenance: '₩70,000 / 1주',
+  cleaning: '₩50,000',
+  deposit: '₩300,000',
+  total: '₩1,477,969',
+  defaultOptions: [
+    {
+      code: 'tv',
+      name: 'TV',
+    },
+    {
+      code: 'wifi',
+      name: '와이파이',
+    },
+    {
+      code: 'aircon',
+      name: '에어컨',
+    },
+    {
+      code: 'washer',
+      name: '세탁기',
+    },
+  ],
+  facilities: [
+    {
+      code: 'elevator',
+      name: '엘리베이터',
+    },
+    {
+      code: 'parking',
+      name: '무료 주차',
+    },
+    {
+      code: 'gym',
+      name: '헬스장',
+    },
+    {
+      code: 'subway',
+      name: '역세권',
+    },
+  ],
+  additionalOptions: [
+    {
+      code: 'pet',
+      name: '반려동물 동반 가능',
+    },
+    {
+      code: 'femaleOnly',
+      name: '여성전용',
+    },
+    {
+      code: 'residentChange',
+      name: '거주사실확인서 발급 가능',
+    },
+  ],
+};
+---
+
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+  />
+  <div class='title1'>{id}</div>
+  <ImageSwiper
+    client:only='preact'
+    images={images}
+  />
+  <div class='bg-white px-6 py-8'>
+    <!-- 숙소 정보 -->
+    <div>
+      <h1 class='text-gray-1000 title2 mb-2'>{room.title}</h1>
+      <p class='text-gray-700 body5 mb-4'>{room.address}</p>
+      <p class='text-gray-1000 body5 mb-4'>[icon] 최소 1주 이상부터 계약 가능</p>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class='grid grid-cols-4 text-center p-4 text-sm'>
+      <div class='flex flex-col items-center gap-1'>
+        <span class='material-icons text-gray-600'>bed</span>
+        <span>침실 1개</span>
+      </div>
+      <div class='flex flex-col items-center gap-1'>
+        <span class='material-icons text-gray-600'>bathtub</span>
+        <span>욕실 1개</span>
+      </div>
+      <div class='flex flex-col items-center gap-1'>
+        <span class='material-icons text-gray-600'>square_foot</span>
+        <span>{room.size}</span>
+      </div>
+      <div class='flex flex-col items-center gap-1'>
+        <span class='material-icons text-gray-600'>bed</span>
+        <span>13층</span>
+      </div>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>소개글</h2>
+      <p class='text-gray-1000 body2 font-normal mb-8'>{room.description}</p>
+      <button class='w-full bod h-12 bg-gray-200 rounded-lg text-black text-sm'>더 보기</button>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <!-- 기본 정보 -->
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>기본 정보</h2>
+      <div class='space-y-6 text-sm'>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>구조</span>
+          <span class='body3 text-gray-800'>{room.structure}</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>전용 면적</span>
+          <span class='body3 text-gray-800'>{room.size}</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>최대 인원</span>
+          <span class='body3 text-gray-800'>{room.capacity}</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>건물 유형</span>
+          <span class='body3 text-gray-800'>{room.buildingType}</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>층</span>
+          <span class='body3 text-gray-800'>{room.floor}</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>엘리베이터</span>
+          <span class='body3 text-gray-800'>있음</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>주차 여부</span>
+          <span class='body3 text-gray-800'>유료주차</span>
+        </div>
+      </div>
+    </div>
+    <!-- 기본 옵션 -->
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>기본 옵션</h2>
+      <div class='grid grid-cols-2 gap-4 mb-6'>
+        <div class='flex items-center gap-3'>
+          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
+          <span class='body3 text-gray-1000'>TV</span>
+        </div>
+        <div class='flex items-center gap-3'>
+          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
+          <span class='body3 text-gray-1000'>와이파이</span>
+        </div>
+        <div class='flex items-center gap-3'>
+          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
+          <span class='body3 text-gray-1000'>에어컨</span>
+        </div>
+        <div class='flex items-center gap-3'>
+          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
+          <span class='body3 text-gray-1000'>세탁기</span>
+        </div>
+      </div>
+      <button class='w-full h-12 bg-gray-100 rounded-lg text-black text-sm'> 편의시설 33가지 모두 보기 </button>
+    </div>
+    <!-- 편의시설 -->
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>편의시설</h2>
+      <div class='flex flex-wrap gap-2'>
+        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+          엘리베이터
+        </div>
+        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+          무료 주차
+        </div>
+        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+          헬스장
+        </div>
+        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+          역세권
+        </div>
+      </div>
+    </div>
+
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+
+    <!-- 추가 옵션 -->
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>추가 옵션</h2>
+      <ul class='list-disc list-inside text-sm space-y-1'>
+        <li>반려동물 동반 가능</li>
+        <li>여성전용</li>
+        <li>거주자세대원 변경 가능</li>
+      </ul>
+    </div>
+
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+
+    <!-- 주의사항 -->
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>주의사항</h2>
+      <div class='alert alert-warning text-sm'>
+        퇴실 시간은 반드시 준수해주세요. 퇴실 시 쓰레기는 분리수거 후 지정된 장소에 놓아주시고, 객실 키 분실 시 비용이
+        청구됩니다.
+      </div>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+
+    <!-- 위치 -->
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>위치 & 교통</h2>
+      <p class='text-sm text-gray-700'>{room.address}</p>
+      <div class='mt-3 h-40 bg-gray-200 rounded-lg flex items-center justify-center'>
+        <span class='text-gray-500'>지도 영역 (API 연결)</span>
+      </div>
+      <p class='text-sm text-gray-600 mt-2'>명동역 버스 10 ~ 15분 이내, 인근 레스토랑, 백화점 도보 접근</p>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <!-- 계약 정보 -->
+    <div class='py-8'>
+      <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>
+      <div class='overflow-x-auto'>
+        <table class='table text-sm'>
+          <tbody>
+            <tr>
+              <td>임대료</td>
+              <td>{room.rent}</td>
+            </tr>
+            <tr>
+              <td>관리비</td>
+              <td>{room.maintenance}</td>
+            </tr>
+            <tr>
+              <td>청소비</td>
+              <td>{room.cleaning}</td>
+            </tr>
+            <tr>
+              <td>보증금</td>
+              <td>{room.deposit}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class='text-xs text-gray-500 mt-2'>관리비에는 가스, 수도, 인터넷, 전기비가 포함되어 있습니다.</p>
+    </div>
+
+    <!-- 하단 고정 CTA -->
+    <div class='sticky bottom-0 bg-white border-t p-4 flex justify-between items-center'>
+      <span class='font-bold text-lg'>{room.total}</span>
+      <button class='btn btn-primary'>계약하기</button>
+    </div>
+  </div>
+  <!--<Footer />-->
+  <!--<BottomNav slot='footer' />-->
+</Layout>

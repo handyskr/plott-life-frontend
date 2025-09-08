@@ -11,7 +11,8 @@
   "dependencies": {
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
-    "astro": "^5.13.5"
+    "astro": "^5.13.5",
+    "swiper": "^11.2.10"
   },
   "devDependencies": {
     "@astrojs/node": "^9.4.3",

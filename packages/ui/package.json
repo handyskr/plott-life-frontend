@@ -4,10 +4,11 @@
   "type": "module",
   "private": true,
   "exports": {
+    ".": "./components/index.ts",
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
-    "./components": "./components/index.ts",
-    "./style": "./dist/output.css"
+    "./style": "./dist/output.css",
+    "./components/*": "./components/*"
   },
   "scripts": {
     "dev": "tailwindcss -i ./styles/index.css -o ./dist/output.css --watch",

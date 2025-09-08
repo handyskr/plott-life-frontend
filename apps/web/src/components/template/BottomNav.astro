@@ -1,0 +1,41 @@
+---
+const { pathname } = Astro.url;
+---
+
+<!-- 이름 footer말고 다른걸로 -->
+<nav class='sticky bottom-0 left-0 w-full bg-white border-t border-gray-300 z-50'>
+  <div class='max-w-[600px] mx-auto flex justify-center items-center pt-2 pb-1 gap-6'>
+    <a
+      href='/search'
+      class:list={['flex flex-col items-center w-16', pathname === '/' ? 'text-gray-1000' : 'text-gray-600']}
+    >
+      <svg
+        class='w-6 h-6 mb-1.5'
+        viewBox='0 0 24 24'
+      ></svg>
+      <span class='caption3'>검색</span>
+    </a>
+
+    <a
+      href='/contract'
+      class:list={['flex flex-col items-center w-16', pathname === '/contract' ? 'text-gray-1000' : 'text-gray-600']}
+    >
+      <svg
+        class='w-6 h-6 mb-1.5'
+        viewBox='0 0 24 24'
+      ></svg>
+      <span class='caption3'>계약</span>
+    </a>
+
+    <a
+      href='/mypage'
+      class:list={['flex flex-col items-center w-16', pathname === '/mypage' ? 'text-gray-1000' : 'text-gray-600']}
+    >
+      <svg
+        class='w-6 h-6 mb-1.5'
+        viewBox='0 0 24 24'
+      ></svg>
+      <span class='caption3'>내 정보</span>
+    </a>
+  </div>
+</nav>
