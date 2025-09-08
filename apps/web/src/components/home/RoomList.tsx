@@ -1,5 +1,5 @@
 /** @jsxImportSource preact */
-import { useState, useEffect, useRef } from "preact/hooks";
+import { useState, useEffect, useRef } from 'preact/hooks';
 import { Card } from '@plott-life/ui';
 
 interface Room {
@@ -28,7 +28,7 @@ export default function RoomList({ initialRooms, responsive = false }: Props) {
     Array.from({ length: count }, (_, i) => ({
       id: `${start + i + 1}`,
       image: `https://placehold.co/400x300?text=Room+${start + i + 1}`,
-      title: `테스트 숙소 ${start + i + 1}`,
+      title: `어반스테이 명동 ${start + i + 1}`,
       address: `서울특별시 중구 테스트로 ${start + i + 1}`,
       details: `침실 1 · 욕실 1 · ${20 + i}m²`,
       price: `₩${(50000 + (start + i) * 1000).toLocaleString()}/주`,
@@ -79,7 +79,7 @@ export default function RoomList({ initialRooms, responsive = false }: Props) {
   const gridCols = responsive ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-2';
 
   return (
-    <div className="max-w-[600px] mx-auto">
+    <div className='max-w-[600px] mx-auto'>
       <div className={`grid ${gridCols} gap-4`}>
         {rooms.map((room) => (
           <Card
@@ -93,7 +93,7 @@ export default function RoomList({ initialRooms, responsive = false }: Props) {
         ))}
       </div>
       {hasMore ? (
-        <div ref={loaderRef} className="h-12 flex justify-center items-center text-gray-400">
+        <div ref={loaderRef} className='h-12 flex justify-center items-center text-gray-400'>
           Loading…
         </div>
       ) : (

@@ -8,7 +8,8 @@
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
     "./style": "./dist/output.css",
-    "./components/*": "./components/*"
+    "./components/*": "./components/*",
+    "./icons/*": "./icons/*"
   },
   "scripts": {
     "dev": "tailwindcss -i ./styles/index.css -o ./dist/output.css --watch",
@@ -17,7 +18,7 @@
   },
   "dependencies": {
     "@plott-life/utils": "workspace:*",
-    "daisyui": "^5.1.7",
+    "daisyui": "^5.1.8",
     "preact": "^10.27.1",
     "tailwindcss": "^4.1.13"
   },

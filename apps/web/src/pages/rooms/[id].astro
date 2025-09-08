@@ -3,10 +3,10 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import BottomNav from '@components/template/BottomNav.astro';
 
-import { Input, Typography, Text } from '@plott-life/ui';
 import RoomList from '@components/home/RoomList';
 import Footer from '@components/template/Footer.astro';
 import { ImageSwiper } from '@components/room';
+import { Icon } from '@components/common';
 
 const { id } = Astro.params;
 
@@ -86,12 +86,18 @@ const room = {
 };
 ---
 
-<Layout>
+<Layout
+  metaData={{
+    title: room.title,
+    description: room.description,
+    image: images[0],
+  }}
+>
   <Header
     slot='header'
     showBackIcon={true}
+    showHomeIcon={true}
   />
-  <div class='title1'>{id}</div>
   <ImageSwiper
     client:only='preact'
     images={images}
@@ -168,22 +174,11 @@ const room = {
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>기본 옵션</h2>
       <div class='grid grid-cols-2 gap-4 mb-6'>
-        <div class='flex items-center gap-3'>
-          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
-          <span class='body3 text-gray-1000'>TV</span>
-        </div>
-        <div class='flex items-center gap-3'>
-          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
-          <span class='body3 text-gray-1000'>와이파이</span>
-        </div>
-        <div class='flex items-center gap-3'>
-          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
-          <span class='body3 text-gray-1000'>에어컨</span>
-        </div>
-        <div class='flex items-center gap-3'>
-          <span class='material-icons w-6 h-6 text-[24px] flex items-center justify-center'></span>
-          <span class='body3 text-gray-1000'>세탁기</span>
-        </div>
+        {room.defaultOptions.map(option => (
+          <div class="flex items-center gap-3">
+            <span class="body3 text-gray-1000">{option.name}</span>
+          </div>
+        ))}
       </div>
       <button class='w-full h-12 bg-gray-100 rounded-lg text-black text-sm'> 편의시설 33가지 모두 보기 </button>
     </div>
@@ -192,18 +187,11 @@ const room = {
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>편의시설</h2>
       <div class='flex flex-wrap gap-2'>
-        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-          엘리베이터
-        </div>
-        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-          무료 주차
-        </div>
-        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-          헬스장
-        </div>
-        <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-          역세권
-        </div>
+        {room.facilities.map((facility) => (
+          <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+            {facility.name}
+          </div>
+        ))}
       </div>
     </div>
 
@@ -212,21 +200,23 @@ const room = {
     <!-- 추가 옵션 -->
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>추가 옵션</h2>
-      <ul class='list-disc list-inside text-sm space-y-1'>
-        <li>반려동물 동반 가능</li>
-        <li>여성전용</li>
-        <li>거주자세대원 변경 가능</li>
-      </ul>
+      <div class='flex flex-wrap gap-2'>
+        {room.additionalOptions.map((additionalOption) => (
+          <li class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+            {additionalOption.name}
+          </li>
+        ))}
+      </div>
     </div>
-
     <div class='w-full h-px bg-gray-300 my-0'></div>
 
     <!-- 주의사항 -->
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>주의사항</h2>
-      <div class='alert alert-warning text-sm'>
-        퇴실 시간은 반드시 준수해주세요. 퇴실 시 쓰레기는 분리수거 후 지정된 장소에 놓아주시고, 객실 키 분실 시 비용이
-        청구됩니다.
+      <div class=''>
+        <span class="body3">
+          퇴실 시간은 반드시 준수해주세요. 퇴실 시 쓰레기는 분리수거 후 지정된 장소에 놓아주시고, 객실 키 분실 시 비용이 청구됩니다.
+        </span>
       </div>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
@@ -236,43 +226,52 @@ const room = {
       <h2 class='text-gray-1000 title2 mb-5'>위치 & 교통</h2>
       <p class='text-sm text-gray-700'>{room.address}</p>
       <div class='mt-3 h-40 bg-gray-200 rounded-lg flex items-center justify-center'>
-        <span class='text-gray-500'>지도 영역 (API 연결)</span>
+        <span class='text-gray-500'>위치 정보 추가 예정</span>
       </div>
       <p class='text-sm text-gray-600 mt-2'>명동역 버스 10 ~ 15분 이내, 인근 레스토랑, 백화점 도보 접근</p>
     </div>
-    <div class='w-full h-px bg-gray-300 my-0'></div>
     <!-- 계약 정보 -->
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>
-      <div class='overflow-x-auto'>
-        <table class='table text-sm'>
-          <tbody>
-            <tr>
-              <td>임대료</td>
-              <td>{room.rent}</td>
-            </tr>
-            <tr>
-              <td>관리비</td>
-              <td>{room.maintenance}</td>
-            </tr>
-            <tr>
-              <td>청소비</td>
-              <td>{room.cleaning}</td>
-            </tr>
-            <tr>
-              <td>보증금</td>
-              <td>{room.deposit}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class='text-xs text-gray-500 mt-2'>관리비에는 가스, 수도, 인터넷, 전기비가 포함되어 있습니다.</p>
-    </div>
+    <!--<div class='w-full h-px bg-gray-300 my-0'></div>-->
+    <!--<div class='py-8'>-->
+    <!--  <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>-->
+    <!--  <div class='overflow-x-auto'>-->
+    <!--    <table class='table text-sm'>-->
+    <!--      <tbody>-->
+    <!--        <tr>-->
+    <!--          <td>임대료</td>-->
+    <!--          <td>{room.rent}</td>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--          <td>관리비</td>-->
+    <!--          <td>{room.maintenance}</td>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--          <td>청소비</td>-->
+    <!--          <td>{room.cleaning}</td>-->
+    <!--        </tr>-->
+    <!--        <tr>-->
+    <!--          <td>보증금</td>-->
+    <!--          <td>{room.deposit}</td>-->
+    <!--        </tr>-->
+    <!--      </tbody>-->
+    <!--    </table>-->
+    <!--  </div>-->
+    <!--  <p class='text-xs text-gray-500 mt-2'>관리비에는 가스, 수도, 인터넷, 전기비가 포함되어 있습니다.</p>-->
+    <!--</div>-->
     <!-- 하단 고정 CTA -->
-    <div class='sticky bottom-0 bg-white border-t p-4 flex justify-between items-center'>
-      <span class='font-bold text-lg'>{room.total}</span>
-      <button class='btn btn-primary'>계약하기</button>
+  </div>
+  <div class='sticky bottom-0 bg-white border-t border-gray-400 py-5 px-6 flex justify-between items-center'>
+    <div class='flex flex-col'>
+      <span class="body1 mb-1.5">
+        {room.total}
+      </span>
+      <span class="caption1 text-gray-800 underline">
+        1주 · 9월 8일~9월 15일
+      </span>
     </div>
+    <button class="w-[120px] rounded-lg btn btn-primary !h-12">
+      계약하기
+    </button>
   </div>
   <!--<Footer />-->
   <!--<BottomNav slot='footer' />-->

@@ -1200,7 +1200,7 @@ __metadata:
     "@plott-life/dev": "workspace:*"
     "@plott-life/utils": "workspace:*"
     "@tailwindcss/cli": "npm:^4.1.13"
-    daisyui: "npm:^5.1.7"
+    daisyui: "npm:^5.1.8"
     eslint: "npm:^9.34.0"
     eslint-config-preact: "npm:^2.0.0"
     preact: "npm:^10.27.1"
@@ -2891,10 +2891,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^5.1.7":
-  version: 5.1.7
-  resolution: "daisyui@npm:5.1.7"
-  checksum: 10c0/deb8148ecfc34c5c1dea988e88af19ee37d19f356ae191ea5fdcfd72b4558b2249edcb9eb43da40a76c88fbc690540172709f25d62858a9caee6e547e9b328cd
+"daisyui@npm:^5.1.8":
+  version: 5.1.8
+  resolution: "daisyui@npm:5.1.8"
+  checksum: 10c0/fe92dcb11f13c41a2500f0d01644fcc2775b5099453320d8daab82cda1c770dfd64c423e28b3c547608f081808c0cbb03fc87fd6112280dcaeb594d946630d0b
   languageName: node
   linkType: hard
 
