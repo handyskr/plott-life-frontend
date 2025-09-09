@@ -1,8 +1,9 @@
 ---
 import Meta from '@layouts/Meta.astro';
-import Scripts from '@layouts/Scripts.astro';
 import '@styles/style.css';
 import GoogleAnalytics from "../components/script/GoogleAnalytics.astro";
+import GoogleTagManager from "../components/script/GoogleTagManager.astro";
+import GoogleTagManagerFallback from "../components/script/GoogleTagManagerFallback.astro";
 
 const { PUBLIC_GA_ID } = import.meta.env;
 const {
@@ -20,10 +21,11 @@ const {
 >
   <head>
     <Meta {...metaData} />
-    <Scripts />
     <GoogleAnalytics id={PUBLIC_GA_ID} />
+    <GoogleTagManager id={PUBLIC_GTM_ID} />
   </head>
   <body class='flex justify-center min-h-screen'>
+    <GoogleTagManagerFallback id={PUBLIC_GA_ID} />
     <div class='relative flex flex-col w-full min-h-screen bg-gray-100 shadow-lg'>
       <main class='flex-1 max-w-[600px] bg-white mx-auto w-full'>
         <slot name='header' />
