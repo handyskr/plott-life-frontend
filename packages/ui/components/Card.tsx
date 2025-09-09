@@ -35,14 +35,14 @@ export function Card(props: CardProps) {
         className='w-full aspect-square object-cover rounded-xl'
       />
       <div className=''>
-        <h3 className='body4 text-gray-1000 pt-3 pb-1'>{name}</h3>
-        <p className='body6 text-gray-700'>{address}</p>
-        <p className='body6 text-gray-700 pt-1 pb-2'>
+        <h3 className='body4 text-gray-900 pt-3 pb-1'>{name}</h3>
+        <p className='body6 text-gray-600'>{address}</p>
+        <p className='body6 text-gray-600 pt-1 pb-2'>
           침실 {bedrooms} · 욕실 {bathrooms} · {areaExclusive}㎡
         </p>
         <div className='flex'>
-          <p className='body4 text-gray-1000 mr-1'>₩{(rentFeePerWeek || 0).toLocaleString()}</p>
-          <p className='body6 text-gray-1000'>/{'주'}</p>
+          <p className='body4 text-gray-900 mr-1'>₩{(rentFeePerWeek || 0).toLocaleString()}</p>
+          <p className='body6 text-gray-900'>/{'주'}</p>
         </div>
       </div>
     </div>

@@ -113,12 +113,12 @@ export default function RoomList({ responsive = false }: Props) {
       {hasMore ? (
         <div
           ref={loaderRef}
-          className="h-12 flex justify-center items-center text-gray-400"
+          className="h-12 flex justify-center items-center text-gray-300"
         >
           {loading ? 'Loading…' : ''}
         </div>
       ) : (
-        <div className="h-12 flex justify-center items-center text-gray-400">
+        <div className="h-12 flex justify-center items-center text-gray-300">
         </div>
       )}
     </div>
