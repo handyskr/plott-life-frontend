@@ -1,7 +1,13 @@
 ---
 import IconHome from '@plott-life/ui/icons/home.svg';
 import IconBack from '@plott-life/ui/icons/arrow-left.svg';
-const { showBackIcon, showCloseIcon, showHomeIcon, title } = Astro.props;
+const {
+  showBackIcon,
+  showCloseIcon,
+  showHomeIcon,
+  title,
+  class: className = '',
+} = Astro.props;
 
 const hasDefaultSlot = !!Astro.slots.default;
 ---
@@ -27,7 +33,7 @@ const hasDefaultSlot = !!Astro.slots.default;
             )
           }
         </div>
-        <div class='col flex-1 flex items-center justify-center text-black'>
+        <div class='col flex-1 flex items-center justify-center body1 text-gray-1000'>
           {title}
         </div>
         <div class='col flex items-center gap-2 min-w-[40px] justify-end'>

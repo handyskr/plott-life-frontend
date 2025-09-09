@@ -1,1 +1,2 @@
-// export { default as Icon } from './Icon';
+export { default as Calendar } from './Calendar';
+export { default as IconWrapper } from './IconWrapper';
