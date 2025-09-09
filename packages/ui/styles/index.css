@@ -69,8 +69,9 @@
 
 /* Titles */
 .title1 { @apply text-2xl leading-8 font-bold; }
-.title2 { @apply text-xl leading-7 font-bold; }
-.title3 { @apply text-lg leading-[26px] font-medium; }
+.title2 { @apply text-[22px] leading-[30px] font-bold; }
+.title3 { @apply text-xl leading-7 font-semibold; }
+.title4 { @apply text-lg leading-[26px] font-medium; }
 /* Body */
 .body1 { @apply text-base leading-6 font-bold; }
 .body2 { @apply text-base leading-6 font-medium; }
@@ -78,6 +79,7 @@
 .body4 { @apply text-sm leading-5 font-bold; }
 .body5 { @apply text-sm leading-5 font-medium; }
 .body6 { @apply text-sm leading-5 font-normal; }
+.body7 { @apply text-[13px] leading-4 font-normal; }
 /* Captions */
 .caption1 { @apply text-xs leading-4 font-normal; }
 .caption2 { @apply text-[11px] leading-[14px] font-bold; }
