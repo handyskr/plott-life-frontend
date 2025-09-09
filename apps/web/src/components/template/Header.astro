@@ -15,14 +15,15 @@ const hasDefaultSlot = !!Astro.slots.default;
         <div class='col flex items-center gap-2 min-w-[40px] justify-start'>
           {
             showBackIcon && (
-              <button
-                aria-label='뒤로가기'
+              <a
+                href="javascript:history.back()"
                 class="w-6 h-6 flex items-center justify-center"
+                aria-label='뒤로가기'
               >
                 <IconBack
                   width="14"
                 />
-              </button>
+              </a>
             )
           }
         </div>
@@ -32,18 +33,23 @@ const hasDefaultSlot = !!Astro.slots.default;
         <div class='col flex items-center gap-2 min-w-[40px] justify-end'>
           {
             showCloseIcon && (
-              <button aria-label='닫기'>
+              <a
+                aria-label='닫기'
+              >
                 <svg width='24' height='24' fill='none'>
                   <path d='M6 6l12 12M6 18L18 6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
                 </svg>
-              </button>
+              </a>
             )
           }
           {
             showHomeIcon && (
-              <button aria-label='홈'>
+              <a
+                href="/"
+                aria-label='홈'
+              >
                 <IconHome />
-              </button>
+              </a>
             )
           }
         </div>
