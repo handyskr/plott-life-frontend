@@ -1,47 +1,78 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-    themes: light --default, dark --prefersdark
-}
+
 @plugin "daisyui/theme" {
-    name: "light";
-    default: true;
-    prefersdark: false;
-    color-scheme: light;
+  name: "light";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
 
-    --color-base-100: oklch(98% 0.02 240);
-    --color-base-200: oklch(95% 0.03 240);
-    --color-base-300: oklch(92% 0.04 240);
-    --color-base-content: oklch(20% 0.05 240);
-    --color-primary: oklch(55% 0.3 240);
-    --color-primary-content: oklch(98% 0.01 240);
-    --color-secondary: oklch(70% 0.25 200);
-    --color-secondary-content: oklch(98% 0.01 200);
-    --color-accent: oklch(65% 0.25 160);
-    --color-accent-content: oklch(98% 0.01 160);
-    --color-neutral: oklch(50% 0.05 240);
-    --color-neutral-content: oklch(98% 0.01 240);
-    --color-info: oklch(70% 0.2 220);
-    --color-info-content: oklch(98% 0.01 220);
-    --color-success: oklch(65% 0.25 140);
-    --color-success-content: oklch(98% 0.01 140);
-    --color-warning: oklch(80% 0.25 80);
-    --color-warning-content: oklch(20% 0.05 80);
-    --color-error: oklch(65% 0.3 30);
-    --color-error-content: oklch(98% 0.01 30);
+  --color-base-100: #f7f7f7;
+  --color-base-200: #f2f2f2;
+  --color-base-300: #e9e9e9;
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: #74594B;
+  --color-primary-content: #ffffff;
+  --color-secondary: #E7DED1;
+  --color-secondary-content: #74594b;
+  --color-accent: #ffffff;
+  --color-accent-content: #000000;
+  --color-neutral: #000000;
+  --color-neutral-content: #ffffff;
+  --color-info: #3385FF;
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: #00BF40;
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: #FF9200;
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: #FF4242;
+  --color-error-content: oklch(27% 0.105 12.094);
+  /* Gray Scale */
+  --color-gray-100: #f7f7f7;
+  --color-gray-200: #f2f2f2;
+  --color-gray-300: #e9e9e9;
+  --color-gray-400: #dddddd;
+  --color-gray-500: #c2c2c2;
+  --color-gray-600: #9e9e9e;
+  --color-gray-700: #757575;
+  --color-gray-800: #616161;
+  --color-gray-900: #444444;
+  --color-gray-1000: #222222;
+  /* Text Setting */
+  --text-xs: 12px;
+  --text-xs--line-height: 16px;
+  --text-sm: 14px;
+  --text-sm--line-height: 20px;
+  --text-base: 16px;
+  --text-base--line-height: 24px;
+  --text-lg: 18px;
+  --text-lg--line-height: 28px;
+  --text-xl: 20px;
+  --text-xl--line-height: 28px;
+  --text-2xl: 24px;
+  --text-2xl--line-height: 32px;
+  /* ETC */
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --border: 0.5px;
+  --depth: 0;
+  --noise: 0;
+}
 
-    /* border radius */
-    --radius-selector: 1rem;
-    --radius-field: 0.25rem;
-    --radius-box: 0.5rem;
-
-    /* base sizes */
-    --size-selector: 0.25rem;
-    --size-field: 0.25rem;
-
-    /* border size */
-    --border: 1px;
-
-    /* effects */
-    --depth: 1;
-    --noise: 0;
+@layer utilities {
+  /* Titles */
+  .title1 { @apply text-2xl leading-8 font-bold; }
+  .title2 { @apply text-xl leading-7 font-bold; }
+  .title3 { @apply text-lg leading-[26px] font-medium; }
+  /* Body */
+  .body1 { @apply text-base leading-6 font-bold; }
+  .body2 { @apply text-base leading-6 font-medium; }
+  .body3 { @apply text-base leading-6 font-normal; }
+  .body4 { @apply text-sm leading-5 font-bold; }
+  .body5 { @apply text-sm leading-5 font-medium; }
+  .body6 { @apply text-sm leading-5 font-normal; }
+  /* Captions */
+  .caption1 { @apply text-xs leading-4 font-normal; }
+  .caption2 { @apply text-[11px] leading-[14px] font-bold; }
+  .caption3 { @apply text-[11px] leading-[14px] font-normal; }
 }

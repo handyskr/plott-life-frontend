@@ -1,8 +1,41 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import { Sample } from '@plott-life/ui/components';
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import BottomNav from '@components/template/BottomNav.astro';
+import RoomList from '@components/home/RoomList';
+import Footer from '@components/template/Footer.astro';
+
+import IconSearch from '@plott-life/ui/icons/search.svg';
+import IconLogo from '@plott-life/ui/icons/logo.svg';
 ---
 
 <Layout>
-    <Sample client:load />
+  <Header slot='header'>
+    <div class='flex flex-col w-full'>
+      <div class='flex justify-center items-center h-16'>
+        <IconLogo />
+      </div>
+      <div class='flex items-center px-6 pb-4 w-full shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
+        <button
+          id="search-button"
+          class='flex items-center space-x-2 w-full px-6 h-14 border-[1px] rounded-[28px] border-gray-300 shadow-[0_0_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_20px_0_rgba(0,0,0,0.1)]'
+        >
+          <IconSearch
+            fill="white"
+            width={'16px'}
+            height="16px"
+          />
+          <span class='body5 text-gray-800'>나에게 맞는 방 검색하기</span>
+        </button>
+      </div>
+    </div>
+  </Header>
+  <div class='bg-white p-6'>
+    <RoomList
+      client:visible
+      initialRooms={[]}
+    />
+  </div>
+  <Footer />
+  <BottomNav slot='footer' />
 </Layout>

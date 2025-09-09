@@ -4,19 +4,21 @@
   "type": "module",
   "private": true,
   "exports": {
+    ".": "./components/index.ts",
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
-    "./components": "./components/index.ts",
-    "./style": "./dist/output.css"
+    "./style": "./dist/style.css",
+    "./components/*": "./components/*",
+    "./icons/*": "./icons/*"
   },
   "scripts": {
-    "dev": "tailwindcss -i ./styles/index.css -o ./dist/output.css --watch",
-    "build": "tailwindcss -i ./styles/index.css -o ./dist/output.css",
+    "dev": "tailwindcss -i styles/index.css -o ./dist/style.css --watch",
+    "build": "tailwindcss -i styles/index.css -o ./dist/style.css",
     "lint": "eslint ."
   },
   "dependencies": {
     "@plott-life/utils": "workspace:*",
-    "daisyui": "^5.1.7",
+    "daisyui": "^5.1.8",
     "preact": "^10.27.1",
     "tailwindcss": "^4.1.13"
   },

@@ -1182,9 +1182,11 @@ __metadata:
   dependencies:
     "@eslint/js": "npm:^9.34.0"
     eslint: "npm:^9.34.0"
+    eslint-config-airbnb-base: "npm:^15.0.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import: "npm:^2.32.0"
+    eslint-plugin-simple-import-sort: "npm:^12.1.1"
     eslint-plugin-turbo: "npm:^2.5.6"
     typescript: "npm:^5.9.2"
     typescript-eslint: "npm:^8.42.0"
@@ -1198,7 +1200,7 @@ __metadata:
     "@plott-life/dev": "workspace:*"
     "@plott-life/utils": "workspace:*"
     "@tailwindcss/cli": "npm:^4.1.13"
-    daisyui: "npm:^5.1.7"
+    daisyui: "npm:^5.1.8"
     eslint: "npm:^9.34.0"
     eslint-config-preact: "npm:^2.0.0"
     preact: "npm:^10.27.1"
@@ -1229,6 +1231,7 @@ __metadata:
     "@tailwindcss/vite": "npm:^4.1.13"
     astro: "npm:^5.13.5"
     eslint: "npm:^9.34.0"
+    swiper: "npm:^11.2.10"
     typescript: "npm:^5.9.2"
   languageName: unknown
   linkType: soft
@@ -2792,6 +2795,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"confusing-browser-globals@npm:^1.0.10":
+  version: 1.0.11
+  resolution: "confusing-browser-globals@npm:1.0.11"
+  checksum: 10c0/475d0a284fa964a5182b519af5738b5b64bf7e413cfd703c1b3496bf6f4df9f827893a9b221c0ea5873c1476835beb1e0df569ba643eff0734010c1eb780589e
+  languageName: node
+  linkType: hard
+
 "convert-source-map@npm:^2.0.0":
   version: 2.0.0
   resolution: "convert-source-map@npm:2.0.0"
@@ -2881,10 +2891,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"daisyui@npm:^5.1.7":
-  version: 5.1.7
-  resolution: "daisyui@npm:5.1.7"
-  checksum: 10c0/deb8148ecfc34c5c1dea988e88af19ee37d19f356ae191ea5fdcfd72b4558b2249edcb9eb43da40a76c88fbc690540172709f25d62858a9caee6e547e9b328cd
+"daisyui@npm:^5.1.8":
+  version: 5.1.8
+  resolution: "daisyui@npm:5.1.8"
+  checksum: 10c0/fe92dcb11f13c41a2500f0d01644fcc2775b5099453320d8daab82cda1c770dfd64c423e28b3c547608f081808c0cbb03fc87fd6112280dcaeb594d946630d0b
   languageName: node
   linkType: hard
 
@@ -3503,6 +3513,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-config-airbnb-base@npm:^15.0.0":
+  version: 15.0.0
+  resolution: "eslint-config-airbnb-base@npm:15.0.0"
+  dependencies:
+    confusing-browser-globals: "npm:^1.0.10"
+    object.assign: "npm:^4.1.2"
+    object.entries: "npm:^1.1.5"
+    semver: "npm:^6.3.0"
+  peerDependencies:
+    eslint: ^7.32.0 || ^8.2.0
+    eslint-plugin-import: ^2.25.2
+  checksum: 10c0/93639d991654414756f82ad7860aac30b0dc6797277b7904ddb53ed88a32c470598696bbc6c503e066414024d305221974d3769e6642de65043bedf29cbbd30f
+  languageName: node
+  linkType: hard
+
 "eslint-config-preact@npm:^2.0.0":
   version: 2.0.0
   resolution: "eslint-config-preact@npm:2.0.0"
@@ -3676,6 +3701,15 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
   checksum: 10c0/c850bfd556291d4d9234f5ca38db1436924a1013627c8ab1853f77cac73ec19b020e861e6c7b783436a48b6ffcdfba4547598235a37ad4611b6739f65fd8ad57
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-simple-import-sort@npm:^12.1.1":
+  version: 12.1.1
+  resolution: "eslint-plugin-simple-import-sort@npm:12.1.1"
+  peerDependencies:
+    eslint: ">=5.0.0"
+  checksum: 10c0/0ad1907ad9ddbadd1db655db0a9d0b77076e274b793a77b982c8525d808d868e6ecfce24f3a411e8a1fa551077387f9ebb38c00956073970ebd7ee6a029ce2b3
   languageName: node
   linkType: hard
 
@@ -6131,7 +6165,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.assign@npm:^4.1.4, object.assign@npm:^4.1.7":
+"object.assign@npm:^4.1.2, object.assign@npm:^4.1.4, object.assign@npm:^4.1.7":
   version: 4.1.7
   resolution: "object.assign@npm:4.1.7"
   dependencies:
@@ -6145,7 +6179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"object.entries@npm:^1.1.9":
+"object.entries@npm:^1.1.5, object.entries@npm:^1.1.9":
   version: 1.1.9
   resolution: "object.entries@npm:1.1.9"
   dependencies:
@@ -7001,7 +7035,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^6.3.1":
+"semver@npm:^6.3.0, semver@npm:^6.3.1":
   version: 6.3.1
   resolution: "semver@npm:6.3.1"
   bin:
@@ -7530,6 +7564,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 10c0/6c4032340701a9950865f7ae8ef38578d8d7053f5e10518076e6554a9381fa91bd9c6850193695c141f32b21f979c985db07265a758867bac95de05f7d8aeb39
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^11.2.10":
+  version: 11.2.10
+  resolution: "swiper@npm:11.2.10"
+  checksum: 10c0/b7e3a7c79d92ccc62af77744edc376c9aefc771a0abd50c4adf07b5e3450b5da9ca7f84f5809e275ff65e1bc9d4500d930628e84a76fc7f2db403291c69b7fac
   languageName: node
   linkType: hard
 
