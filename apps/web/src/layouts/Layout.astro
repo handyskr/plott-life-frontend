@@ -2,12 +2,14 @@
 import Meta from '@layouts/Meta.astro';
 import Scripts from '@layouts/Scripts.astro';
 import '@styles/style.css';
+import GoogleAnalytics from "../components/script/GoogleAnalytics.astro";
 
+const { PUBLIC_GA_ID } = import.meta.env;
 const {
   metaData = {
-    title: '홈페이지',
-    description: '홈페이지 설명',
-    image: '/social.png',
+    title: 'plott Life',
+    description: '레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프',
+    image: 'https://cdn.plott.co.kr/images/null.webp?w=1200&h=630',
   },
 } = Astro.props;
 ---
@@ -19,6 +21,7 @@ const {
   <head>
     <Meta {...metaData} />
     <Scripts />
+    <GoogleAnalytics id={PUBLIC_GA_ID} />
   </head>
   <body class='flex justify-center min-h-screen'>
     <div class='relative flex flex-col w-full min-h-screen bg-gray-100 shadow-lg'>
