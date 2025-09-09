@@ -9,6 +9,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.5.1",
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
     "astro": "^5.13.5",
