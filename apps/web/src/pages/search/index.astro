@@ -1,6 +1,12 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
+
+import {IconWrapper} from "@components/common";
+import IconInfo from '@plott-life/ui/icons/info.svg';
+import {Calendar} from "@components/common";
+
+const locations = ["서울", "경기·인천", "부산", "강원", "제주", "울산", "당진"];
 ---
 
 <Layout>
@@ -9,4 +15,65 @@ import Header from '@components/template/Header.astro';
     title='검색'
     showBackIcon={true}
   />
+  <div class="flex flex-col gap-4 w-full bg-base-200 h-full">
+    <!-- 위치 -->
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+      <div class="mt-2 mb-4">
+        <p class="title2">
+          위치
+        </p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        {locations.map((location) => (
+          <button class="w-full h-12 border-1 border-gray-400 rounded-[10px] text-black text-sm">{location}</button>
+        ))}
+      </div>
+      <div class='w-full h-px bg-gray-300 my-6 mb-4'></div>
+      <div class="flex items-center mb-2">
+        <p class="text-gray-700">
+          <IconInfo />
+        </p>
+        <p class="mx-1.5 body5 text-gray-700">원하는 지역이 없나요?</p>
+        <a
+          alt="문의하기"
+          class="body5 text-gray-1000 underline"
+        >
+          문의하기
+        </a>
+      </div>
+    </div>
+
+    <div class="mx-4 bg-white rounded-lg border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+      <div class="mt-2 mb-4 px-6 py-4">
+        <p class="title2">
+          이용 기간
+        </p>
+      </div>
+      <div class="w-full h-72 relative overflow-auto">
+        <Calendar client:load />
+      </div>
+    </div>
+
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+      <div class="flex justify-between">
+        <p class="body2 text-gray-500">
+          위치
+        </p>
+        <p class="body2 text-gray-1000">
+          서울
+        </p>
+      </div>
+    </div>
+    <!-- 이용 기간 -->
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+      <div class="flex justify-between">
+        <p class="body2 text-gray-500">
+          이용 기간
+        </p>
+        <p class="body2 text-gray-1000">
+          선택
+        </p>
+      </div>
+    </div>
+  </div>
 </Layout>

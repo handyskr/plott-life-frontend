@@ -37,15 +37,16 @@ if (!image) {
     <GoogleAnalytics />
     <GoogleTagManager />
   </head>
-  <body class='flex justify-center min-h-screen'>
-    <GoogleTagManagerFallback />
-    <div class='relative flex flex-col w-full min-h-screen bg-gray-100 shadow-lg'>
-      <main class='flex-1 max-w-[600px] bg-white mx-auto w-full'>
-        <slot name='header' />
-        <slot />
-        <slot name='footer' />
+  <body class="flex justify-center min-h-screen">
+  <GoogleTagManagerFallback />
+  <div class="relative flex flex-col w-full min-h-screen bg-base-200">
+      <main class="flex flex-col max-w-[600px] bg-white mx-auto w-full shadow-[0_0_20px_rgba(0,0,0,0.05)] min-h-screen">
+        <slot name="header" />
+        <div class="flex-1 overflow-y-auto">
+          <slot />
+        </div>
+        <slot name="footer" />
       </main>
-      <!--<button class="fixed bottom-4 right-1/2 translate-x-1/2 btn btn-primary rounded-full shadow-lg"> + </button>-->
     </div>
   </body>
   <!-- 임시로 준비중 처리 -->
