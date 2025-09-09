@@ -1197,7 +1197,6 @@ __metadata:
     eslint-config-turbo: "npm:^2.5.6"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import: "npm:^2.32.0"
-    eslint-plugin-turbo: "npm:^2.5.6"
     typescript: "npm:^5.9.2"
     typescript-eslint: "npm:^8.42.0"
   languageName: unknown
@@ -3728,7 +3727,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-turbo@npm:2.5.6, eslint-plugin-turbo@npm:^2.5.6":
+"eslint-plugin-turbo@npm:2.5.6":
   version: 2.5.6
   resolution: "eslint-plugin-turbo@npm:2.5.6"
   dependencies:
