@@ -1,25 +1,39 @@
 ---
+
 import Meta from '@layouts/Meta.astro';
 import '@styles/style.css';
 import GoogleAnalytics from "../components/script/GoogleAnalytics.astro";
 import GoogleTagManager from "../components/script/GoogleTagManager.astro";
 import GoogleTagManagerFallback from "../components/script/GoogleTagManagerFallback.astro";
 
-const {
-  metaData = {
-    title: 'plott LIFE | 단기임대 플라트 라이프',
-    description: '레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프',
-    image: 'https://cdn.plott.co.kr/images/null.webp?w=1200&h=630',
-  },
-} = Astro.props;
----
+interface Props {
+  title?: string;
+  subtitle?: string;
+  description?: string;
+  image?: string;
+}
 
+let { title, subtitle, description, image } = Astro.props;
+if (!title) {
+  if (subtitle) {
+    title = `plott LIFE | ${subtitle}`;
+  } else {
+    title = 'plott LIFE | 단기임대 플라트 라이프';
+  }
+}
+if (!description) {
+  description = '레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프';
+}
+if (!image) {
+  image = 'https://cdn.plott.co.kr/images/null.webp?w=1200&h=630';
+}
+---
 <html
   lang='ko'
   data-theme='light'
 >
   <head>
-    <Meta {...metaData} />
+    <Meta title={title} description={description} image={image} />
     <GoogleAnalytics />
     <GoogleTagManager />
   </head>
