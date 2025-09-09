@@ -11,6 +11,6 @@
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "target": "ESNext",
+    "target": "ESNext"
   }
 }

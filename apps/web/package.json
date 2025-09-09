@@ -17,6 +17,7 @@
   "devDependencies": {
     "@astrojs/node": "^9.4.3",
     "@astrojs/preact": "^4.1.0",
+    "@astrojs/sitemap": "^3.5.1",
     "@plott-life/dev": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "eslint": "^9.34.0",
