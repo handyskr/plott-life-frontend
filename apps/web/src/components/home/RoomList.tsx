@@ -1,103 +1,129 @@
 /** @jsxImportSource preact */
-import { useState, useEffect, useRef } from 'preact/hooks';
+import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
 import { Card } from '@plott-life/ui';
 
 interface Room {
-  id: string;
-  image: string;
-  title: string;
+  id: number;
+  name: string;
   address: string;
-  details: string;
-  price: string;
+  areaExclusive: number;
+  bedrooms: number;
+  bathrooms: number;
+  rentFeePerWeek: number;
+  mainImage: string | null;
+}
+
+interface ApiResponse {
+  items: Room[];
+  page: number;
+  size: number;
+  totalItems: number;
+  totalPages: number;
+  offset: number;
 }
 
 interface Props {
-  initialRooms: Room[];
   responsive?: boolean;
 }
 
-export default function RoomList({ initialRooms, responsive = false }: Props) {
-  const [rooms, setRooms] = useState<Room[]>(initialRooms || []);
-  const [offset, setOffset] = useState(initialRooms?.length ?? 0);
-  const [loading, setLoading] = useState(false);
+const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+
+async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
+  const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?page=${page}&size=${size}`, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+export default function RoomList({ responsive = false }: Props) {
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const PAGE_SIZE = 10;
 
-  // 더미 데이터 생성기
-  const generateRooms = (count = 20, start = 0): Room[] =>
-    Array.from({ length: count }, (_, i) => ({
-      id: `${start + i + 1}`,
-      image: `https://placehold.co/400x300?text=Room+${start + i + 1}`,
-      title: `어반스테이 명동 ${start + i + 1}`,
-      address: `서울특별시 중구 테스트로 ${start + i + 1}`,
-      details: `침실 1 · 욕실 1 · ${20 + i}m²`,
-      price: `₩${(50000 + (start + i) * 1000).toLocaleString()}/주`,
-    }));
-
-  const loadMore = async () => {
+  // 데이터 로딩
+  const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
+
     try {
-      if (rooms.length >= 100) {
+      const data = await fetchRooms(page, PAGE_SIZE);
+
+      setRooms((prev) => [...prev, ...data.items]);
+      setPage((prev) => prev + 1);
+
+      if (data.page + 1 >= data.totalPages) {
         setHasMore(false);
-        return;
       }
-      const newRooms = generateRooms(20, offset);
-      if (newRooms.length === 0) {
-        setHasMore(false);
-        return;
-      }
-      setRooms((prev) => [...prev, ...newRooms]);
-      setOffset((prev) => prev + newRooms.length);
+    } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, hasMore, loading]);
+
+  useEffect(() => {
+    loadMore();
+  }, []);
 
   useEffect(() => {
     const el = loaderRef.current;
     if (!el) return;
 
-    const observer = new window.IntersectionObserver(
+    const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
           loadMore();
         }
       },
-      {
-        root: null,
-        rootMargin: '200px 0px',
-        threshold: 0,
-      },
+      { root: null, rootMargin: '200px 0px', threshold: 0 },
     );
 
     observer.observe(el);
     return () => observer.disconnect();
-    // rooms, hasMore가 변할 때마다 observer 재설정
-  }, [rooms, hasMore]);
+  }, [loadMore]);
 
-  const gridCols = responsive ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4' : 'grid-cols-2';
+  const gridCols = responsive
+    ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+    : 'grid-cols-2';
 
   return (
-    <div className='max-w-[600px] mx-auto'>
+    <div className="max-w-[600px] mx-auto">
       <div className={`grid ${gridCols} gap-4`}>
         {rooms.map((room) => (
           <Card
             key={room.id}
-            image={room.image}
-            title={room.title}
+            id={room.id}
+            name={room.name}
+            image={room.mainImage ?? '/null.png'}
             address={room.address}
-            details={room.details}
-            price={room.price}
+            areaExclusive={room.areaExclusive}
+            bedrooms={room.bedrooms}
+            bathrooms={room.bathrooms}
+            rentFeePerWeek={room.rentFeePerWeek}
+            onClick={() => {
+              window.location.href = `/rooms/${room.id}`;
+            }}
           />
         ))}
       </div>
       {hasMore ? (
-        <div ref={loaderRef} className='h-12 flex justify-center items-center text-gray-400'>
-          Loading…
+        <div
+          ref={loaderRef}
+          className="h-12 flex justify-center items-center text-gray-400"
+        >
+          {loading ? 'Loading…' : ''}
         </div>
       ) : (
-        <div className='h-12 flex justify-center items-center text-gray-400'>더 이상 항목이 없습니다</div>
+        <div className="h-12 flex justify-center items-center text-gray-400">
+        </div>
       )}
     </div>
   );

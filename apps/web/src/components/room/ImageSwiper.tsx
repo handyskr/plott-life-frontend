@@ -15,8 +15,16 @@ interface ImageSlideSectionProps {
   onClickIcon?: () => void;
 }
 
+const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
+
 export default function ImageSlideSection({
-  images = [],
+  // images = [
+  //   'sample_1.webp?w=300',
+  //   'sample_2.webp?w=300',
+  //   'sample_3.webp?w=300',
+  //   'sample_4.webp?w=300',
+  //   'sample_5.webp?w=300',
+  // ],
   width,
   height,
   style,
@@ -25,6 +33,14 @@ export default function ImageSlideSection({
   onClickIcon,
 }: ImageSlideSectionProps) {
   const swiperEl = useRef<HTMLDivElement>(null);
+  // 임시 이미지 데이터
+  const images = [
+    'sample_1.webp?w=600',
+    'sample_2.webp?w=600',
+    'sample_3.webp?w=600',
+    'sample_4.webp?w=600',
+    'sample_5.webp?w=600',
+  ];
 
   useEffect(() => {
     if (!swiperEl.current) {
@@ -35,21 +51,22 @@ export default function ImageSlideSection({
       modules: [Pagination],
       slidesPerView: 1,
       centeredSlides: true,
-      pagination:
-        images.length > 1
-          ? {
-              el: '.swiper-pagination',
-              type: 'fraction',
-              renderFraction: (currentClass, totalClass) => {
-                return `
-                  <span class="${currentClass}"></span>
-                  <span class="swiper-pagination-line"></span>
-                  <span class="${totalClass}"></span>
-                  ${hasMoreIcon ? `<div class="plus-icon"></div>` : ''}
-                `;
-              },
-            }
-          : undefined,
+      // MEMO: 디자인 수정 이슈로 잠시 비활성화
+      // pagination:
+      //   images.length > 1
+      //     ? {
+      //         el: '.swiper-pagination',
+      //         type: 'fraction',
+      //         renderFraction: (currentClass, totalClass) => {
+      //           return `
+      //             <span class="${currentClass}"></span>
+      //             <span class="swiper-pagination-line"></span>
+      //             <span class="${totalClass}"></span>
+      //             ${hasMoreIcon ? `<div class="plus-icon"></div>` : ''}
+      //           `;
+      //         },
+      //       }
+      //     : undefined,
     });
 
     if (onClickIcon) {
@@ -71,7 +88,7 @@ export default function ImageSlideSection({
         <div class='swiper-wrapper'>
           {images.map((image, index) => (
             <div key={index} class='swiper-slide'>
-              <img src={`${image}`} class='w-full h-full object-cover' style={{ height }} />
+              <img src={`${IMAGE_URL}/${image}`} class='w-full h-full object-cover' style={{ height }} />
             </div>
           ))}
         </div>

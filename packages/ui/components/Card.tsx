@@ -1,23 +1,47 @@
-export type CardProps = {
+interface CardProps {
+  id: number;
   image: string;
-  title: string;
+  name: string;
   address: string;
-  details: string;
-  price: string;
-  // unit: string;
+  areaExclusive: number;
+  bedrooms: number;
+  bathrooms: number;
+  rentFeePerWeek: number;
   onClick?: () => void;
-};
+}
 
-export function Card({ image, title, address, details, price, onClick }: CardProps) {
+const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
+
+export function Card(props: CardProps) {
+  const {
+    id,
+    image,
+    name,
+    address,
+    areaExclusive,
+    bedrooms,
+    bathrooms,
+    rentFeePerWeek,
+    onClick,
+  } = props;
+
+  // image 추가해줘야함
+
   return (
     <div role='button' tabIndex={0} className='bg-white rounded-xl cursor-pointer outline-none mb-2' onClick={onClick}>
-      <img src={image} alt={title} className='w-full aspect-square object-cover rounded-xl' />
+      <img
+        src={`${IMAGE_URL}/sample_${id}.webp?w=300`}
+        alt={name}
+        className='w-full aspect-square object-cover rounded-xl'
+      />
       <div className=''>
-        <h3 className='body4 text-gray-1000 pt-3 pb-1'>{title}</h3>
+        <h3 className='body4 text-gray-1000 pt-3 pb-1'>{name}</h3>
         <p className='body6 text-gray-700'>{address}</p>
-        <p className='body6 text-gray-700 pt-1 pb-2'>{details}</p>
+        <p className='body6 text-gray-700 pt-1 pb-2'>
+          침실 {bedrooms} · 욕실 {bathrooms} · {areaExclusive}㎡
+        </p>
         <div className='flex'>
-          <p className='body4 text-gray-1000 mr-1'>{price}</p>
+          <p className='body4 text-gray-1000 mr-1'>₩{(rentFeePerWeek || 0).toLocaleString()}</p>
           <p className='body6 text-gray-1000'>/{'주'}</p>
         </div>
       </div>

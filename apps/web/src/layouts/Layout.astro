@@ -30,4 +30,22 @@ const {
       <!--<button class="fixed bottom-4 right-1/2 translate-x-1/2 btn btn-primary rounded-full shadow-lg"> + </button>-->
     </div>
   </body>
+  <!-- 임시로 준비중 처리 -->
+  <script type="module">
+    const elements = [
+      document.getElementById('search-button'),
+      document.getElementById('nav-search'),
+      document.getElementById('nav-contract'),
+      document.getElementById('nav-my'),
+    ];
+
+    const handleExceptionEvent = (event) => {
+      event.preventDefault();
+      alert('준비중입니다!');
+    };
+
+    elements.forEach((el) => {
+      if (el) el.addEventListener('click', handleExceptionEvent);
+    });
+  </script>
 </html>

@@ -7,20 +7,6 @@ import Footer from '@components/template/Footer.astro';
 
 import IconSearch from '@plott-life/ui/icons/search.svg';
 import IconLogo from '@plott-life/ui/icons/logo.svg';
-const test = import.meta.env.PUBLIC_GTM_ID;
-
-export const generateRooms = (count = 20): Room[] => {
-  return Array.from({ length: count }, (_, i) => ({
-    id: `${i + 1}`,
-    image: 'https://placehold.co/400x300?text=Room+' + (i + 1),
-    title: `테스트 숙소 ${i + 1}`,
-    address: `서울특별시 중구 테스트로 ${i + 1}`,
-    details: `침실 1 · 욕실 1 · ${20 + i}m²`,
-    price: `₩${(50000 + i * 1000).toLocaleString()}/주`,
-  }));
-};
-
-const rooms = generateRooms(20);
 ---
 
 <Layout>
@@ -31,6 +17,7 @@ const rooms = generateRooms(20);
       </div>
       <div class='flex items-center px-6 pb-4 w-full shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
         <button
+          id="search-button"
           class='flex items-center space-x-2 w-full px-6 h-14 border-[1px] rounded-[28px] border-gray-300 shadow-[0_0_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_20px_0_rgba(0,0,0,0.1)]'
         >
           <IconSearch
@@ -46,7 +33,7 @@ const rooms = generateRooms(20);
   <div class='bg-white p-6'>
     <RoomList
       client:visible
-      initialRooms={rooms}
+      initialRooms={[]}
     />
   </div>
   <Footer />

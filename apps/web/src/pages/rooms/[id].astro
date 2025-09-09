@@ -6,91 +6,81 @@ import BottomNav from '@components/template/BottomNav.astro';
 import RoomList from '@components/home/RoomList';
 import Footer from '@components/template/Footer.astro';
 import { ImageSwiper } from '@components/room';
-import { Icon } from '@components/common';
+// import { Icon } from '@components/common';
+
+import { formatFeatures } from '@plott-life/utils';
+
+
+import IconBed from '@plott-life/ui/icons/bed.svg';
+import IconBathtub from '@plott-life/ui/icons/bathtub.svg';
+import IconRuler from '@plott-life/ui/icons/ruler.svg';
+import IconBuilding from '@plott-life/ui/icons/building.svg';
+import IconCheck from '@plott-life/ui/icons/check.svg';
 
 const { id } = Astro.params;
 
-const images = [
-  'https://picsum.photos/id/1015/800/600',
-  'https://picsum.photos/id/1016/800/600',
-  'https://picsum.photos/id/1025/800/600',
-  'https://picsum.photos/id/1035/800/600',
-  'https://picsum.photos/id/1045/800/600',
-];
 
-const room = {
-  title: '어반스테이 명동점',
-  address: '서울 중구 인현동1가 15B',
-  description:
-    '명동역 근처로 출장이나 여행객에게 최적화된 방입니다. 인터넷, TV, 에어컨 등 필수 시설이 완비되어 있어 입주 즉시 편리하고 안정적으로 지내실 수 있습니다. 쾌적하고 아늑한 분위기 속에서 휴식은 물론, 업무 공간으로도 활용하기 좋습니다. 인근에 다양한 맛집...',
-  size: '46㎡ / 6평',
-  structure: '침실 1개, 욕실 1개, 주방/거실',
-  capacity: '최대 2인',
-  floor: '13층',
-  buildingType: '오피스텔',
-  rent: '₩300,000 / 1주',
-  maintenance: '₩70,000 / 1주',
-  cleaning: '₩50,000',
-  deposit: '₩300,000',
-  total: '₩1,477,969',
-  defaultOptions: [
-    {
-      code: 'tv',
-      name: 'TV',
-    },
-    {
-      code: 'wifi',
-      name: '와이파이',
-    },
-    {
-      code: 'aircon',
-      name: '에어컨',
-    },
-    {
-      code: 'washer',
-      name: '세탁기',
-    },
-  ],
-  facilities: [
-    {
-      code: 'elevator',
-      name: '엘리베이터',
-    },
-    {
-      code: 'parking',
-      name: '무료 주차',
-    },
-    {
-      code: 'gym',
-      name: '헬스장',
-    },
-    {
-      code: 'subway',
-      name: '역세권',
-    },
-  ],
-  additionalOptions: [
-    {
-      code: 'pet',
-      name: '반려동물 동반 가능',
-    },
-    {
-      code: 'femaleOnly',
-      name: '여성전용',
-    },
-    {
-      code: 'residentChange',
-      name: '거주사실확인서 발급 가능',
-    },
-  ],
-};
+if (!id) {
+  throw new Error("Room ID is required");
+}
+
+// 상세 API 호출 함수
+async function fetchRoomDetail(id: string) {
+  const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/v1/building-unit/${id}`, {
+    headers: { "Content-Type": "application/json" },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+const roomDetail = await fetchRoomDetail(id);
+const {
+  name,
+  address,
+  images,
+  descIntro,
+  descCaution,
+  descLocation,
+  bedrooms,
+  bathrooms,
+  livingrooms,
+  kitchens,
+  floor,
+  areaExclusive,
+  areaExclusivePyeong,
+  maxPeople,
+  buildingType,
+  elevatorOption,
+  parkingOption,
+  defaultOptions,
+  facilityOptions,
+  additionalOptions,
+  deposit,
+  rentFeePerWeek,
+  cleaningFee,
+  managementFeePerWeek,
+  managementFeeDescription,
+} = roomDetail;
+
+const structure = formatFeatures({
+  bedrooms,
+  bathrooms,
+  livingrooms,
+  kitchens,
+});
+
+const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (managementFeePerWeek || 0);
 ---
 
 <Layout
   metaData={{
-    title: room.title,
-    description: room.description,
-    image: images[0],
+    title: name,
+    description: descIntro,
+    image: roomDetail[0],
   }}
 >
   <Header
@@ -105,33 +95,36 @@ const room = {
   <div class='bg-white px-6 py-8'>
     <!-- 숙소 정보 -->
     <div>
-      <h1 class='text-gray-1000 title2 mb-2'>{room.title}</h1>
-      <p class='text-gray-700 body5 mb-4'>{room.address}</p>
-      <p class='text-gray-1000 body5 mb-4'>[icon] 최소 1주 이상부터 계약 가능</p>
+      <h1 class='text-gray-1000 title2 mb-2'>{name}</h1>
+      <p class='text-gray-700 body5 mb-4'>{address}</p>
+      <div class='mb-8 flex flex-row'>
+        <p class="flex items-center mr-1.5"><IconCheck /></p>
+        <p class="text-gray-1000 body5 ">최소 1주 이상부터 계약 가능</p>
+      </div>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='grid grid-cols-4 text-center p-4 text-sm'>
+    <div class='grid grid-cols-4 text-center py-8 text-sm'>
       <div class='flex flex-col items-center gap-1'>
-        <span class='material-icons text-gray-600'>bed</span>
-        <span>침실 1개</span>
+        <IconBed />
+        <span>침실 {bedrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <span class='material-icons text-gray-600'>bathtub</span>
-        <span>욕실 1개</span>
+        <IconBathtub />
+        <span>욕실 {bathrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <span class='material-icons text-gray-600'>square_foot</span>
-        <span>{room.size}</span>
+        <IconRuler />
+        <span>{areaExclusive}㎡</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <span class='material-icons text-gray-600'>bed</span>
-        <span>13층</span>
+        <IconBuilding fill="text-gray-100" />
+        <span>{(floor || 0)}층</span>
       </div>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>소개글</h2>
-      <p class='text-gray-1000 body2 font-normal mb-8'>{room.description}</p>
+      <p class='text-gray-1000 body2 font-normal mb-8'>{descIntro}</p>
       <button class='w-full bod h-12 bg-gray-200 rounded-lg text-black text-sm'>더 보기</button>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
@@ -141,135 +134,141 @@ const room = {
       <div class='space-y-6 text-sm'>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>구조</span>
-          <span class='body3 text-gray-800'>{room.structure}</span>
+          <span class='body3 text-gray-800'>{structure}</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>전용 면적</span>
-          <span class='body3 text-gray-800'>{room.size}</span>
+          <span class='body3 text-gray-800'>{areaExclusive}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>최대 인원</span>
-          <span class='body3 text-gray-800'>{room.capacity}</span>
+          <span class='body3 text-gray-800'>{maxPeople}인</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>건물 유형</span>
-          <span class='body3 text-gray-800'>{room.buildingType}</span>
-        </div>
-        <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>층</span>
-          <span class='body3 text-gray-800'>{room.floor}</span>
+          <span class='body3 text-gray-800'>{buildingType}</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>엘리베이터</span>
-          <span class='body3 text-gray-800'>있음</span>
+          <span class='body3 text-gray-800'>{elevatorOption ? '있음' : '없음'}</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>주차 여부</span>
-          <span class='body3 text-gray-800'>유료주차</span>
+          <span class='body3 text-gray-800'>{parkingOption ? '무료' : '유료'}</span>
         </div>
       </div>
     </div>
     <!-- 기본 옵션 -->
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>기본 옵션</h2>
-      <div class='grid grid-cols-2 gap-4 mb-6'>
-        {room.defaultOptions.map(option => (
-          <div class="flex items-center gap-3">
-            <span class="body3 text-gray-1000">{option.name}</span>
+    {defaultOptions?.length > 0 && (
+      <>
+        <div class='w-full h-px bg-gray-300 my-0'></div>
+        <div class='py-8'>
+          <h2 class='text-gray-1000 title2 mb-5'>기본 옵션</h2>
+          <div class='grid grid-cols-2 gap-4 mb-6'>
+            {defaultOptions.map(option => (
+              <div class="flex items-center gap-3">
+                <span class="body3 text-gray-1000">{option.name}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <button class='w-full h-12 bg-gray-100 rounded-lg text-black text-sm'> 편의시설 33가지 모두 보기 </button>
-    </div>
+          <button class='w-full h-12 bg-gray-100 rounded-lg text-black text-sm'>
+            편의시설 {defaultOptions.length}가지 모두 보기
+          </button>
+        </div>
+      </>
+    )}
     <!-- 편의시설 -->
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>편의시설</h2>
-      <div class='flex flex-wrap gap-2'>
-        {room.facilities.map((facility) => (
-          <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-            {facility.name}
+    {facilityOptions?.length > 0 && (
+      <>
+        <div class='w-full h-px bg-gray-300 my-0'></div>
+        <div class='py-8'>
+          <h2 class='text-gray-1000 title2 mb-5'>편의시설</h2>
+          <div class='flex flex-wrap gap-2'>
+            {facilityOptions.map((facility) => (
+              <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+                {facility.name}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
-
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-
+        </div>
+      </>
+    )}
     <!-- 추가 옵션 -->
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>추가 옵션</h2>
-      <div class='flex flex-wrap gap-2'>
-        {room.additionalOptions.map((additionalOption) => (
-          <li class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
-            {additionalOption.name}
-          </li>
-        ))}
-      </div>
-    </div>
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-
+    {additionalOptions?.length > 0 && (
+      <>
+        <div class='w-full h-px bg-gray-300 my-0'></div>
+        <div class='py-8'>
+          <h2 class='text-gray-1000 title2 mb-5'>추가 옵션</h2>
+          <div class='flex flex-wrap gap-2'>
+            {additionalOptions.map((additionalOption) => (
+              <li class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+                {additionalOption.name}
+              </li>
+            ))}
+          </div>
+        </div>
+      </>
+    )}
     <!-- 주의사항 -->
+    <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>주의사항</h2>
       <div class=''>
         <span class="body3">
-          퇴실 시간은 반드시 준수해주세요. 퇴실 시 쓰레기는 분리수거 후 지정된 장소에 놓아주시고, 객실 키 분실 시 비용이 청구됩니다.
+          {descCaution}
         </span>
       </div>
     </div>
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-
     <!-- 위치 -->
+    <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='py-8'>
       <h2 class='text-gray-1000 title2 mb-5'>위치 & 교통</h2>
-      <p class='text-sm text-gray-700'>{room.address}</p>
+      <p class='text-sm text-gray-1000'>{address}</p>
       <div class='mt-3 h-40 bg-gray-200 rounded-lg flex items-center justify-center'>
         <span class='text-gray-500'>위치 정보 추가 예정</span>
       </div>
-      <p class='text-sm text-gray-600 mt-2'>명동역 버스 10 ~ 15분 이내, 인근 레스토랑, 백화점 도보 접근</p>
+      <p class='text-sm text-gray-600 mt-2'>
+        {descLocation}
+      </p>
     </div>
     <!-- 계약 정보 -->
-    <!--<div class='w-full h-px bg-gray-300 my-0'></div>-->
-    <!--<div class='py-8'>-->
-    <!--  <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>-->
-    <!--  <div class='overflow-x-auto'>-->
-    <!--    <table class='table text-sm'>-->
-    <!--      <tbody>-->
-    <!--        <tr>-->
-    <!--          <td>임대료</td>-->
-    <!--          <td>{room.rent}</td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--          <td>관리비</td>-->
-    <!--          <td>{room.maintenance}</td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--          <td>청소비</td>-->
-    <!--          <td>{room.cleaning}</td>-->
-    <!--        </tr>-->
-    <!--        <tr>-->
-    <!--          <td>보증금</td>-->
-    <!--          <td>{room.deposit}</td>-->
-    <!--        </tr>-->
-    <!--      </tbody>-->
-    <!--    </table>-->
-    <!--  </div>-->
-    <!--  <p class='text-xs text-gray-500 mt-2'>관리비에는 가스, 수도, 인터넷, 전기비가 포함되어 있습니다.</p>-->
-    <!--</div>-->
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class="space-y-4 py-8">
+      <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>
+      <div class="bg-gray-50 rounded-xl px-5">
+        <ul class="divide-y divide-gray-300">
+          <li class="py-4">
+            <p class="text-gray-1000 font-semibold">임대료</p>
+            <p class="text-gray-900">{(rentFeePerWeek).toLocaleString()}</p>
+          </li>
+          <li class="py-4">
+            <p class="text-gray-1000 font-semibold">관리비</p>
+            <p class="text-gray-900">{(managementFeePerWeek).toLocaleString()}</p>
+          </li>
+          <li class="py-4">
+            <p class="text-gray-1000 font-semibold">청소비</p>
+            <p class="text-gray-900">{(cleaningFee).toLocaleString()}</p>
+          </li>
+          <li class="py-4">
+            <p class="text-gray-1000 font-semibold">보증금</p>
+            <p class="text-gray-900">{(deposit).toLocaleString()}</p>
+          </li>
+        </ul>
+      </div>
+      <p class="body2">{managementFeeDescription}</p>
+    </div>
     <!-- 하단 고정 CTA -->
   </div>
   <div class='sticky bottom-0 bg-white border-t border-gray-400 py-5 px-6 flex justify-between items-center'>
     <div class='flex flex-col'>
       <span class="body1 mb-1.5">
-        {room.total}
+        ₩{(totalFee).toLocaleString()}
       </span>
       <span class="caption1 text-gray-800 underline">
         1주 · 9월 8일~9월 15일
       </span>
     </div>
-    <button class="w-[120px] rounded-lg btn btn-lg btn-primary">
+    <button class="w-[120px] rounded-lg btn btn-lg btn-primary body2">
       계약하기
     </button>
   </div>
