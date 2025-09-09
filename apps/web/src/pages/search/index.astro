@@ -15,9 +15,9 @@ const locations = ["서울", "경기·인천", "부산", "강원", "제주", "�
     title='검색'
     showBackIcon={true}
   />
-  <div class="flex flex-col gap-4 w-full bg-base-200 h-full">
+  <div class="flex flex-col gap-4 w-full bg-base-100 h-full">
     <!-- 위치 -->
-    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-200 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
       <div class="mt-2 mb-4">
         <p class="title2">
           위치
@@ -25,25 +25,25 @@ const locations = ["서울", "경기·인천", "부산", "강원", "제주", "�
       </div>
       <div class="grid grid-cols-2 gap-4">
         {locations.map((location) => (
-          <button class="w-full h-12 border-1 border-gray-400 rounded-[10px] text-black text-sm">{location}</button>
+          <button class="w-full h-12 border-1 border-gray-300 rounded-[10px] text-black text-sm">{location}</button>
         ))}
       </div>
       <div class='w-full h-px bg-gray-300 my-6 mb-4'></div>
       <div class="flex items-center mb-2">
-        <p class="text-gray-700">
+        <p class="text-gray-600">
           <IconInfo />
         </p>
-        <p class="mx-1.5 body5 text-gray-700">원하는 지역이 없나요?</p>
+        <p class="mx-1.5 body5 text-gray-600">원하는 지역이 없나요?</p>
         <a
           alt="문의하기"
-          class="body5 text-gray-1000 underline"
+          class="body5 text-gray-900 underline"
         >
           문의하기
         </a>
       </div>
     </div>
 
-    <div class="mx-4 bg-white rounded-lg border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+    <div class="mx-4 bg-white rounded-lg border-1 border-gray-200 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
       <div class="mt-2 mb-4 px-6 py-4">
         <p class="title2">
           이용 기간
@@ -54,23 +54,23 @@ const locations = ["서울", "경기·인천", "부산", "강원", "제주", "�
       </div>
     </div>
 
-    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-200 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
       <div class="flex justify-between">
-        <p class="body2 text-gray-500">
+        <p class="body2 text-gray-400">
           위치
         </p>
-        <p class="body2 text-gray-1000">
+        <p class="body2 text-gray-900">
           서울
         </p>
       </div>
     </div>
     <!-- 이용 기간 -->
-    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-300 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
+    <div class="mx-4 bg-white rounded-lg px-6 py-4 border-1 border-gray-200 shadow-[0_2px_6px_0_rgba(0,0,0,0.08)]">
       <div class="flex justify-between">
-        <p class="body2 text-gray-500">
+        <p class="body2 text-gray-400">
           이용 기간
         </p>
-        <p class="body2 text-gray-1000">
+        <p class="body2 text-gray-900">
           선택
         </p>
       </div>

@@ -101,7 +101,7 @@ export default function Calendar() {
                       disabled={disabled}
                       className={`
                       w-10 h-10 flex items-center justify-center rounded-full
-                      ${disabled ? 'text-gray-300 cursor-not-allowed' : ''}
+                      ${disabled ? 'text-gray-200 cursor-not-allowed' : ''}
                       ${selected ? 'bg-blue-500 text-white font-bold' : ''}
                       ${inRange ? 'bg-gray-200' : ''}
                       ${!disabled && !selected && !inRange ? 'hover:bg-gray-100' : ''}
