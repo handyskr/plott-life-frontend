@@ -3,8 +3,23 @@
 <!-- Google tag (gtag.js) -->
 <script async src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_ID}`></script>
 <script>
+  import {onCLS, onINP, onLCP} from 'web-vitals';
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', import.meta.env.PUBLIC_GA_ID);
+
+  function sendToGoogleAnalytics({name, delta, value, id}) {
+    gtag('event', name, {
+      value: delta,
+      metric_id: id,
+      metric_value: value,
+      metric_delta: delta,
+    });
+  }
+
+  onCLS(sendToGoogleAnalytics);
+  onINP(sendToGoogleAnalytics);
+  onLCP(sendToGoogleAnalytics);
 </script>
