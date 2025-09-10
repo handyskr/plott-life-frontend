@@ -13,6 +13,7 @@
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
     "astro": "^5.13.5",
+    "ioredis": "^5.7.0",
     "swiper": "^11.2.10",
     "web-vitals": "^5.1.0"
   },
