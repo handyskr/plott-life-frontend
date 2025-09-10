@@ -8,7 +8,7 @@ export default [
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.config({
-    files: ["**/*.{ts,tsx,astro}"],
+    files: ["**/*.{ts,tsx}"],
     extends: [
       importPlugin.flatConfigs.recommended,
       importPlugin.flatConfigs.typescript,

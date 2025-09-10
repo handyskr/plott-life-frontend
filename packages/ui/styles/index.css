@@ -63,22 +63,45 @@
   --border: 0.5px;
   --depth: 0;
   --noise: 0;
+  --size-field: 0.3rem;
 }
 
-@layer utilities {
-  /* Titles */
-  .title1 { @apply text-2xl leading-8 font-bold; }
-  .title2 { @apply text-xl leading-7 font-bold; }
-  .title3 { @apply text-lg leading-[26px] font-medium; }
-  /* Body */
-  .body1 { @apply text-base leading-6 font-bold; }
-  .body2 { @apply text-base leading-6 font-medium; }
-  .body3 { @apply text-base leading-6 font-normal; }
-  .body4 { @apply text-sm leading-5 font-bold; }
-  .body5 { @apply text-sm leading-5 font-medium; }
-  .body6 { @apply text-sm leading-5 font-normal; }
-  /* Captions */
-  .caption1 { @apply text-xs leading-4 font-normal; }
-  .caption2 { @apply text-[11px] leading-[14px] font-bold; }
-  .caption3 { @apply text-[11px] leading-[14px] font-normal; }
+/* Titles */
+.title1 { @apply text-2xl leading-8 font-bold; }
+.title2 { @apply text-xl leading-7 font-bold; }
+.title3 { @apply text-lg leading-[26px] font-medium; }
+/* Body */
+.body1 { @apply text-base leading-6 font-bold; }
+.body2 { @apply text-base leading-6 font-medium; }
+.body3 { @apply text-base leading-6 font-normal; }
+.body4 { @apply text-sm leading-5 font-bold; }
+.body5 { @apply text-sm leading-5 font-medium; }
+.body6 { @apply text-sm leading-5 font-normal; }
+/* Captions */
+.caption1 { @apply text-xs leading-4 font-normal; }
+.caption2 { @apply text-[11px] leading-[14px] font-bold; }
+.caption3 { @apply text-[11px] leading-[14px] font-normal; }
+
+@utility btn-primary {
+  --btn-fg: var(--color-primary-content);
+}
+
+@utility input {
+  background: transparent;
+
+  &.input-natual {
+    --input-color: var(--color-gray-400);
+    &:focus, &:focus-within {
+      --input-color: var(--color-gray-900);
+    }
+  }
+
+  &:focus, &:focus-within {
+    outline: 1px solid var(--input-color);
+    outline-offset: 0;
+  }
+
+  &::placeholder {
+    color: var(--color-gray-500);
+  }
 }

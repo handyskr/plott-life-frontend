@@ -1,0 +1,18 @@
+---
+import Icon from "../../../public/icon-128x128.png";
+
+interface Props {
+  status: number;
+  title: string;
+  description: string;
+}
+
+const { status, title, description } = Astro.props;
+---
+<div>
+  <img src={Icon.src} />
+  <p class="mt-4 text-base text-error font-bold">{status}</p>
+  <h1 class="mt-1 text-5xl font-bold">{title}</h1>
+  <p class="mt-1 text-lg text-gray-500">{description}</p>
+  <a class="mt-4 btn btn-secondary" href="/">홈으로</a>
+</div>

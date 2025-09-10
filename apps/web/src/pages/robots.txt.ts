@@ -11,7 +11,7 @@ Sitemap: ${sitemapURL.href}
  * @see astro.config.mjs liveURL
  */
 export const GET: APIRoute = ({ site }) => {
-  if (site != "https://life.plott.co.kr") {
+  if (site?.origin !== "https://life.plott.co.kr") {
     return new Response("User-agent: *\nDisallow: /");
   }
 
