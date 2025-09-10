@@ -6,13 +6,15 @@
     "dev": "astro dev",
     "build": "astro build",
     "start": "astro preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "generate:icons": "node ./scripts/generate-icons.js"
   },
   "dependencies": {
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
     "astro": "^5.13.5",
-    "swiper": "^11.2.10"
+    "swiper": "^11.2.10",
+    "web-vitals": "^5.1.0"
   },
   "devDependencies": {
     "@astrojs/node": "^9.4.3",
@@ -21,6 +23,7 @@
     "@plott-life/dev": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "eslint": "^9.34.0",
+    "sharp": "^0.34.3",
     "typescript": "^5.9.2"
   }
 }
