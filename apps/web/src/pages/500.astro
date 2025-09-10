@@ -1,0 +1,17 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Result from "../components/template/Result.astro";
+interface Props {
+  error: unknown;
+}
+
+const { error } = Astro.props;
+---
+<Layout>
+  <div class="min-h-screen flex items-center p-4">
+    <Result
+      status={500}
+      title="Internal Server Error"
+      description={error instanceof Error ? error.message : "Unknown error"} />
+  </div>
+</Layout>
