@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+:root {
+  --sait: env(safe-area-inset-top, var(--safe-area-inset-top, constant(safe-area-inset-top)));
+  --bait: env(safe-area-inset-bottom, var(--safe-area-inset-bottom, constant(safe-area-inset-bottom)));
+}
+
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
