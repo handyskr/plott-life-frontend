@@ -6,8 +6,7 @@ const { showBackIcon, showCloseIcon, showHomeIcon, title } = Astro.props;
 const hasDefaultSlot = !!Astro.slots.default;
 ---
 
-<header class='sticky top-0 w-full z-10 flex justify-center min-h-[64px]'>
-  <div class="fixed top-0 inset-x-0 h-(--sait) bg-primary" />
+<header class='sticky top-0 w-full z-10 flex justify-center min-h-[64px] pt-(--sait)'>
   <div class='flex max-w-(--max-width) w-full items-center bg-white'>
     {hasDefaultSlot ? (
       <slot />
