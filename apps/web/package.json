@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "start": "astro preview",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "generate:icons": "node ./scripts/generate-icons.js"
   },
   "dependencies": {
     "@plott-life/ui": "workspace:*",
@@ -21,6 +22,7 @@
     "@plott-life/dev": "workspace:*",
     "@tailwindcss/vite": "^4.1.13",
     "eslint": "^9.34.0",
+    "sharp": "^0.34.3",
     "typescript": "^5.9.2"
   }
 }

@@ -22,7 +22,31 @@ const { title, description, image } = Astro.props;
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
-<link rel="icon" type="image/png" href="/favicon.png" />
+<meta name="apple-mobile-web-app-title" content={title} />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="application-name" content={title} />
+<meta name="msapplication-starturl" content="/" />
+<meta name="msapplication-tap-highlight" content="no" />
+<meta name="browsermode" content="application" />
+<meta name="nightmode" content="disable" />
+<meta name="layoutmode" content="fitscreen/standard" />
+<meta name="imagemode" content="force" />
+<meta name="screen-orientation" content="portrait" />
+<meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
+<link href="/assets/favicon-16x16.png" rel="shortcut icon" type="image/png" sizes="16x16" />
+<link href="/assets/favicon-32x32.png" rel="icon" type="image/png" sizes="32x32" />
+<link href="/assets/favicon-48x48.png" rel="icon" type="image/png" sizes="48x48" />
+<link href="/assets/icon-180x180.png" rel="apple-touch-icon" />
+<link href="/assets/icon-76x76.png" rel="apple-touch-icon" sizes="76x76" />
+<link href="/assets/icon-120x120.png" rel="apple-touch-icon" sizes="120x120" />
+<link href="/assets/icon-152x152.png" rel="apple-touch-icon" sizes="152x152" />
+<link href="/assets/icon-320x320.png" rel="apple-touch-startup-image" />
+<link href="/assets/icon-192x192.png" rel="icon" sizes="192x192" />
+<link href="/assets/icon-128x128.png" rel="icon" sizes="128x128" />
+<link href="/assets/icon-57x57.png" rel="apple-touch-icon-precomposed" sizes="57x57" />
+<link href="/assets/icon-72x72.png" rel="apple-touch-icon" sizes="72x72" />
+<link href="/assets/manifest.json"} rel="manifest" />
 <link rel="canonical" href={canonicalURL} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <meta name="naver-site-verification" content="3ac2c177b35ce8db637a27ac5c2cc53b89821511" />
