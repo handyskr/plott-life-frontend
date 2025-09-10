@@ -90,13 +90,9 @@ export default function RoomList({ responsive = false }: Props) {
     return () => observer.disconnect();
   }, [loadMore]);
 
-  const gridCols = responsive
-    ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
-    : 'grid-cols-2';
-
   return (
-    <div className="max-w-[600px] mx-auto">
-      <div className={`grid ${gridCols} gap-4`}>
+    <div className="max-w-(--max-width) mx-auto">
+      <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
         {rooms.map((room) => (
           <Card
             key={room.id}
