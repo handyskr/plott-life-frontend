@@ -89,7 +89,7 @@
 @utility input {
   background: transparent;
 
-  &.input-natual {
+  &.input-natural {
     --input-color: var(--color-gray-400);
     &:focus, &:focus-within {
       --input-color: var(--color-gray-900);
