@@ -5,3 +5,11 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+declare namespace App {
+  interface SessionData {
+    user: {
+      id: string;
+    };
+  }
+}
