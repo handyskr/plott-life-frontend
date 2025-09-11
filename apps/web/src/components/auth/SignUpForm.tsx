@@ -9,7 +9,7 @@ interface Props {
   successURL: string;
 }
 
-export const SignInForm = (props: Props) => {
+export const SignUpForm = (props: Props) => {
   // NOTE: 이메일전달 확인목적으로 이메일도 포함
   const [fieldErrors, setFieldErrors] = useState<
     InferFieldErrors<typeof actions.login>
@@ -48,27 +48,63 @@ export const SignInForm = (props: Props) => {
 
   return (
     <form
-      className="flex flex-col w-full gap-6"
+      className="flex flex-col w-full gap-8"
       method="POST"
       onSubmit={onSubmit}
     >
-      <Fieldset
-        hidden={!!props.username}
-        label={"이메일"}
-        error={fieldErrors.username && "올바른 이메일을 입력해 주세요."}
-      >
+      <Fieldset label={"이메일"}>
         <input
           className={"w-full input input-lg input-natual validator"}
           name="username"
-          placeholder="이메일 주소 입력"
-          type="email"
-          required
           value={props.username as string}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
+          disabled
         />
+      </Fieldset>
+      <Fieldset label={"이메일"}>
+        <div className={"flex flex-col gap-3"}>
+          <input
+            className={"w-full input input-lg input-natual validator"}
+            name="lastName"
+            placeholder="이름 입력 (예: 길동)"
+          />
+          <input
+            className={"w-full input input-lg input-natual validator"}
+            name="firstName"
+            placeholder="성 입력 (예: 홍)"
+          />
+        </div>
+      </Fieldset>
+      <Fieldset label={"연락처"}>
+        <div className={"flex flex-col gap-3"}>
+          <select
+            className={"w-full input input-lg input-natual validator"}
+            name="phoneCode">
+            <option>+82 (South Korea)</option>
+          </select>
+          <input
+            className={"w-full input input-lg input-natual validator"}
+            name="phoneNumber"
+            placeholder="전화번호"
+          />
+        </div>
       </Fieldset>
       <Fieldset
         label={"비밀번호"}
+        error={fieldErrors.password && "비밀번호가 일치하지 않습니다."}
+      >
+        <input
+          className={"w-full input input-lg input-natual validator"}
+          name="password"
+          placeholder="영문, 숫자, 특수문자 조합 8-20자"
+          type="password"
+          required
+          min={8}
+          max={20}
+          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [""] }))}
+        />
+      </Fieldset>
+      <Fieldset
+        label={"비밀번호 확인"}
         error={fieldErrors.password && "비밀번호가 일치하지 않습니다."}
       >
         <input

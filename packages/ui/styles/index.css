@@ -35,6 +35,7 @@
   --color-error-content: #ffffff;
   /* Gray Scale */
   --color-gray-50: #f7f7f7;
+  --color-gray-50: #f7f7f7;
   --color-gray-100: #f2f2f2;
   --color-gray-200: #e9e9e9;
   --color-gray-300: #dddddd;
@@ -78,6 +79,7 @@
 
 @utility input {
   background: transparent;
+  padding-inline: calc(0.25rem * 4);
 
   &.input-natural {
     --input-color: var(--color-gray-400);
@@ -93,6 +95,10 @@
 
   &::placeholder {
     @apply text-gray-500;
+  }
+
+  &:has(> input[disabled]), &:is(:disabled, [disabled]), fieldset:disabled & {
+    @apply text-gray-900 border-gray-500 bg-gray-50;
   }
 }
 

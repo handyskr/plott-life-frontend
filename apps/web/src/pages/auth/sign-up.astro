@@ -1,0 +1,18 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import { SignUpForm } from "../../components/auth/SignUpForm";
+
+const searchParams = Astro.url?.searchParams
+const username = searchParams?.get('username')
+---
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+    showHomeIcon={true}
+  />
+  <div class="flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-12 lg:py-18">
+    <SignUpForm client:visible username={username} successURL="/auth/sign-in" />
+  </div>
+</Layout>
