@@ -4,14 +4,15 @@ import '@styles/style.css';
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
-
 interface Props {
+  spa?: boolean;
   title?: string;
   subtitle?: string;
   description?: string;
   image?: string;
 }
 
+const { spa } = Astro.props;
 let { title, subtitle, description, image } = Astro.props;
 if (!title) {
   if (subtitle) {

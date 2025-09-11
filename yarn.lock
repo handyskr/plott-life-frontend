@@ -1417,6 +1417,7 @@ __metadata:
     "@plott-life/dev": "workspace:*"
     "@plott-life/utils": "workspace:*"
     "@tailwindcss/cli": "npm:^4.1.13"
+    clsx: "npm:^2.1.1"
     daisyui: "npm:^5.1.8"
     eslint: "npm:^9.34.0"
     eslint-config-preact: "npm:^2.0.0"
@@ -1434,6 +1435,7 @@ __metadata:
     dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     typescript: "npm:^5.9.2"
+    ufo: "npm:^1.6.1"
   languageName: unknown
   linkType: soft
 

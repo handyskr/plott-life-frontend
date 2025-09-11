@@ -1,4 +1,4 @@
-import { defineAction, ActionError } from "astro:actions";
+import { defineAction } from "astro:actions";
 import { z } from "astro:schema";
 
 export const check = defineAction({
@@ -9,10 +9,7 @@ export const check = defineAction({
   handler: async (input) => {
     console.log(`Check action: input=`, input);
 
-    // for Test
-    if (input.username !== "test@test.com") {
-      throw new ActionError({ code: "NOT_FOUND" });
-    }
+    // TODO: 계정검사
 
     return { success: true };
   },

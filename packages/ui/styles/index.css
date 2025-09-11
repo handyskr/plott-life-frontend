@@ -101,17 +101,14 @@
   padding-block: 0;
 
   .fieldset-legend {
-    font-size: 0.875rem;
-    @apply mb-3;
+    @apply text-sm mb-3;
   }
   .fieldset-description {
-    @apply mt-2;
-    font-size: 0.75rem;
+    @apply text-xs mt-2;
     color: var(--color-gray-500);
   }
   .fieldset-error {
-    @apply mt-2;
-    font-size: 0.75rem;
+    @apply text-xs mt-2;
     color: var(--color-error);
   }
 }
