@@ -63,7 +63,7 @@ export const SignInForm = (props: Props) => {
           placeholder="이메일 주소 입력"
           type="email"
           required
-          value={props.username as string}
+          defaultValue={props.username as string}
           onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
         />
       </Fieldset>

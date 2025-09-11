@@ -1,10 +1,11 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import {Fieldset} from '@plott-life/ui/components/Fieldset';
+import {Checkbox} from '@plott-life/ui/components/Checkbox';
 ---
 
 <Layout>
-  <div class="p-3 flex flex-col gap-6">
+  <div class="p-3 pb-32 flex flex-col gap-6">
     <section>
       <h2 class="title2 mb-3">Typography</h2>
       <p class='title1'>Text</p>
@@ -81,6 +82,11 @@ import {Fieldset} from '@plott-life/ui/components/Fieldset';
           <input class="input" placeholder="Placeholder" value="Disabled" disabled />
         </Fieldset>
       </div>
+    </section>
+    <section>
+      <h2 class="title2 mb-3">Checkbox</h2>
+      <Checkbox>Checkbox</Checkbox>
+      <Checkbox>Checkbox</Checkbox>
     </section>
   </div>
 </Layout>
