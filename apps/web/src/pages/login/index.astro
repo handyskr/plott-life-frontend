@@ -1,0 +1,23 @@
+---
+import { UsernameCheckForm } from "../../components/auth/UsernameCheckForm";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import IconLogo from "@plott-life/ui/icons/logo.svg";
+---
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+    showHomeIcon={true}
+  />
+  <div class="flex flex-col max-w-2xl mx-auto items-center py-4 px-6 lg:py-40 lg:px-24">
+    <div class="flex justify-center">
+      <IconLogo class="w-18" />
+    </div>
+    <h1 class="title1 font-bold text-center mt-8 mb-10">
+      쉽게 가입하고<br />
+      간편하게 로그인하세요
+    </h1>
+    <UsernameCheckForm client:visible />
+  </div>
+</Layout>

@@ -61,19 +61,23 @@ import {Fieldset} from '@plott-life/ui/components/Fieldset';
       <input type="text" placeholder="Warning" class="input input-warning" />
       <input type="text" placeholder="Error" class="input input-error" />
       <h2 class="title2 mt-6 mb-3">Fieldset</h2>
-      <Fieldset label="Label">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" description="description">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" error="error">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" error="error">
-        <input class="input" placeholder="Placeholder" />
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
+      <div class="flex flex-col gap-6">
+        <Fieldset label="Label">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" description="description">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" error="error">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" error="error">
+          <label class="join join-vertical">
+            <input class="input join-item" placeholder="Placeholder" />
+            <input class="input join-item" placeholder="Placeholder" />
+          </label>
+        </Fieldset>
+      </div>
     </section>
   </div>
 </Layout>
