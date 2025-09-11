@@ -10,6 +10,9 @@
   "scripts": {
     "lint": "eslint . --debug"
   },
+  "dependencies": {
+    "ufo": "^1.6.1"
+  },
   "devDependencies": {
     "@plott-life/dev": "workspace:*",
     "eslint": "^9.34.0",
