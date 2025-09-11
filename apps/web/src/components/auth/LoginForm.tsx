@@ -65,7 +65,7 @@ export const LoginForm = (props: Props) => {
         <input
           type="email"
           className={"w-full input input-lg input-neutral validator"}
-          name="username"
+          name="email"
           placeholder="이메일 주소 입력"
           required
           onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
