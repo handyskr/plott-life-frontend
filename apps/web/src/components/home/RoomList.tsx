@@ -26,6 +26,7 @@ interface Props {
   responsive?: boolean;
 }
 
+const PAGE_SIZE = 20;
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
 
 async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
@@ -46,7 +47,6 @@ export default function RoomList({ responsive = false }: Props) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const PAGE_SIZE = 10;
 
   // 데이터 로딩
   const loadMore = useCallback(async () => {
