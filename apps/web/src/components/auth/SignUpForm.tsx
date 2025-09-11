@@ -3,17 +3,32 @@ import { useState } from "preact/hooks";
 import type { InferFieldErrors } from "../../actions/types.ts";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
 import { navigate } from "../../navigator";
+import { Checkbox } from "@plott-life/ui/components/Checkbox.tsx";
+import IconArrowRightCode from "@plott-life/ui/icons/arrow-right.svg?raw";
 
 interface Props {
   username?: string | null;
   successURL: string;
 }
 
+const IconArrowRight = ({ href }: { href: string }) => {
+  return (
+    <a className="py-2 inline-flex flex-1 justify-end" href={href} target="_blank">
+      <i
+        className={"text-gray-400 w-4 h-4"}
+        dangerouslySetInnerHTML={{ __html: IconArrowRightCode }}
+      />
+    </a>
+  );
+};
+
 export const SignUpForm = (props: Props) => {
   // NOTE: 이메일전달 확인목적으로 이메일도 포함
   const [fieldErrors, setFieldErrors] = useState<
     InferFieldErrors<typeof actions.login>
   >({});
+
+  console.log();
 
   const onSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -56,7 +71,7 @@ export const SignUpForm = (props: Props) => {
         <input
           className={"w-full input input-lg input-natual validator"}
           name="username"
-          value={props.username as string}
+          defaultValue={props.username as string}
           disabled
         />
       </Fieldset>
@@ -78,7 +93,8 @@ export const SignUpForm = (props: Props) => {
         <div className={"flex flex-col gap-3"}>
           <select
             className={"w-full input input-lg input-natual validator"}
-            name="phoneCode">
+            name="phoneCode"
+          >
             <option>+82 (South Korea)</option>
           </select>
           <input
@@ -118,6 +134,48 @@ export const SignUpForm = (props: Props) => {
           onInvalid={() => setFieldErrors((it) => ({ ...it, password: [""] }))}
         />
       </Fieldset>
+      <div class="flex flex-col gap-5">
+        <Checkbox required>
+          <p
+            className={
+              "ml-3 inline-flex flex-1 justify-between items-center text-black"
+            }
+          >
+            [필수] 서비스 이용약관 동의
+            <IconArrowRight href={"/content/policy"} />
+          </p>
+        </Checkbox>
+        <Checkbox required>
+          <p
+            className={
+              "ml-3 inline-flex flex-1 justify-between items-center text-black"
+            }
+          >
+            [필수] 개인정보 처리 방침 동의
+            <IconArrowRight href={"/content/privacy"} />
+          </p>
+        </Checkbox>
+        <Checkbox required>
+          <p
+            className={
+              "ml-3 inline-flex flex-1 justify-between items-center text-black"
+            }
+          >
+            [필수] 만 19세 이상 확인
+            <IconArrowRight href={"/content/adult"} />
+          </p>
+        </Checkbox>
+        <Checkbox required>
+          <p
+            className={
+              "ml-3 inline-flex flex-1 justify-between items-center text-black"
+            }
+          >
+            [선택] 개인정보 마케팅 활용 동의
+            <IconArrowRight href={"/content/marketing"} />
+          </p>
+        </Checkbox>
+      </div>
       <button type="submit" className="block btn btn-lg btn-neutral">
         다음
       </button>
