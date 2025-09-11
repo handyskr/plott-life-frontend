@@ -19,8 +19,9 @@ export const LoginForm = (props: Props) => {
 
     setFieldErrors({});
 
+    const formData = new FormData(e.target as HTMLFormElement);
+
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
       // TODO: 삭제
       // const { error } = await actions.check(formData);
       // if (error) {
@@ -39,7 +40,9 @@ export const LoginForm = (props: Props) => {
       switch (error?.code) {
         case "NOT_FOUND":
           alert("가입되지 않은 이메일입니다.");
-          await navigate(props.failureURL)
+          await navigateWithQuery(props.failureURL, {
+            username: formData.get("username") as string,
+          });
           break;
         default:
           alert("알 수 없는 에러가 발생했습니다.");
@@ -60,7 +63,7 @@ export const LoginForm = (props: Props) => {
         error={fieldErrors.username && "올바른 이메일을 입력해 주세요."}
       >
         <input
-          className={"w-full input input-natual validator"}
+          className={"w-full input input-lg input-natual validator"}
           name="username"
           placeholder="이메일 주소 입력"
           type="email"
@@ -68,7 +71,7 @@ export const LoginForm = (props: Props) => {
           onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
         />
       </Fieldset>
-      <button type="submit" className="block btn btn-primary">
+      <button type="submit" className="block btn btn-lg btn-primary">
         이메일로 계속하기
       </button>
     </form>
