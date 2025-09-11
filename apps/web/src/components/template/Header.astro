@@ -6,13 +6,13 @@ const {
   showCloseIcon,
   showHomeIcon,
   title,
-  class: className = '',
+  backgroundColor,
 } = Astro.props;
 
 const hasDefaultSlot = !!Astro.slots.default;
 ---
 
-<header class='sticky top-0 w-full z-10 flex justify-center min-h-[64px] pt-(--sait) bg-white'>
+<header class=`sticky top-0 w-full z-1000 flex justify-center min-h-[64px] pt-(--sait) ${backgroundColor ? backgroundColor : 'bg-white'}`>
   <div class='flex max-w-(--max-width) w-full items-center'>
     {hasDefaultSlot ? (
       <slot />
