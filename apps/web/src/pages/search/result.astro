@@ -1,3 +1,79 @@
 ---
+import dayjs from "dayjs";
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import { Calendar, LocationSelect } from '@components/common';
+import RoomList from '@components/home/RoomList';
 
+import { getWeeksBetween } from '@plott-life/utils';
+
+import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
+import IconArrowDown from '@plott-life/ui/icons/arrow-down.svg';
+import IconSort from '@plott-life/ui/icons/sort.svg';
+
+const searchParams = Astro.url.searchParams;
+
+const stateOrCity = searchParams.get('stateOrCity') || '전체';
+const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
+const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
+
+console.log(startAt);
+console.log(endAt);
+const weeks = getWeeksBetween(startAt, endAt);
 ---
+
+<Layout>
+  <Header slot='header'>
+    <div class='flex flex-col w-full px-6 py-4 w-full shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
+      <div class='flex items-center'>
+        <a
+          href='/search'
+          class='flex items-center space-x-2 w-full px-6 h-14 border-[1px] rounded-[28px] border-gray-200 shadow-[0_0_20px_0_rgba(0,0,0,0.08)] hover:shadow-[0_0_20px_0_rgba(0,0,0,0.1)] cursor-pointer'
+        >
+          <div class='pr-6 m-0'>
+            <IconArrowBigLeft />
+          </div>
+          <div class='flex flex-col'>
+            <span class="body4 text-gray-900 mb-0.5">
+              {stateOrCity}
+            </span>
+            <span class="caption1 text-gray-700">
+              {weeks}주 · {dayjs(startAt).format('M월 D일')} ~ {dayjs(endAt).format('M월 D일')}
+            </span>
+          </div>
+        </a>
+      </div>
+      <div class='flex items-center pt-6 gap-3'>
+        <button class="btn btn-sm bg-white border-gray-300 text-gray-900">
+          <IconSort />기본순
+        </button>
+        <button class="btn btn-sm bg-white border-gray-300 text-gray-900">
+          필터<IconArrowDown />
+        </button>
+      </div>
+    </div>
+  </Header>
+  <div class='bg-white p-6'>
+    <RoomList
+      client:visible
+      initialRooms={[]}
+    />
+  </div>
+  <footer
+    slot="footer"
+    class="flex flex-col items-center w-full bg-gray-50 p-8"
+  >
+    <span class="body2 text-gray-900">
+      찾고있는 방이 없나요?
+    </span>
+    <span class="body6 text-gray-600 mt-2 mb-4">
+      상담을 통해 조건에 맞는 방을 찾아드립니다.
+    </span>
+    <button
+      id="btn-inquiry"
+      class='w-[148px] btn btn-primary body2'
+    >
+      문의하기
+    </button>
+  </footer>
+</Layout>

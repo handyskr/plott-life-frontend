@@ -1393,6 +1393,7 @@ __metadata:
   resolution: "@plott-life/dev@workspace:packages/dev"
   dependencies:
     "@eslint/js": "npm:^9.34.0"
+    dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-config-turbo: "npm:^2.5.6"
@@ -1441,7 +1442,6 @@ __metadata:
     "@plott-life/utils": "workspace:*"
     "@tailwindcss/vite": "npm:^4.1.13"
     astro: "npm:^5.13.5"
-    dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     sharp: "npm:^0.34.3"
     swiper: "npm:^11.2.10"
