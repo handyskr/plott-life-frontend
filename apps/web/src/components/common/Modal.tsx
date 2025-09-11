@@ -173,8 +173,8 @@ function ModalFooter(props: ModalElementType) {
   } = props;
 
   return (
-    <div className={`sticky bottom-0 w-full bg-white px-4 py-3 ${className}`}>
-      <div className="flex w-full justify-end gap-2">{children}</div>
+    <div className={`sticky bottom-0 w-full bg-white ${className}`}>
+      <div className="flex w-full gap-2">{children}</div>
     </div>
   );
 }

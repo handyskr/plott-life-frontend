@@ -26,8 +26,8 @@
       "@hooks/*": [
         "src/hooks/*"
       ],
-      "@utils/*": [
-        "src/utils/*"
+      "@libs/*": [
+        "src/libs/*"
       ],
       "@styles/*": [
         "src/styles/*"

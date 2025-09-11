@@ -1,16 +1,11 @@
 import { useState } from 'preact/hooks';
 import { Modal, ModalContent, ModalFooter, ModalHeader } from "@components/common";
+import { SORT_OPTIONS } from "@libs/values.ts";
 
 interface SortModalProps {
   isOpen: boolean;
   onRequestClose: () => void;
 }
-
-const SORT_OPTIONS = [
-  { label: '최신순', value: 'CREATED_AT_DESC' },
-  { label: '낮은 가격순', value: 'PRICE_DESC' },
-  { label: '높은 가격순', value: 'PRICE_ASC' },
-];
 
 export default function SortModal(props: SortModalProps) {
   const {
@@ -33,9 +28,10 @@ export default function SortModal(props: SortModalProps) {
         <>
           <span className="absolute left-1/2 -translate-x-1/2 body1 text-gray-900">정렬</span>
           <button
-            className="ml-auto flex items-center cursor-pointer"
+            className='ml-auto flex items-center cursor-pointer'
+            onClick={onRequestClose}
           >
-            x
+            ✕
           </button>
         </>
       </ModalHeader>
