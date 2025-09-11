@@ -26,11 +26,32 @@ interface Props {
   responsive?: boolean;
 }
 
-const PAGE_SIZE = 20;
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+const PAGE_SIZE = 20;
+const DURATION_TYPE = 'RENT';
 
-async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
-  const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?page=${page}&size=${size}`, {
+function getQueryParams(): Record<string, string> {
+  const params = new URLSearchParams(window.location.search);
+  const obj: Record<string, string> = {};
+  params.forEach((value, key) => {
+    obj[key] = value;
+  });
+  return obj;
+}
+
+async function fetchRooms(
+  page: number,
+  size: number,
+  query: Record<string, string>
+): Promise<ApiResponse> {
+  const searchParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    durationType: DURATION_TYPE,
+    ...query,
+  });
+
+  const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?${searchParams.toString()}`, {
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -41,20 +62,34 @@ async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
   return res.json();
 }
 
-export default function RoomList({ responsive = false }: Props) {
+export default function RoomList() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [queryParams, setQueryParams] = useState<Record<string, string>>(getQueryParams());
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  // 데이터 로딩
+  useEffect(() => {
+    const onPopState = () => {
+      setQueryParams(getQueryParams());
+      setPage(0);
+      setRooms([]);
+      setHasMore(true);
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, []);
+
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
 
     try {
-      const data = await fetchRooms(page, PAGE_SIZE);
+      const data = await fetchRooms(page, PAGE_SIZE, queryParams);
 
       setRooms((prev) => [...prev, ...data.items]);
       setPage((prev) => prev + 1);
@@ -64,14 +99,18 @@ export default function RoomList({ responsive = false }: Props) {
       }
     } catch (err) {
       console.error(err);
+      setHasMore(false);
     } finally {
       setLoading(false);
     }
-  }, [page, hasMore, loading]);
+  }, [page, hasMore, loading, queryParams]);
 
   useEffect(() => {
+    setRooms([]);
+    setPage(0);
+    setHasMore(true);
     loadMore();
-  }, []);
+  }, [queryParams]);
 
   useEffect(() => {
     const el = loaderRef.current;
@@ -118,8 +157,7 @@ export default function RoomList({ responsive = false }: Props) {
           {loading ? 'Loading…' : ''}
         </div>
       ) : (
-        <div className="h-12 flex justify-center items-center text-gray-300">
-        </div>
+        <div className="h-12 flex justify-center items-center text-gray-300"></div>
       )}
     </div>
   );
