@@ -129,7 +129,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
           전체 삭제
         </span>
         <a
-          href={`/search/result?stateOrCity=${selectedLocation ?? ''}&startAt=${startAt ?? ''}&endAt=${endAt ?? ''}`}
+          href={`/search/result?stateOrCity=${selectedLocation ?? ''}&startAt=${startAt ?? ''}&endAt=${endAt ?? ''}&durationType=RENT`}
           className='w-[120px] rounded-lg btn btn-lg btn-primary body2'
         >
           검색

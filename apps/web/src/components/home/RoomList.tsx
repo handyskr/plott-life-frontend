@@ -47,7 +47,6 @@ async function fetchRooms(
   const searchParams = new URLSearchParams({
     page: page.toString(),
     size: size.toString(),
-    durationType: DURATION_TYPE,
     ...query,
   });
 
@@ -130,35 +129,47 @@ export default function RoomList() {
   }, [loadMore]);
 
   return (
-    <div className="max-w-(--max-width) mx-auto">
-      <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
-        {rooms.map((room) => (
-          <Card
-            key={room.id}
-            id={room.id}
-            name={room.name}
-            image={room.mainImage ?? '/null.png'}
-            address={room.address}
-            areaExclusive={room.areaExclusive}
-            bedrooms={room.bedrooms}
-            bathrooms={room.bathrooms}
-            rentFeePerWeek={room.rentFeePerWeek}
-            onClick={() => {
-              window.location.href = `/rooms/${room.id}`;
-            }}
-          />
-        ))}
+    <div className='max-w-(--max-width) mx-auto'>
+      <div
+        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}
+      >
+        {rooms.length === 0 && !loading ? (
+          <div className="col-span-full flex flex-col items-center justify-center h-[calc(100vh-400px)]">
+            <span className={'body2 text-gray-900 mb-2'}>
+              일치하는 검색 결과가 없습니다.
+            </span>
+            <span className={'body6 text-gray-600'}>
+              검색 조건을 다시 설정해주세요.
+            </span>
+          </div>
+        ) : (
+          rooms.map((room) => (
+            <Card
+              key={room.id}
+              id={room.id}
+              name={room.name}
+              image={room.mainImage ?? '/null.png'}
+              address={room.address}
+              areaExclusive={room.areaExclusive}
+              bedrooms={room.bedrooms}
+              bathrooms={room.bathrooms}
+              rentFeePerWeek={room.rentFeePerWeek}
+              onClick={() => {
+                window.location.href = `/rooms/${room.id}`;
+              }}
+            />
+          ))
+        )}
       </div>
-      {hasMore ? (
+      {hasMore && (
         <div
           ref={loaderRef}
-          className="h-12 flex justify-center items-center text-gray-300"
+          className='h-12 flex justify-center items-center text-gray-300'
         >
           {loading ? 'Loading…' : ''}
         </div>
-      ) : (
-        <div className="h-12 flex justify-center items-center text-gray-300"></div>
       )}
     </div>
+
   );
 }
