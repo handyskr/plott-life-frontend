@@ -1,7 +1,5 @@
 import { useState } from 'preact/hooks';
-import {Calendar, LocationSelect} from '@components/common';
-import IconInfo from '@plott-life/ui/icons/info.svg';
-import type {Dayjs} from "dayjs";
+import { Calendar, LocationSelect } from '@components/common';
 
 interface SearchWrapperProps {
   locations: string[];

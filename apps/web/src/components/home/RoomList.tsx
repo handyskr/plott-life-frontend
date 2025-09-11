@@ -170,6 +170,5 @@ export default function RoomList() {
         </div>
       )}
     </div>
-
   );
 }
