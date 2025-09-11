@@ -2,14 +2,15 @@
 import dayjs from "dayjs";
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
-import { Calendar, LocationSelect } from '@components/common';
+import { Calendar, LocationSelect, Modal, ModalHeader, ModalContent, ModalFooter } from '@components/common';
 import RoomList from '@components/home/RoomList';
+
+import { Filters } from '@components/search';
 
 import { getWeeksBetween } from '@plott-life/utils';
 
 import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
-import IconArrowDown from '@plott-life/ui/icons/arrow-down.svg';
-import IconSort from '@plott-life/ui/icons/sort.svg';
+
 
 const searchParams = Astro.url.searchParams;
 
@@ -17,8 +18,6 @@ const stateOrCity = searchParams.get('stateOrCity') || '전체';
 const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
 const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
 
-console.log(startAt);
-console.log(endAt);
 const weeks = getWeeksBetween(startAt, endAt);
 ---
 
@@ -44,19 +43,15 @@ const weeks = getWeeksBetween(startAt, endAt);
         </a>
       </div>
       <div class='flex items-center pt-6 gap-3'>
-        <button class="btn btn-sm bg-white border-gray-300 text-gray-900">
-          <IconSort />기본순
-        </button>
-        <button class="btn btn-sm bg-white border-gray-300 text-gray-900">
-          필터<IconArrowDown />
-        </button>
+        <Filters
+          client:only="preact"
+        />
       </div>
     </div>
   </Header>
   <div class='bg-white p-6'>
     <RoomList
-      client:visible
-      initialRooms={[]}
+      client:only="preact"
     />
   </div>
   <footer
