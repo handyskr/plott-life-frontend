@@ -20,7 +20,9 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         page.startsWith(liveURL) &&
-        !page.startsWith(`${liveURL}/theme`),
+        !page.startsWith(`${liveURL}/theme`) &&
+        !page.startsWith(`${liveURL}/login`) &&
+        !page.startsWith(`${liveURL}/logout`),
     }),
   ],
   vite: {

@@ -92,6 +92,26 @@
   }
 
   &::placeholder {
+    @apply text-gray-500;
+  }
+}
+
+@utility fieldset {
+  gap: 0;
+  padding-block: 0;
+
+  .fieldset-legend {
+    font-size: 0.875rem;
+    @apply mb-3;
+  }
+  .fieldset-description {
+    @apply mt-2;
+    font-size: 0.75rem;
     color: var(--color-gray-500);
+  }
+  .fieldset-error {
+    @apply mt-2;
+    font-size: 0.75rem;
+    color: var(--color-error);
   }
 }
