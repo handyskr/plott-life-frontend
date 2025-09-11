@@ -6,17 +6,14 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
 interface CalendarProps {
-  onRangeSelect?: (start: Dayjs, end: Dayjs) => void;
+  onDatesChange?: (start: Dayjs, end: Dayjs) => void;
 }
 
-export default function Calendar({ onRangeSelect }: CalendarProps) {
+export default function Calendar({ onDatesChange }: CalendarProps) {
   const today = dayjs();
   const [startAt, setStartAt] = useState<Dayjs | null>(null);
   const [endAt, setEndAt] = useState<Dayjs | null>(null);
   const [activeWeekday, setActiveWeekday] = useState<number | null>(null);
-
-  console.log('startAt', startAt);
-  console.log('endAt', endAt);
 
   const months = Array.from({ length: 6 }, (_, i) => today.add(i, 'month'));
 
@@ -51,8 +48,8 @@ export default function Calendar({ onRangeSelect }: CalendarProps) {
       setStartAt(start);
       setEndAt(end);
 
-      if (onRangeSelect) {
-        onRangeSelect(start, end);
+      if (onDatesChange) {
+        onDatesChange(start, end);
       }
     }
   };
@@ -106,10 +103,8 @@ export default function Calendar({ onRangeSelect }: CalendarProps) {
     return true;
   };
 
-
-
   return (
-    <div className="max-w-3xl mx-auto px-4 py-6 space-y-8">
+    <div className='mx-auto px-4 py-6 space-y-8'>
       {months.map((month) => {
         const start = month.startOf('month');
         const end = month.endOf('month');
@@ -145,7 +140,7 @@ export default function Calendar({ onRangeSelect }: CalendarProps) {
                 const gradientClass =
                   day.date() === day.daysInMonth()
                     ? 'after:content-[""] after:absolute after:top-0 after:right-[-50%] after:w-1/2 after:h-full after:bg-gradient-to-r after:from-gray-200 after:to-transparent'
-                    : day.date() === 1 && !day.isSame(endAt, 'day')
+                    : day.date() === 1
                       ? 'before:content-[""] before:absolute before:top-0 before:left-[-50%] before:w-1/2 before:h-full before:bg-gradient-to-l before:from-gray-200 before:to-transparent'
                       : '';
 
