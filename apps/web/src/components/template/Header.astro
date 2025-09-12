@@ -7,6 +7,7 @@ const {
   showHomeIcon,
   title,
   backgroundColor,
+  backUrl,
 } = Astro.props;
 
 const hasDefaultSlot = !!Astro.slots.default;
@@ -17,17 +18,17 @@ const hasDefaultSlot = !!Astro.slots.default;
     {hasDefaultSlot ? (
       <slot />
     ) : (
-      <div class="px-4 w-full flex">
+      <div class='px-4 w-full flex'>
         <div class='col flex items-center gap-2 min-w-[40px] justify-start'>
           {
             showBackIcon && (
               <a
-                href="javascript:history.back()"
-                class="w-6 h-6 flex items-center justify-center"
+                href={backUrl ?? 'javascript:history.back()'}
                 aria-label='뒤로가기'
+                class='w-6 h-6 flex items-center justify-center'
               >
                 <IconBack
-                  width="14"
+                  width='14'
                 />
               </a>
             )
@@ -51,7 +52,7 @@ const hasDefaultSlot = !!Astro.slots.default;
           {
             showHomeIcon && (
               <a
-                href="/"
+                href='/'
                 aria-label='홈'
               >
                 <IconHome />

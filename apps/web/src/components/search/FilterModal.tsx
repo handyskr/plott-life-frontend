@@ -129,7 +129,6 @@ export default function FilterModal(props: FilterModalProps) {
           </button>
         </>
       </ModalHeader>
-
       <ModalContent>
         <div className='px-6 pt-8 pb-14 bg-white'>
           {/* 침실 수 */}
@@ -181,7 +180,7 @@ export default function FilterModal(props: FilterModalProps) {
           {/* 가격 범위 */}
           <div>
             <h3 className='title4 text-gray-900 mb-4'>가격 범위</h3>
-            <p className='body3 text-gray-900 mb-7'>월 임대료 기준</p>
+            <p className='body3 text-gray-900 mb-7'>주 임대료 기준</p>
             <div className='relative w-full'>
               <RangeSlider
                 min={MIN_PRICE}
@@ -195,7 +194,6 @@ export default function FilterModal(props: FilterModalProps) {
           </div>
         </div>
       </ModalContent>
-
       <ModalFooter>
         <div className='bg-white border-t w-full border-gray-300 py-3 px-6 flex justify-between items-center'>
           <div className='flex flex-col'>

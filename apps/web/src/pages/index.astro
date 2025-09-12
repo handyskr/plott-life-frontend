@@ -34,10 +34,10 @@ import IconLogo from '@plott-life/ui/icons/logo.svg';
   </Header>
   <div class='bg-white p-6'>
     <RoomList
-      client:only="preact"
+      client:only='preact'
       initialRooms={[]}
     />
   </div>
-  <Footer />
-  <BottomNav slot='footer' />
+  <Footer slot='footer' />
+  <BottomNav slot='nav' />
 </Layout>

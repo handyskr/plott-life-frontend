@@ -50,7 +50,6 @@ export default function RangeSlider(props: RangeSliderProps) {
           class="absolute h-[3px] bg-gray-900 rounded"
         />
       </div>
-
       {/* left handle */}
       <input
         type="range"
@@ -59,15 +58,13 @@ export default function RangeSlider(props: RangeSliderProps) {
         step={step}
         value={minVal}
         onInput={(e) => {
-          const val = Number((e.target as HTMLInputElement).value);
-          if (val <= maxVal - step) {
-            setMinVal(val);
-            onChange?.([val, maxVal]);
-          }
+          let val = Number((e.target as HTMLInputElement).value);
+          val = Math.min(val, maxVal - step);
+          setMinVal(val);
+          onChange?.([val, maxVal]);
         }}
         class="absolute w-full top-0 h-[3px] bg-transparent appearance-none pointer-events-none"
       />
-
       {/* right handle */}
       <input
         type="range"
@@ -76,16 +73,14 @@ export default function RangeSlider(props: RangeSliderProps) {
         step={step}
         value={maxVal}
         onInput={(e) => {
-          const val = Number((e.target as HTMLInputElement).value);
-          if (val >= minVal + step) {
-            setMaxVal(val);
-            onChange?.([minVal, val]);
-          }
+          let val = Number((e.target as HTMLInputElement).value);
+          val = Math.max(val, minVal + step);
+          setMaxVal(val);
+          onChange?.([minVal, val]);
         }}
         class="absolute w-full top-0 h-[3px] bg-transparent appearance-none pointer-events-none"
       />
-
-      {/* handles 스타일 */}
+      {/* handle  */}
       <style>
         {`
         input[type=range]::-webkit-slider-thumb {
@@ -111,8 +106,7 @@ export default function RangeSlider(props: RangeSliderProps) {
         }
         `}
       </style>
-
-      {/* 값 표시 */}
+      {/* expose */}
       <div class="flex justify-between mt-8 body6 text-gray-700">
         <span>{formatValue(minVal)}</span>
         <span>{maxVal === max ? `${formatValue(max)}+` : formatValue(maxVal)}</span>

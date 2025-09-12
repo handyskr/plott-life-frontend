@@ -7,9 +7,7 @@ import 'swiper/css/pagination';
 
 interface ImageSlideSectionProps {
   images: string[];
-  width?: string;
-  height?: string;
-  style?: preact.JSX.CSSProperties;
+  className?: string;
   hasMoreIcon?: boolean;
   onOpenGallery?: () => void;
   onClickIcon?: () => void;
@@ -18,28 +16,19 @@ interface ImageSlideSectionProps {
 const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
 
 export default function ImageSlideSection({
-  // images = [
-  //   'sample_1.webp?w=300',
-  //   'sample_2.webp?w=300',
-  //   'sample_3.webp?w=300',
-  //   'sample_4.webp?w=300',
-  //   'sample_5.webp?w=300',
-  // ],
-  width,
-  height,
-  style,
+  images: itemImages,
+  className,
   hasMoreIcon = false,
   onOpenGallery,
   onClickIcon,
 }: ImageSlideSectionProps) {
   const swiperEl = useRef<HTMLDivElement>(null);
-  // 임시 이미지 데이터
-  const images = [
-    'sample_1.webp?w=600',
-    'sample_2.webp?w=600',
-    'sample_3.webp?w=600',
-    'sample_4.webp?w=600',
-    'sample_5.webp?w=600',
+  const images = itemImages.length > 0 ? itemImages : [
+    'null.webp?w=800',
+    'null.webp?w=800',
+    'null.webp?w=800',
+    'null.webp?w=800',
+    'null.webp?w=800',
   ];
 
   useEffect(() => {
@@ -51,22 +40,22 @@ export default function ImageSlideSection({
       modules: [Pagination],
       slidesPerView: 1,
       centeredSlides: true,
-      // MEMO: 디자인 수정 이슈로 잠시 비활성화
-      // pagination:
-      //   images.length > 1
-      //     ? {
-      //         el: '.swiper-pagination',
-      //         type: 'fraction',
-      //         renderFraction: (currentClass, totalClass) => {
-      //           return `
-      //             <span class="${currentClass}"></span>
-      //             <span class="swiper-pagination-line"></span>
-      //             <span class="${totalClass}"></span>
-      //             ${hasMoreIcon ? `<div class="plus-icon"></div>` : ''}
-      //           `;
-      //         },
-      //       }
-      //     : undefined,
+      pagination:
+        images.length > 1
+          ? {
+              el: '.swiper-pagination',
+              type: 'fraction',
+              renderFraction: (currentClass, totalClass) => {
+                return `
+                  <div class="inline items-end rounded-sm bg-[rgba(0,0,0,0.5)] px-2 py-1 mb-4 mr-4 caption1 text-white">
+                    <span class="${currentClass}"></span>
+                    <span class="swiper-pagination-line">/</span>
+                    <span class="${totalClass}"></span>
+                  </div>
+                `;
+              },
+            }
+          : undefined,
     });
 
     if (onClickIcon) {
@@ -80,19 +69,18 @@ export default function ImageSlideSection({
 
   return (
     <div
-      class='relative bg-white cursor-pointer w-full'
-      style={{ width, height, ...style }}
+      class={`relative bg-white cursor-pointer w-full ${className}`}
       onClick={() => onOpenGallery?.()}
     >
       <div ref={swiperEl} class='swiper w-full h-full'>
         <div class='swiper-wrapper'>
           {images.map((image, index) => (
             <div key={index} class='swiper-slide'>
-              <img src={`${IMAGE_URL}/${image}`} class='w-full h-full object-cover' style={{ height }} />
+              <img src={`${IMAGE_URL}/${image}`} class='w-full h-full object-cover' />
             </div>
           ))}
         </div>
-        <div class='swiper-pagination absolute right-3 bottom-3 flex items-center justify-center overflow-hidden w-auto h-5 rounded bg-[rgba(0,0,0,0.4)] text-[#ccc] text-[11px] font-medium cursor-pointer'></div>
+        <div class='swiper-pagination flex justify-end bottom-0!'></div>
       </div>
     </div>
   );
