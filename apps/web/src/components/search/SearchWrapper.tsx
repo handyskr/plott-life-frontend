@@ -128,7 +128,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
         </span>
         <a
           href={`/search/result?stateOrCity=${selectedLocation ?? ''}&startAt=${startAt ?? ''}&endAt=${endAt ?? ''}&durationType=RENT`}
-          className='w-[120px] rounded-lg btn btn-lg btn-primary body2'
+          className='w-[120px] rounded-lg btn btn-primary body2'
         >
           검색
         </a>

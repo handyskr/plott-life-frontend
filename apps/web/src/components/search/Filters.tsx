@@ -33,6 +33,12 @@ export default function Filters(props: FiltersProps) {
     return found ? found.label : '기본순';
   }, [sortValue]);
 
+  const handleSortChange = (value: string) => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('sort', value);
+    window.location.href = url.toString();
+  };
+
 
   return (
     <>
@@ -56,6 +62,7 @@ export default function Filters(props: FiltersProps) {
       </button>
       <SortModal
         isOpen={isSortOpen}
+        handleSortChange={handleSortChange}
         onRequestClose={() => setIsSortOpen(false)}
       />
       <FilterModal

@@ -22,13 +22,8 @@ interface ApiResponse {
   offset: number;
 }
 
-interface Props {
-  responsive?: boolean;
-}
-
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
 const PAGE_SIZE = 20;
-const DURATION_TYPE = 'RENT';
 
 function getQueryParams(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
@@ -133,8 +128,8 @@ export default function RoomList() {
       <div
         className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}
       >
-        {rooms.length === 0 && !loading ? (
-          <div className="col-span-full flex flex-col items-center justify-center h-[calc(100vh-400px)]">
+        {rooms.length === 0 && !hasMore ? (
+          <div className='col-span-full flex flex-col items-center justify-center h-[calc(100vh-400px)]'>
             <span className={'body2 text-gray-900 mb-2'}>
               일치하는 검색 결과가 없습니다.
             </span>
