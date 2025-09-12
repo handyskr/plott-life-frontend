@@ -1,0 +1,56 @@
+---
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout>
+  <div class="p-3 flex flex-col gap-6">
+    <div class="title1">Template</div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class="title3">원형 그림자 배경 버튼</div>
+    <div class='flex items-center px-6 pb-4 w-full shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
+      <a
+        class='flex items-center space-x-2 w-full px-6 h-14 border-[1px] rounded-[28px] border-gray-200 shadow-[0_0_20px_0_rgba(0,0,0,0.05)] hover:shadow-[0_0_20px_0_rgba(0,0,0,0.1)] cursor-pointer'
+      >
+        <span class='body5 text-gray-700'>
+          나에게 맞는 방 검색하기
+        </span>
+      </a>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class="title3">기본 라운드 버튼</div>
+    <div class="flex gap-2">
+      <div class='h-10 px-5 rounded-full border border-gray-200 bg-white flex items-center body6 text-gray-900'>
+        1번
+      </div>
+      <div class='h-10 px-5 rounded-full border border-gray-200 bg-white flex items-center body6 text-gray-900'>
+        2번
+      </div>
+      <div class='h-10 px-5 rounded-full border border-gray-200 bg-white flex items-center body6 text-gray-900'>
+        조금 긴 3번
+      </div>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class="title3">하단 고정 nav</div>
+    <div class="caption3 text-gray-500">sticky + bottom-0 으로 하단 고정</div>
+    <div
+      class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
+    >
+      <div class='flex flex-col'>
+      <span class="body1 mb-1.5">
+        10,000원
+      </span>
+        <span class="caption1 text-gray-700 underline">
+        1주 · 9월 8일~9월 15일
+      </span>
+      </div>
+      <button
+        class="w-[120px] rounded-lg btn btn-lg btn-primary body2"
+      >
+        계약하기
+      </button>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+
+
+  </div>
+</Layout>

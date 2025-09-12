@@ -19,7 +19,9 @@ export default defineConfig({
     }),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [
+      tailwindcss(),
+    ],
   },
   output: "server",
   adapter: node({

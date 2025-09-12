@@ -14,7 +14,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ className, erro
         <input
           ref={ref}
           {...props}
-          className={clsx('grow placeholder:text-gray-400', error && 'border-red-500 focus:border-red-500', className)}
+          className={clsx('grow placeholder:text-gray-300', error && 'border-red-500 focus:border-red-500', className)}
         />
         {icon && <span className="cursor-pointer">{icon}</span>}
       </label>
