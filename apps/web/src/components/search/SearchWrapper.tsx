@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import { Calendar, LocationSelect } from '@components/common';
 
 interface SearchWrapperProps {
@@ -23,6 +23,50 @@ export default function SearchWrapper(props: SearchWrapperProps) {
     setStartAt(null);
     setEndAt(null);
   };
+
+  const handleSearchClick = () => {
+    const params = new URLSearchParams({
+      stateOrCity: selectedLocation ?? "",
+      startAt: startAt ?? "",
+      endAt: endAt ?? "",
+      durationType: "RENT",
+    });
+
+    const newUrl = `${window.location.pathname}${
+      params.toString() ? `?${params.toString()}` : ''
+    }`;
+
+    window.history.replaceState({}, '', newUrl);
+    window.location.href = `/search/result?${params.toString()}`;
+  };
+
+  useEffect(() => {
+    const applyQueryParams = () => {
+      const searchParams = new URLSearchParams(window.location.search);
+
+      const stateOrCity = searchParams.get('stateOrCity');
+      const queryStartAt = searchParams.get('startAt');
+      const queryEndAt = searchParams.get('endAt');
+
+      if (stateOrCity) {
+        setSelectedLocation(stateOrCity);
+      }
+      if (queryStartAt) {
+        setStartAt(queryStartAt);
+      }
+      if (queryEndAt) {
+        setEndAt(queryEndAt);
+      }
+    }
+
+    applyQueryParams();
+
+    window.addEventListener('popstate', applyQueryParams);
+
+    return () => {
+      window.removeEventListener('popstate', applyQueryParams);
+    };
+  }, []);
 
   return (
     <>
@@ -130,13 +174,13 @@ export default function SearchWrapper(props: SearchWrapperProps) {
         >
           전체 삭제
         </span>
-        <a
+        <button
          // UFO query parameter 수정
-          href={`/search/result?stateOrCity=${selectedLocation ?? ''}&startAt=${startAt ?? ''}&endAt=${endAt ?? ''}&durationType=RENT`}
           className='w-[120px] rounded-lg btn btn-primary body2'
+          onClick={handleSearchClick}
         >
           검색
-        </a>
+        </button>
       </nav>
     </>
   );

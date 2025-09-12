@@ -39,7 +39,6 @@ export default function Filters(props: FiltersProps) {
     window.location.href = url.toString();
   };
 
-
   return (
     <>
       <button
