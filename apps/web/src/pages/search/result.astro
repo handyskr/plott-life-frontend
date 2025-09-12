@@ -4,13 +4,10 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import { Calendar, LocationSelect, Modal, ModalHeader, ModalContent, ModalFooter } from '@components/common';
 import RoomList from '@components/home/RoomList';
-
 import { Filters } from '@components/search';
 
 import { getWeeksBetween } from '@plott-life/utils';
-
 import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
-
 
 const searchParams = Astro.url.searchParams;
 

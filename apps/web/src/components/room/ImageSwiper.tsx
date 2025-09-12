@@ -24,11 +24,11 @@ export default function ImageSlideSection({
 }: ImageSlideSectionProps) {
   const swiperEl = useRef<HTMLDivElement>(null);
   const images = itemImages.length > 0 ? itemImages : [
-    'null.webp?w=800',
-    'null.webp?w=800',
-    'null.webp?w=800',
-    'null.webp?w=800',
-    'null.webp?w=800',
+    'null',
+    'null',
+    'null',
+    'null',
+    'null',
   ];
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export default function ImageSlideSection({
         <div class='swiper-wrapper'>
           {images.map((image, index) => (
             <div key={index} class='swiper-slide'>
-              <img src={`${IMAGE_URL}/${image}`} class='w-full h-full object-cover' />
+              <img src={`${IMAGE_URL}/${image}.webp?w=800`} class='w-full h-full object-cover' />
             </div>
           ))}
         </div>

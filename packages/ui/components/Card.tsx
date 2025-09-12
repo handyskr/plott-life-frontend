@@ -1,6 +1,6 @@
 interface CardProps {
   id: number;
-  image: string;
+  image: string | null;
   name: string;
   address: string;
   areaExclusive: number;
@@ -30,7 +30,7 @@ export function Card(props: CardProps) {
   return (
     <div role='button' tabIndex={0} className='bg-white rounded-xl cursor-pointer outline-none mb-2' onClick={onClick}>
       <img
-        src={`${IMAGE_URL}/sample_${id}.webp?w=300`}
+        src={`${IMAGE_URL}/${image}.webp?w=300`}
         alt={name}
         className='w-full aspect-square object-cover rounded-xl'
       />

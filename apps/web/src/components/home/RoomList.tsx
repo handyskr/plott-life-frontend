@@ -143,7 +143,7 @@ export default function RoomList() {
               key={room.id}
               id={room.id}
               name={room.name}
-              image={room.mainImage ?? '/null.png'}
+              image={room.mainImage}
               address={room.address}
               areaExclusive={room.areaExclusive}
               bedrooms={room.bedrooms}
