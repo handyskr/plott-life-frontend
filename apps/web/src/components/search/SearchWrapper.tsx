@@ -93,6 +93,8 @@ export default function SearchWrapper(props: SearchWrapperProps) {
               </div>
               <div className={'mb-6'}>
                 <Calendar
+                  startAt={startAt}
+                  endAt={endAt}
                   onDatesChange={(startAt, endAt) => {
                     setStartAt((startAt).format('YYYY-MM-DD'));
                     setEndAt((endAt).format('YYYY-MM-DD'));
@@ -122,6 +124,8 @@ export default function SearchWrapper(props: SearchWrapperProps) {
           className='body5 text-gray-600 underline cursor-pointer'
           onClick={() => {
             handleResetClick();
+            setIsOpenCalendar(false);
+            setIsOpenLocation(true);
           }}
         >
           전체 삭제

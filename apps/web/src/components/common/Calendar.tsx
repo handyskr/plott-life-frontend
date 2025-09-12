@@ -6,14 +6,25 @@ import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
 interface CalendarProps {
+  startAt?: string;
+  endAt?: string;
   onDatesChange?: (start: Dayjs, end: Dayjs) => void;
 }
 
-export default function Calendar({ onDatesChange }: CalendarProps) {
+export default function Calendar(props: CalendarProps) {
+  const { startAt: startAtParam, endAt: endAtParam, onDatesChange } = props;
+
   const today = dayjs();
-  const [startAt, setStartAt] = useState<Dayjs | null>(null);
-  const [endAt, setEndAt] = useState<Dayjs | null>(null);
-  const [activeWeekday, setActiveWeekday] = useState<number | null>(null);
+
+  const [startAt, setStartAt] = useState<Dayjs | null>(
+    startAtParam ? dayjs(startAtParam) : null
+  );
+  const [endAt, setEndAt] = useState<Dayjs | null>(
+    endAtParam ? dayjs(endAtParam) : null
+  );
+  const [activeWeekday, setActiveWeekday] = useState<number | null>(
+    startAtParam ? dayjs(startAtParam).day() : null
+  );
 
   const months = Array.from({ length: 6 }, (_, i) => today.add(i, 'month'));
 
@@ -38,12 +49,9 @@ export default function Calendar({ onDatesChange }: CalendarProps) {
     if (day.day() !== activeWeekday) {
       return;
     }
-
     // 두 번째 선택일이 존재하지 않으면 범위 설정
     if (!endAt) {
-      const [start, end] = day.isBefore(startAt, 'day')
-        ? [day, startAt]
-        : [startAt, day];
+      const [start, end] = day.isBefore(startAt, 'day') ? [day, startAt] : [startAt, day];
 
       setStartAt(start);
       setEndAt(end);
@@ -68,7 +76,7 @@ export default function Calendar({ onDatesChange }: CalendarProps) {
 
   const isSelected = (day: Dayjs) => {
     return (startAt && day.isSame(startAt, 'day')) || (endAt && day.isSame(endAt, 'day'));
-  }
+  };
 
   const isWithinRangeInclusive = (day: Dayjs) => {
     if (!startAt || !endAt) {
