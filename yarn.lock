@@ -1393,7 +1393,6 @@ __metadata:
   resolution: "@plott-life/dev@workspace:packages/dev"
   dependencies:
     "@eslint/js": "npm:^9.34.0"
-    dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-config-turbo: "npm:^2.5.6"
@@ -1425,6 +1424,7 @@ __metadata:
   resolution: "@plott-life/utils@workspace:packages/utils"
   dependencies:
     "@plott-life/dev": "workspace:*"
+    dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     typescript: "npm:^5.9.2"
   languageName: unknown
