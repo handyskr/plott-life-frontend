@@ -18,6 +18,12 @@ const username = searchParams?.get('username');
       username={username}
       successURL='/auth/sign-in'
     />
-    <a class='body6 text-gray-700 underline mt-6' href='/auth/reset-password'>비밀번호 재설정</a>
+    <!--href 이동이 아닌, 액션을 넣거나 해야함-->
+    <a
+      href='/auth/reset-password'
+      class='body6 text-gray-700 underline mt-6'
+    >
+      비밀번호 재설정
+    </a>
   </div>
 </Layout>
