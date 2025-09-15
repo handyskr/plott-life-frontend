@@ -1,6 +1,7 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
+import {Image} from "astro:assets";
 
 const searchParams = Astro.url?.searchParams;
 const username = searchParams?.get('username');
@@ -12,7 +13,13 @@ const username = searchParams?.get('username');
   />
   <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
     <div>
-      svg
+      <Image
+        alt='envelope send image'
+        src='/images/envelope-send.png'
+        format='webp'
+        width={40}
+        height={40}
+      />
     </div>
     <p
       class='title2 text-gray-900 mt-10 mb-4'

@@ -58,7 +58,7 @@ export const SignInForm = (props: Props) => {
         error={fieldErrors.username && "올바른 이메일을 입력해 주세요."}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
+          className={"w-full input input-lg input-neutral validator"}
           name="username"
           placeholder="이메일 주소 입력"
           type="email"
@@ -72,7 +72,7 @@ export const SignInForm = (props: Props) => {
         error={fieldErrors.password && "비밀번호가 일치하지 않습니다."}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
+          className={"w-full input input-lg input-neutral validator"}
           name="password"
           placeholder="영문, 숫자, 특수문자 조합 8-20자"
           type="password"

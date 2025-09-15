@@ -64,7 +64,7 @@ export const LoginForm = (props: Props) => {
       >
         <input
           type="email"
-          className={"w-full input input-lg input-natual validator"}
+          className={"w-full input input-lg input-neutral validator"}
           name="username"
           placeholder="이메일 주소 입력"
           required

@@ -63,7 +63,7 @@ export const SignUpForm = (props: Props) => {
           value={props.username ?? ""}
         />
         <input
-          className="w-full input input-lg input-natual validator"
+          className="w-full input input-lg input-neutral validator"
           defaultValue={props.username as string}
           disabled
         />
@@ -74,14 +74,14 @@ export const SignUpForm = (props: Props) => {
       >
         <div className={'flex flex-col gap-3'}>
           <input
-            className={'w-full input input-lg input-natual validator'}
+            className={'w-full input input-lg input-neutral validator'}
             name='lastName'
             placeholder='이름 입력 (예: 길동)'
             required
             onInvalid={() => setFieldErrors((it) => ({ ...it, lastName: [''] }))}
           />
           <input
-            className={'w-full input input-lg input-natual validator'}
+            className={'w-full input input-lg input-neutral validator'}
             name='firstName'
             placeholder='성 입력 (예: 홍)'
             required
@@ -92,13 +92,13 @@ export const SignUpForm = (props: Props) => {
       <Fieldset label={'연락처'}>
         <div className={'flex flex-col gap-3'}>
           <select
-            className={'w-full input input-lg input-natual validator'}
+            className={'w-full input input-lg input-neutral validator'}
             name='phoneCode'
           >
             <option>+82 (South Korea)</option>
           </select>
           <input
-            className={'w-full input input-lg input-natual validator'}
+            className={'w-full input input-lg input-neutral validator'}
             name='phoneNumber'
             placeholder='전화번호'
             required
@@ -112,7 +112,7 @@ export const SignUpForm = (props: Props) => {
       >
         <input
           type='password'
-          className={'w-full input input-lg input-natual validator'}
+          className={'w-full input input-lg input-neutral validator'}
           name='password'
           placeholder='영문, 숫자, 특수문자 조합 8-20자'
           required
@@ -127,7 +127,7 @@ export const SignUpForm = (props: Props) => {
       >
         <input
           type='password'
-          className={'w-full input input-lg input-natual validator'}
+          className={'w-full input input-lg input-neutral validator'}
           name='password'
           placeholder='영문, 숫자, 특수문자 조합 8-20자'
           required

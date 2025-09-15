@@ -58,10 +58,10 @@ export const VerifyEmailForm = (props: Props) => {
         error={fieldErrors.username && "올바른 이메일을 입력해 주세요."}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
+          type="email"
+          className={"w-full input input-lg input-neutral validator"}
           name="username"
           placeholder="이메일 주소 입력"
-          type="email"
           required
           defaultValue={props.username as string}
           onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
@@ -71,7 +71,7 @@ export const VerifyEmailForm = (props: Props) => {
         error={fieldErrors.code && "코드를 입력해주세요."}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
+          className={"w-full input input-lg input-neutral validator"}
           name="code"
           placeholder="코드 입력"
           required
