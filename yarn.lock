@@ -1435,7 +1435,6 @@ __metadata:
     dayjs: "npm:^1.11.18"
     eslint: "npm:^9.34.0"
     typescript: "npm:^5.9.2"
-    ufo: "npm:^1.6.1"
   languageName: unknown
   linkType: soft
 

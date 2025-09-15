@@ -3,9 +3,8 @@ import Layout from "@layouts/Layout.astro";
 import Header from "@components/template/Header.astro";
 import { SignUpForm } from "@components/auth/SignUpForm";
 import { VerifyEmailForm } from "@components/auth";
+import { Image } from 'astro:assets';
 
-const searchParams = Astro.url?.searchParams;
-const username = searchParams?.get('username');
 ---
 <Layout>
   <div class="min-h-screen flex flex-col overflow-y-auto">
@@ -22,16 +21,25 @@ const username = searchParams?.get('username');
         편리하게 방을 찾아보세요!
       </p>
       <div>
-        svg image
+        <Image
+          alt="place_image"
+          src="/images/place.png"
+          format="webp"
+          width={212}
+          height={170}
+        />
       </div>
     </div>
     <div
       slot="footer"
       class="px-6 py-6"
     >
-      <button class="btn btn-lg btn-primary w-full">
+      <a
+        href="/"
+        class="btn btn-lg btn-primary w-full body3"
+      >
         서비스 시작하기
-      </button>
+      </a>
     </div>
   </div>
 </Layout>
