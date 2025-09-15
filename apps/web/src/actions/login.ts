@@ -18,6 +18,9 @@ export const check = defineAction({
 export const login = defineAction({
   accept: "form",
   input: z.object({
+    lastName: z.string(),
+    firstName: z.string(),
+    phoneNumber: z.string(),
     username: z.string().email(),
     password: z.string().min(8).max(32),
   }),

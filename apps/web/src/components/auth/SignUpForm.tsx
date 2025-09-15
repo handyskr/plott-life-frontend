@@ -1,38 +1,24 @@
-import { actions, isInputError } from "astro:actions";
-import { useState } from "preact/hooks";
-import type { InferFieldErrors } from "../../actions/types.ts";
-import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigate } from "../../navigator";
-import { Checkbox } from "@plott-life/ui/components/Checkbox.tsx";
-import IconArrowRightCode from "@plott-life/ui/icons/arrow-right.svg?raw";
+import { actions, isInputError } from 'astro:actions';
+import { useState } from 'preact/hooks';
+import type { InferFieldErrors } from '../../actions/types.ts';
+import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
+import { navigate } from '../../navigator';
+import { TermsAgreementModal } from "@components/auth";
 
 interface Props {
   username?: string | null;
   successURL: string;
 }
 
-const IconArrowRight = ({ href }: { href: string }) => {
-  return (
-    <a className="py-2 inline-flex flex-1 justify-end" href={href} target="_blank">
-      <i
-        className={"text-gray-400 w-4 h-4"}
-        dangerouslySetInnerHTML={{ __html: IconArrowRightCode }}
-      />
-    </a>
-  );
-};
-
 export const SignUpForm = (props: Props) => {
   // NOTE: 이메일전달 확인목적으로 이메일도 포함
   const [fieldErrors, setFieldErrors] = useState<
     InferFieldErrors<typeof actions.login>
   >({});
-
-  console.log();
+  const [isOpenTermsModal, setIsOpenTermsModal] = useState(false);
 
   const onSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
-
     setFieldErrors({});
 
     try {
@@ -42,19 +28,22 @@ export const SignUpForm = (props: Props) => {
         throw error;
       }
 
-      await navigate(props.successURL);
+      setIsOpenTermsModal(true);
+      // ;
     } catch (error: any) {
+      console.log(error);
+
       if (isInputError(error)) {
         setFieldErrors(error.fields);
         return;
       }
 
       switch (error?.code) {
-        case "NOT_FOUND":
-          alert("가입되지 않은 이메일입니다.");
+        case 'NOT_FOUND':
+          alert('가입되지 않은 이메일입니다.');
           break;
         default:
-          alert("알 수 없는 에러가 발생했습니다.");
+          alert('알 수 없는 에러가 발생했습니다.');
           console.error(error);
           break;
       }
@@ -63,120 +52,99 @@ export const SignUpForm = (props: Props) => {
 
   return (
     <form
-      className="flex flex-col w-full gap-8"
-      method="POST"
+      className='flex flex-col w-full gap-8'
+      method='POST'
       onSubmit={onSubmit}
     >
-      <Fieldset label={"이메일"}>
+      <Fieldset label={'이메일'}>
         <input
-          className={"w-full input input-lg input-natual validator"}
+          type="hidden"
           name="username"
+          value={props.username ?? ""}
+        />
+        <input
+          className="w-full input input-lg input-natual validator"
           defaultValue={props.username as string}
           disabled
         />
       </Fieldset>
-      <Fieldset label={"이메일"}>
-        <div className={"flex flex-col gap-3"}>
+      <Fieldset
+        label={'여권상 이름'}
+        error={(fieldErrors.lastName || fieldErrors.firstName) && '이름을 입력해주세요.'}
+      >
+        <div className={'flex flex-col gap-3'}>
           <input
-            className={"w-full input input-lg input-natual validator"}
-            name="lastName"
-            placeholder="이름 입력 (예: 길동)"
+            className={'w-full input input-lg input-natual validator'}
+            name='lastName'
+            placeholder='이름 입력 (예: 길동)'
+            required
+            onInvalid={() => setFieldErrors((it) => ({ ...it, lastName: [''] }))}
           />
           <input
-            className={"w-full input input-lg input-natual validator"}
-            name="firstName"
-            placeholder="성 입력 (예: 홍)"
+            className={'w-full input input-lg input-natual validator'}
+            name='firstName'
+            placeholder='성 입력 (예: 홍)'
+            required
+            onInvalid={() => setFieldErrors((it) => ({ ...it, firstName: [''] }))}
           />
         </div>
       </Fieldset>
-      <Fieldset label={"연락처"}>
-        <div className={"flex flex-col gap-3"}>
+      <Fieldset label={'연락처'}>
+        <div className={'flex flex-col gap-3'}>
           <select
-            className={"w-full input input-lg input-natual validator"}
-            name="phoneCode"
+            className={'w-full input input-lg input-natual validator'}
+            name='phoneCode'
           >
             <option>+82 (South Korea)</option>
           </select>
           <input
-            className={"w-full input input-lg input-natual validator"}
-            name="phoneNumber"
-            placeholder="전화번호"
+            className={'w-full input input-lg input-natual validator'}
+            name='phoneNumber'
+            placeholder='전화번호'
+            required
+            onInvalid={() => setFieldErrors((it) => ({ ...it, phoneNumber: [''] }))}
           />
         </div>
       </Fieldset>
       <Fieldset
-        label={"비밀번호"}
-        error={fieldErrors.password && "비밀번호가 일치하지 않습니다."}
+        label={'비밀번호'}
+        error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
-          name="password"
-          placeholder="영문, 숫자, 특수문자 조합 8-20자"
-          type="password"
+          type='password'
+          className={'w-full input input-lg input-natual validator'}
+          name='password'
+          placeholder='영문, 숫자, 특수문자 조합 8-20자'
           required
           min={8}
           max={20}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [""] }))}
+          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
         />
       </Fieldset>
       <Fieldset
-        label={"비밀번호 확인"}
-        error={fieldErrors.password && "비밀번호가 일치하지 않습니다."}
+        label={'비밀번호 확인'}
+        error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
       >
         <input
-          className={"w-full input input-lg input-natual validator"}
-          name="password"
-          placeholder="영문, 숫자, 특수문자 조합 8-20자"
-          type="password"
+          type='password'
+          className={'w-full input input-lg input-natual validator'}
+          name='password'
+          placeholder='영문, 숫자, 특수문자 조합 8-20자'
           required
           min={8}
           max={20}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [""] }))}
+          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
         />
       </Fieldset>
-      <div class="flex flex-col gap-5">
-        <Checkbox required>
-          <p
-            className={
-              "ml-3 inline-flex flex-1 justify-between items-center text-black"
-            }
-          >
-            [필수] 서비스 이용약관 동의
-            <IconArrowRight href={"/content/policy"} />
-          </p>
-        </Checkbox>
-        <Checkbox required>
-          <p
-            className={
-              "ml-3 inline-flex flex-1 justify-between items-center text-black"
-            }
-          >
-            [필수] 개인정보 처리 방침 동의
-            <IconArrowRight href={"/content/privacy"} />
-          </p>
-        </Checkbox>
-        <Checkbox required>
-          <p
-            className={
-              "ml-3 inline-flex flex-1 justify-between items-center text-black"
-            }
-          >
-            [필수] 만 19세 이상 확인
-            <IconArrowRight href={"/content/adult"} />
-          </p>
-        </Checkbox>
-        <Checkbox required>
-          <p
-            className={
-              "ml-3 inline-flex flex-1 justify-between items-center text-black"
-            }
-          >
-            [선택] 개인정보 마케팅 활용 동의
-            <IconArrowRight href={"/content/marketing"} />
-          </p>
-        </Checkbox>
-      </div>
-      <button type="submit" className="block btn btn-lg btn-neutral">
+      <TermsAgreementModal
+        isOpen={isOpenTermsModal}
+        onClose={() => setIsOpenTermsModal(false)}
+        onSubmitClick={async () => {
+          await navigate(props.successURL);
+        }}
+      />
+
+      <button type='submit' className='block btn btn-lg btn-neutral mt-8'>
         다음
       </button>
     </form>

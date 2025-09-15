@@ -13,7 +13,11 @@ const username = searchParams?.get('username')
     showHomeIcon={true}
   />
   <div class="flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64">
-    <SignInForm client:visible username={username} successURL="/auth/sign-in" />
-    <a class="text-gray-700 underline text-sm mt-6" href="/auth/reset-password">비밀번호 재설정</a>
+    <SignInForm
+      client:visible
+      username={username}
+      successURL="/auth/sign-in"
+    />
+    <a class="body6 text-gray-700 underline mt-6" href="/auth/reset-password">비밀번호 재설정</a>
   </div>
 </Layout>

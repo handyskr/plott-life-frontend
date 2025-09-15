@@ -11,20 +11,20 @@ export default function SortModal(props: SortModalProps) {
   const {
     isOpen,
     handleSortChange,
-    onRequestClose,
+    onClose,
   } = props;
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onClose={onClose}
     >
       <ModalHeader className='relative flex items-center w-full border-b border-gray-100'>
         <>
           <span className='absolute left-1/2 -translate-x-1/2 body1 text-gray-900'>정렬</span>
           <button
             className='ml-auto flex items-center cursor-pointer'
-            onClick={onRequestClose}
+            onClick={onClose}
           >
             ✕
           </button>

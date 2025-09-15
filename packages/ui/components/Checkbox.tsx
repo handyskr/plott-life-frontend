@@ -7,9 +7,9 @@ interface Props extends PropsWithChildren {
 
 export const Checkbox = (props: Props) => {
   return (
-    <label className="label">
+    <label className="label gap-4">
       <input
-        className="checkbox checkbox-neutral"
+        className="checkbox checkbox-neutral w-6 h-6"
         type="checkbox"
         name={props.name}
         required={props.required}

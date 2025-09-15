@@ -1,0 +1,37 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Header from "@components/template/Header.astro";
+import { SignUpForm } from "@components/auth/SignUpForm";
+import { VerifyEmailForm } from "@components/auth";
+
+const searchParams = Astro.url?.searchParams;
+const username = searchParams?.get('username');
+---
+<Layout>
+  <div class="min-h-screen flex flex-col overflow-y-auto">
+    <div class="flex flex-col justify-center items-center text-center flex-1">
+      <p
+        class="title4 text-gray-600"
+      >
+        환영합니다!
+      </p>
+      <p
+        class="title1 text-gray-900 mt-4 mb-21"
+      >
+        출장, 여행, 장기거주까지<br />
+        편리하게 방을 찾아보세요!
+      </p>
+      <div>
+        svg image
+      </div>
+    </div>
+    <div
+      slot="footer"
+      class="px-6 py-6"
+    >
+      <button class="btn btn-lg btn-primary w-full">
+        서비스 시작하기
+      </button>
+    </div>
+  </div>
+</Layout>
