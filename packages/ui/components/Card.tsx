@@ -28,7 +28,11 @@ export function Card(props: CardProps) {
   // image 추가해줘야함
 
   return (
-    <div role='button' tabIndex={0} className='bg-white rounded-xl cursor-pointer outline-none mb-2' onClick={onClick}>
+    <div
+      role='button'
+      className='bg-white rounded-xl cursor-pointer outline-none mb-2'
+      onClick={onClick}
+    >
       <img
         src={`${IMAGE_URL}/${image}.webp?w=300`}
         alt={name}

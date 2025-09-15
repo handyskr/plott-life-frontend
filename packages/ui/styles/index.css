@@ -60,7 +60,7 @@
 .title3 { @apply text-xl leading-7 font-semibold; }
 .title4 { @apply text-lg leading-[26px] font-medium; }
 /* Body */
-.body1 { @apply text-base leading-6 leading font-bold; }
+.body1 { @apply text-base leading-6 font-bold; }
 .body2 { @apply text-base leading-6 font-medium; }
 .body3 { @apply text-base leading-6 font-normal; }
 .body4 { @apply text-sm leading-5 font-bold; }
