@@ -1,6 +1,10 @@
-import { check, login } from "./login.ts";
+import { check, signIn } from "./signIn.ts";
+import { signUp, requestVerification, verifyVerification } from "./signUp.ts";
 
 export const server = {
   check,
-  login,
+  signIn,
+  signUp,
+  requestVerification,
+  verifyVerification,
 }
