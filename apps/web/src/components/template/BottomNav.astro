@@ -6,16 +6,15 @@ import IconUser from '@plott-life/ui/icons/user.svg';
 const { pathname } = Astro.url;
 ---
 
-<nav class='sticky bottom-0 left-0 w-full bg-white border-t border-gray-300 z-100 pb-(--bait)'>
+<nav class='sticky bottom-0 left-0 w-full bg-white border-t border-gray-200 z-100 pb-(--bait)'>
   <div class='max-w-(--max-width) mx-auto flex justify-center items-center pt-2 pb-2 gap-6'>
     <a
-      id="nav-search"
-      href='/search'
-      class:list={['flex flex-col items-center w-16', pathname === '/' ? 'text-gray-1000' : 'text-gray-600']}
+      href='/'
+      class:list={['flex flex-col items-center w-16', pathname === '/' ? 'text-gray-900' : 'text-gray-500']}
     >
       <div class="w-6 h-6 flex items-center justify-center">
         <IconSearch
-          color={pathname === '/' ? 'text-gray-1000' : 'text-gray-600'}
+          color={pathname === '/' ? 'text-gray-900' : 'text-gray-500'}
         />
       </div>
       <span class='caption3 mt-1.5'>검색</span>
@@ -24,11 +23,11 @@ const { pathname } = Astro.url;
     <a
       id="nav-contract"
       href='/contract'
-      class:list={['flex flex-col items-center w-16', pathname === '/contract' ? 'text-gray-1000' : 'text-gray-600']}
+      class:list={['flex flex-col items-center w-16', pathname === '/contract' ? 'text-gray-900' : 'text-gray-500']}
     >
       <div class="w-6 h-6 flex items-center justify-center">
         <IconContract
-          color={pathname === '/contract' ? 'text-gray-1000' : 'text-gray-600'}
+          color={pathname === '/contract' ? 'text-gray-900' : 'text-gray-500'}
         />
       </div>
       <span class='caption3 mt-1.5'>계약</span>
@@ -37,11 +36,11 @@ const { pathname } = Astro.url;
     <a
       id="nav-my"
       href='/my'
-      class:list={['flex flex-col items-center w-16', pathname === '/my' ? 'text-gray-1000' : 'text-gray-600']}
+      class:list={['flex flex-col items-center w-16', pathname === '/my' ? 'text-gray-900' : 'text-gray-500']}
     >
       <div class="w-6 h-6 flex items-center justify-center">
         <IconUser
-          color={pathname === '/my' ? 'text-gray-1000' : 'text-gray-600'}
+          color={pathname === '/my' ? 'text-gray-900' : 'text-gray-500'}
         />
       </div>
       <span class='caption3 mt-1.5'>내 정보</span>

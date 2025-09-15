@@ -22,14 +22,30 @@ interface ApiResponse {
   offset: number;
 }
 
-interface Props {
-  responsive?: boolean;
+const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+const PAGE_SIZE = 20;
+
+function getQueryParams(): Record<string, string> {
+  const params = new URLSearchParams(window.location.search);
+  const obj: Record<string, string> = {};
+  params.forEach((value, key) => {
+    obj[key] = value;
+  });
+  return obj;
 }
 
-const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+async function fetchRooms(
+  page: number,
+  size: number,
+  query: Record<string, string>
+): Promise<ApiResponse> {
+  const searchParams = new URLSearchParams({
+    page: page.toString(),
+    size: size.toString(),
+    ...query,
+  });
 
-async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
-  const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?page=${page}&size=${size}`, {
+  const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?${searchParams.toString()}`, {
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -40,21 +56,34 @@ async function fetchRooms(page: number, size: number): Promise<ApiResponse> {
   return res.json();
 }
 
-export default function RoomList({ responsive = false }: Props) {
+export default function RoomList() {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [queryParams, setQueryParams] = useState<Record<string, string>>(getQueryParams());
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const PAGE_SIZE = 10;
 
-  // 데이터 로딩
+  useEffect(() => {
+    const onPopState = () => {
+      setQueryParams(getQueryParams());
+      setPage(0);
+      setRooms([]);
+      setHasMore(true);
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, []);
+
   const loadMore = useCallback(async () => {
     if (loading || !hasMore) return;
     setLoading(true);
 
     try {
-      const data = await fetchRooms(page, PAGE_SIZE);
+      const data = await fetchRooms(page, PAGE_SIZE, queryParams);
 
       setRooms((prev) => [...prev, ...data.items]);
       setPage((prev) => prev + 1);
@@ -64,14 +93,18 @@ export default function RoomList({ responsive = false }: Props) {
       }
     } catch (err) {
       console.error(err);
+      setHasMore(false);
     } finally {
       setLoading(false);
     }
-  }, [page, hasMore, loading]);
+  }, [page, hasMore, loading, queryParams]);
 
   useEffect(() => {
+    setRooms([]);
+    setPage(0);
+    setHasMore(true);
     loadMore();
-  }, []);
+  }, [queryParams]);
 
   useEffect(() => {
     const el = loaderRef.current;
@@ -91,34 +124,44 @@ export default function RoomList({ responsive = false }: Props) {
   }, [loadMore]);
 
   return (
-    <div className="max-w-(--max-width) mx-auto">
-      <div className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
-        {rooms.map((room) => (
-          <Card
-            key={room.id}
-            id={room.id}
-            name={room.name}
-            image={room.mainImage ?? '/null.png'}
-            address={room.address}
-            areaExclusive={room.areaExclusive}
-            bedrooms={room.bedrooms}
-            bathrooms={room.bathrooms}
-            rentFeePerWeek={room.rentFeePerWeek}
-            onClick={() => {
-              window.location.href = `/rooms/${room.id}`;
-            }}
-          />
-        ))}
+    <div className='max-w-(--max-width) mx-auto'>
+      <div
+        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}
+      >
+        {rooms.length === 0 && !hasMore ? (
+          <div className='col-span-full flex flex-col items-center justify-center h-[calc(100vh-400px)]'>
+            <span className={'body2 text-gray-900 mb-2'}>
+              일치하는 검색 결과가 없습니다.
+            </span>
+            <span className={'body6 text-gray-600'}>
+              검색 조건을 다시 설정해주세요.
+            </span>
+          </div>
+        ) : (
+          rooms.map((room) => (
+            <Card
+              key={room.id}
+              id={room.id}
+              name={room.name}
+              image={room.mainImage}
+              address={room.address}
+              areaExclusive={room.areaExclusive}
+              bedrooms={room.bedrooms}
+              bathrooms={room.bathrooms}
+              rentFeePerWeek={room.rentFeePerWeek}
+              onClick={() => {
+                window.location.href = `/rooms/${room.id}`;
+              }}
+            />
+          ))
+        )}
       </div>
-      {hasMore ? (
+      {hasMore && (
         <div
           ref={loaderRef}
-          className="h-12 flex justify-center items-center text-gray-400"
+          className='h-12 flex justify-center items-center text-gray-300'
         >
           {loading ? 'Loading…' : ''}
-        </div>
-      ) : (
-        <div className="h-12 flex justify-center items-center text-gray-400">
         </div>
       )}
     </div>

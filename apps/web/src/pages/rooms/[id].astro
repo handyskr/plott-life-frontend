@@ -1,32 +1,28 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
-import BottomNav from '@components/template/BottomNav.astro';
 
-import RoomList from '@components/home/RoomList';
-import Footer from '@components/template/Footer.astro';
 import { ImageSwiper } from '@components/room';
+import { IconWrapper } from '@components/common';
 
 import { formatFeatures } from '@plott-life/utils';
-
-
 import IconBed from '@plott-life/ui/icons/bed.svg';
 import IconBathtub from '@plott-life/ui/icons/bathtub.svg';
 import IconRuler from '@plott-life/ui/icons/ruler.svg';
 import IconBuilding from '@plott-life/ui/icons/building.svg';
 import IconCheck from '@plott-life/ui/icons/check.svg';
-import NaverStaticMap from "@plott-life/ui/components/NaverStaticMap";
+import NaverStaticMap from '@plott-life/ui/components/NaverStaticMap';
 
 const { id } = Astro.params;
 
 if (!id) {
-  throw new Error("Room ID is required");
+  throw new Error('Room ID is required');
 }
 
 // 상세 API 호출 함수
 async function fetchRoomDetail(id: string) {
   const res = await fetch(`${import.meta.env.PUBLIC_INTERNAL_API_URL}/v1/building-unit/${id}`, {
-    headers: { "Content-Type": "application/json" },
+    headers: { 'Content-Type': 'application/json' },
   });
 
   if (!res.ok) {
@@ -88,87 +84,106 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
   <ImageSwiper
     client:only='preact'
     images={images}
+    className='aspect-[3/2]'
   />
   <div class='bg-white px-6 py-8'>
     <!-- 숙소 정보 -->
     <div>
-      <h1 class='text-gray-1000 title2 mb-2'>{name}</h1>
-      <p class='text-gray-700 body5 mb-4'>{address}</p>
-      <div class='mb-8 flex flex-row'>
-        <p class="flex items-center mr-1.5"><IconCheck /></p>
-        <p class="text-gray-1000 body5 ">최소 1주 이상부터 계약 가능</p>
+      <h1 class='text-gray-900 title3 mb-2'>{name}</h1>
+      <p class='text-gray-600 body6 mb-4'>{address}</p>
+      <div class='mb-6 flex flex-row'>
+        <p class='flex items-center mr-1.5'><IconCheck /></p>
+        <p class='text-gray-900 body5 '>최소 1주 이상부터 계약 가능</p>
       </div>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='grid grid-cols-4 text-center py-8 text-sm'>
+    <div class='grid grid-cols-4 text-center py-6 text-sm'>
       <div class='flex flex-col items-center gap-1'>
-        <IconBed />
+        <IconWrapper>
+          <IconBed />
+        </IconWrapper>
         <span>침실 {bedrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconBathtub />
+        <IconWrapper>
+          <IconBathtub />
+        </IconWrapper>
         <span>욕실 {bathrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconRuler />
+        <IconWrapper>
+          <IconRuler />
+        </IconWrapper>
         <span>{areaExclusive}㎡</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconBuilding />
+        <IconWrapper>
+          <IconBuilding />
+        </IconWrapper>
         <span>{(floor || 0)}층</span>
       </div>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>소개글</h2>
-      <p class='text-gray-1000 body2 font-normal mb-8'>{descIntro}</p>
-      <button class='w-full bod h-12 bg-gray-200 rounded-lg text-black text-sm'>더 보기</button>
+    <div class='py-6'>
+      <h2 class='text-gray-900 title3 mb-5'>소개글</h2>
+      <p class='text-gray-900 body3 font-normal mb-6'>{descIntro}</p>
+      <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
+        더 보기
+      </button>
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <!-- 기본 정보 -->
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>기본 정보</h2>
-      <div class='space-y-6 text-sm'>
+    <div class='py-6'>
+      <h2 class='text-gray-900 title3 mb-4'>기본 정보</h2>
+      <div class='space-y-5 text-sm'>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>구조</span>
-          <span class='body3 text-gray-800'>{structure}</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>구조</span>
+          <span class='body3 text-gray-700'>{structure}</span>
         </div>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>전용 면적</span>
-          <span class='body3 text-gray-800'>{areaExclusive}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>전용 면적</span>
+          <span class='body3 text-gray-700'>{areaExclusive}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
         </div>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>최대 인원</span>
-          <span class='body3 text-gray-800'>{maxPeople}인</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>최대 인원</span>
+          <span class='body3 text-gray-700'>{maxPeople}인</span>
         </div>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>건물 유형</span>
-          <span class='body3 text-gray-800'>{buildingType}</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>건물 유형</span>
+          <span class='body3 text-gray-700'>{buildingType}</span>
         </div>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>엘리베이터</span>
-          <span class='body3 text-gray-800'>{elevatorOption ? '있음' : '없음'}</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>엘리베이터</span>
+          <span class='body3 text-gray-700'>{elevatorOption ? elevatorOption?.name : '없음'}</span>
         </div>
         <div class='flex'>
-          <span class='w-[100px] flex-shrink-0 body1 text-gray-1000'>주차 여부</span>
-          <span class='body3 text-gray-800'>{parkingOption ? '무료' : '유료'}</span>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>주차 여부</span>
+          <span class='body3 text-gray-700'>{parkingOption ? parkingOption?.name : '없음'}</span>
         </div>
       </div>
+      {parkingOption && (
+        <div class='mt-6 p-4 bg-gray-50 rounded-lg'>
+          <p class='mb-2 body4 text-gray-900'>주차 상세 정보</p>
+          <p class='body6 text-gray-800'>
+            {parkingOption?.description || '주차 정보가 제공되지 않습니다.'}
+          </p>
+        </div>
+      )}
     </div>
     <!-- 기본 옵션 -->
     {defaultOptions?.length > 0 && (
       <>
         <div class='w-full h-px bg-gray-300 my-0'></div>
-        <div class='py-8'>
-          <h2 class='text-gray-1000 title2 mb-5'>기본 옵션</h2>
+        <div class='py-6'>
+          <h2 class='text-gray-900 title3 mb-4'>기본 옵션</h2>
           <div class='grid grid-cols-2 gap-4 mb-6'>
-            {defaultOptions.map(option => (
-              <div class="flex items-center gap-3">
-                <span class="body3 text-gray-1000">{option.name}</span>
+            {defaultOptions.map((option) => (
+              <div class='flex items-center gap-3'>
+                <span class='body3 text-gray-900'>{option.name}</span>
               </div>
             ))}
           </div>
-          <button class='w-full h-12 bg-gray-100 rounded-lg text-black text-sm'>
+          <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
             편의시설 {defaultOptions.length}가지 모두 보기
           </button>
         </div>
@@ -178,11 +193,11 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
     {facilityOptions?.length > 0 && (
       <>
         <div class='w-full h-px bg-gray-300 my-0'></div>
-        <div class='py-8'>
-          <h2 class='text-gray-1000 title2 mb-5'>편의시설</h2>
+        <div class='py-6'>
+          <h2 class='text-gray-900 title3 mb-4'>편의시설</h2>
           <div class='flex flex-wrap gap-2'>
             {facilityOptions.map((facility) => (
-              <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+              <div class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-900'>
                 {facility.name}
               </div>
             ))}
@@ -194,11 +209,11 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
     {additionalOptions?.length > 0 && (
       <>
         <div class='w-full h-px bg-gray-300 my-0'></div>
-        <div class='py-8'>
-          <h2 class='text-gray-1000 title2 mb-5'>추가 옵션</h2>
+        <div class='py-6'>
+          <h2 class='text-gray-900 title3 mb-4'>추가 옵션</h2>
           <div class='flex flex-wrap gap-2'>
             {additionalOptions.map((additionalOption) => (
-              <li class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-1000'>
+              <li class='h-10 px-5 rounded-full border border-gray-300 bg-white flex items-center body6 text-gray-900'>
                 {additionalOption.name}
               </li>
             ))}
@@ -208,76 +223,82 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
     )}
     <!-- 주의사항 -->
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>주의사항</h2>
+    <div class='py-6'>
+      <h2 class='text-gray-900 title3 mb-4'>주의사항</h2>
       <div class=''>
-        <span class="body3">
+        <span class='body3'>
           {descCaution}
         </span>
       </div>
     </div>
     <!-- 위치 -->
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-8'>
-      <h2 class='text-gray-1000 title2 mb-5'>위치 & 교통</h2>
-      <p class='text-sm text-gray-1000'>{address}</p>
-      <a class='mt-3 h-40 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden'
-         href=`https://map.naver.com/search/${address}` target="_blank">
+    <div class='py-6'>
+      <h2 class='text-gray-900 title3 mb-4'>위치 & 교통</h2>
+      <p class='body3 text-gray-900'>{address}</p>
+      <a
+        href=`https://map.naver.com/search/${address}`
+        target='_blank'
+        class='my-6 h-[300px] bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'
+      >
         <NaverStaticMap
           width={600}
-          height={200}
+          height={300}
           center={[127.029963, 37.492101]}
           level={14}
           scale={2}
           apiKeyId={import.meta.env.PUBLIC_NAVER_MAP_CLIENT_ID}
-          alt="강남 지도"
-          className="w-full h-full object-cover object-center"
-          />
+          alt='강남 지도'
+          className='w-full h-full object-cover object-center'
+        />
       </a>
-      <p class='text-sm text-gray-600 mt-2'>
+      <p class='body3 text-gray-900'>
         {descLocation}
       </p>
     </div>
     <!-- 계약 정보 -->
     <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class="space-y-4 py-8">
-      <h2 class='text-gray-1000 title2 mb-5'>계약 정보</h2>
-      <div class="bg-gray-50 rounded-xl px-5">
-        <ul class="divide-y divide-gray-300">
-          <li class="py-4">
-            <p class="text-gray-1000 font-semibold">임대료</p>
-            <p class="text-gray-900">{(rentFeePerWeek).toLocaleString()}</p>
+    <div class='space-y-4 py-6'>
+      <h2 class='text-gray-900 title3 mb-4'>계약 정보</h2>
+      <div class='bg-gray-50 rounded-xl px-5'>
+        <ul class='divide-y divide-gray-200'>
+          <li class='py-4'>
+            <p class='body4 text-gray-900 mb-2'>임대료</p>
+            <p class='body6 text-gray-800'>{(rentFeePerWeek).toLocaleString()}원 /1주</p>
           </li>
-          <li class="py-4">
-            <p class="text-gray-1000 font-semibold">관리비</p>
-            <p class="text-gray-900">{(managementFeePerWeek).toLocaleString()}</p>
+          <li class='py-4'>
+            <p class='body4 text-gray-900 mb-2'>관리비</p>
+            <p class='body6 text-gray-800'>{(managementFeePerWeek).toLocaleString()}원 /1주</p>
           </li>
-          <li class="py-4">
-            <p class="text-gray-1000 font-semibold">청소비</p>
-            <p class="text-gray-900">{(cleaningFee).toLocaleString()}</p>
+          <li class='py-4'>
+            <p class='body4 text-gray-900 mb-2'>청소비</p>
+            <p class='body6 text-gray-800'>{(cleaningFee).toLocaleString()}원 /1주</p>
           </li>
-          <li class="py-4">
-            <p class="text-gray-1000 font-semibold">보증금</p>
-            <p class="text-gray-900">{(deposit).toLocaleString()}</p>
+          <li class='py-4'>
+            <p class='body4 text-gray-900 mb-2'>보증금</p>
+            <p class='body6 text-gray-800'>{(deposit).toLocaleString()}원 /1주</p>
           </li>
         </ul>
       </div>
-      <p class="body2">{managementFeeDescription}</p>
+      <p class='body3 text-gray-900'>{managementFeeDescription}</p>
     </div>
     <!-- 하단 고정 CTA -->
   </div>
-  <div class='sticky bottom-0 bg-white border-t border-gray-400 py-5 px-6 flex justify-between items-center'>
+  <div
+    slot='footer'
+    class='sticky bottom-0 bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
+  >
     <div class='flex flex-col'>
-      <span class="body1 mb-1.5">
+      <span class='body1 mb-1.5'>
         ₩{(totalFee).toLocaleString()}
       </span>
-      <span class="caption1 text-gray-800 underline">
+      <span class='caption1 text-gray-700 underline'>
         1주 · 9월 8일~9월 15일
       </span>
     </div>
     <button
-      id="btn-contract"
-      class="w-[120px] rounded-lg btn btn-lg btn-primary body2"
+      id='btn-contract'
+      class='w-[120px] rounded-lg btn btn-primary body2'
     >
       계약하기
     </button>

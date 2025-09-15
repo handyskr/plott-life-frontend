@@ -12,10 +12,11 @@
   prefersdark: false;
   color-scheme: light;
 
-  --color-base-100: #f7f7f7;
-  --color-base-200: #f2f2f2;
-  --color-base-300: #e9e9e9;
-  --color-base-content: oklch(21% 0.006 285.885);
+  --color-base-50: #f7f7f7;
+  --color-base-100: #f2f2f2;
+  --color-base-200: #e9e9e9;
+  --color-base-300: #dddddd;
+  --color-base-content: #222222;
   --color-primary: #74594B;
   --color-primary-content: #ffffff;
   --color-secondary: #E7DED1;
@@ -25,37 +26,24 @@
   --color-neutral: #000000;
   --color-neutral-content: #ffffff;
   --color-info: #3385FF;
-  --color-info-content: oklch(29% 0.066 243.157);
+  --color-info-content: #ffffff;
   --color-success: #00BF40;
-  --color-success-content: oklch(37% 0.077 168.94);
+  --color-success-content: #ffffff;
   --color-warning: #FF9200;
-  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-warning-content: #ffffff;
   --color-error: #FF4242;
-  --color-error-content: oklch(27% 0.105 12.094);
+  --color-error-content: #ffffff;
   /* Gray Scale */
-  --color-gray-100: #f7f7f7;
-  --color-gray-200: #f2f2f2;
-  --color-gray-300: #e9e9e9;
-  --color-gray-400: #dddddd;
-  --color-gray-500: #c2c2c2;
-  --color-gray-600: #9e9e9e;
-  --color-gray-700: #757575;
-  --color-gray-800: #616161;
-  --color-gray-900: #444444;
-  --color-gray-1000: #222222;
-  /* Text Setting */
-  --text-xs: 12px;
-  --text-xs--line-height: 16px;
-  --text-sm: 14px;
-  --text-sm--line-height: 20px;
-  --text-base: 16px;
-  --text-base--line-height: 24px;
-  --text-lg: 18px;
-  --text-lg--line-height: 28px;
-  --text-xl: 20px;
-  --text-xl--line-height: 28px;
-  --text-2xl: 24px;
-  --text-2xl--line-height: 32px;
+  --color-gray-50: #f7f7f7;
+  --color-gray-100: #f2f2f2;
+  --color-gray-200: #e9e9e9;
+  --color-gray-300: #dddddd;
+  --color-gray-400: #c2c2c2;
+  --color-gray-500: #9e9e9e;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-800: #444444;
+  --color-gray-900: #222222;
   /* ETC */
   --radius-selector: 0.5rem;
   --radius-field: 0.5rem;
@@ -68,8 +56,9 @@
 
 /* Titles */
 .title1 { @apply text-2xl leading-8 font-bold; }
-.title2 { @apply text-xl leading-7 font-bold; }
-.title3 { @apply text-lg leading-[26px] font-medium; }
+.title2 { @apply text-[22px] leading-[30px] font-bold; }
+.title3 { @apply text-xl leading-7 font-semibold; }
+.title4 { @apply text-lg leading-[26px] font-medium; }
 /* Body */
 .body1 { @apply text-base leading-6 font-bold; }
 .body2 { @apply text-base leading-6 font-medium; }
@@ -77,10 +66,11 @@
 .body4 { @apply text-sm leading-5 font-bold; }
 .body5 { @apply text-sm leading-5 font-medium; }
 .body6 { @apply text-sm leading-5 font-normal; }
+.body7 { @apply text-[13px] leading-4 font-normal; }
 /* Captions */
 .caption1 { @apply text-xs leading-4 font-normal; }
-.caption2 { @apply text-[11px] leading-[14px] font-bold; }
-.caption3 { @apply text-[11px] leading-[14px] font-normal; }
+.caption2 { @apply text-[11px] leading-3.5 font-bold; }
+.caption3 { @apply text-[11px] leading-3.5 font-normal; }
 
 @utility btn-primary {
   --btn-fg: var(--color-primary-content);

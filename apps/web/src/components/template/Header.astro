@@ -1,33 +1,40 @@
 ---
 import IconHome from '@plott-life/ui/icons/home.svg';
 import IconBack from '@plott-life/ui/icons/arrow-left.svg';
-const { showBackIcon, showCloseIcon, showHomeIcon, title } = Astro.props;
+const {
+  showBackIcon,
+  showCloseIcon,
+  showHomeIcon,
+  title,
+  backgroundColor,
+  backUrl,
+} = Astro.props;
 
 const hasDefaultSlot = !!Astro.slots.default;
 ---
 
-<header class='sticky top-0 w-full z-10 flex justify-center min-h-[64px] pt-(--sait) bg-white'>
+<header class=`sticky top-0 w-full z-1000 flex justify-center min-h-[64px] pt-(--sait) ${backgroundColor ? backgroundColor : 'bg-white'}`>
   <div class='flex max-w-(--max-width) w-full items-center'>
     {hasDefaultSlot ? (
       <slot />
     ) : (
-      <div class="px-4 w-full flex">
+      <div class='px-4 w-full flex'>
         <div class='col flex items-center gap-2 min-w-[40px] justify-start'>
           {
             showBackIcon && (
               <a
-                href="javascript:history.back()"
-                class="w-6 h-6 flex items-center justify-center"
+                href={backUrl ?? 'javascript:history.back()'}
                 aria-label='뒤로가기'
+                class='w-6 h-6 flex items-center justify-center'
               >
                 <IconBack
-                  width="14"
+                  width='14'
                 />
               </a>
             )
           }
         </div>
-        <div class='col flex-1 flex items-center justify-center text-black'>
+        <div class='col flex-1 flex items-center justify-center body1 text-gray-900'>
           {title}
         </div>
         <div class='col flex items-center gap-2 min-w-[40px] justify-end'>
@@ -45,7 +52,7 @@ const hasDefaultSlot = !!Astro.slots.default;
           {
             showHomeIcon && (
               <a
-                href="/"
+                href='/'
                 aria-label='홈'
               >
                 <IconHome />
