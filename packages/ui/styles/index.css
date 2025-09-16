@@ -81,7 +81,7 @@
   background: transparent;
   padding-inline: calc(0.25rem * 4);
 
-  &.input-natural {
+  &.input-neutral {
     --input-color: var(--color-gray-400);
     &:focus, &:focus-within {
       --input-color: var(--color-gray-900);
@@ -101,7 +101,6 @@
     @apply text-gray-900 border-gray-500 bg-gray-50;
   }
 }
-
 
 @utility fieldset {
   gap: 0;

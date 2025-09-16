@@ -11,14 +11,12 @@
     "lint": "eslint . --debug"
   },
   "dependencies": {
+    "dayjs": "^1.11.18",
     "ufo": "^1.6.1"
   },
   "devDependencies": {
     "@plott-life/dev": "workspace:*",
     "eslint": "^9.34.0",
     "typescript": "^5.9.2"
-  },
-  "dependencies": {
-    "dayjs": "^1.11.18"
   }
 }

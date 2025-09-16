@@ -5,12 +5,11 @@ import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
 import { navigate } from '../../navigator';
 
 interface Props {
-  username?: string | null;
+  email?: string | null;
   successURL: string;
 }
 
-export const SignInForm = (props: Props) => {
-  // NOTE: 이메일전달 확인목적으로 이메일도 포함
+export const PasswordConfirmForm = (props: Props) => {
   const [fieldErrors, setFieldErrors] = useState<
     InferFieldErrors<typeof actions.login>
   >({});
@@ -52,21 +51,22 @@ export const SignInForm = (props: Props) => {
       method='POST'
       onSubmit={onSubmit}
     >
-      <Fieldset
-        hidden={!!props.username}
-        label={'이메일'}
-        error={fieldErrors.username && '올바른 이메일을 입력해 주세요.'}
-      >
-        <input
-          type='email'
-          className={'w-full input input-lg input-neutral validator'}
-          name='username'
-          placeholder='이메일 주소 입력'
-          required
-          defaultValue={props.username as string}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, username: [''] }))}
-        />
-      </Fieldset>
+      {/* MEMO: 파라미터로 받는 경우 사용 */}
+      {/*<Fieldset*/}
+      {/*  hidden={!!props.email}*/}
+      {/*  label={'이메일'}*/}
+      {/*  error={fieldErrors.email && '올바른 이메일을 입력해 주세요.'}*/}
+      {/*>*/}
+      {/*  <input*/}
+      {/*    className={'w-full input input-lg input-neutral validator'}*/}
+      {/*    name='email'*/}
+      {/*    placeholder='이메일 주소 입력'*/}
+      {/*    type='email'*/}
+      {/*    required*/}
+      {/*    defaultValue={props.email as string}*/}
+      {/*    onInvalid={() => setFieldErrors((it) => ({ ...it, email: [''] }))}*/}
+      {/*  />*/}
+      {/*</Fieldset>*/}
       <Fieldset
         label={'비밀번호'}
         error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
@@ -82,8 +82,23 @@ export const SignInForm = (props: Props) => {
           onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
         />
       </Fieldset>
-      <button type='submit' className='block btn btn-lg btn-neutral'>
-        다음
+      <Fieldset
+        label={'비밀번호 확인'}
+        error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
+      >
+        <input
+          type='password'
+          className={'w-full input input-lg input-neutral validator'}
+          name='password'
+          placeholder='영문, 숫자, 특수문자 조합 8-20자'
+          required
+          min={8}
+          max={20}
+          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
+        />
+      </Fieldset>
+      <button type='submit' className='block btn btn-lg btn-neutral body3'>
+        확인
       </button>
     </form>
   );

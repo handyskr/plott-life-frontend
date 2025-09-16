@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Header from "../../components/template/Header.astro";
-import { SignInForm } from "../../components/auth/SignInForm";
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/template/Header.astro';
+import { SignInForm } from '../../components/auth/SignInForm';
 
-const searchParams = Astro.url?.searchParams
-const username = searchParams?.get('username')
+const searchParams = Astro.url?.searchParams;
+const username = searchParams?.get('username');
 ---
 <Layout>
   <Header
@@ -12,8 +12,18 @@ const username = searchParams?.get('username')
     showBackIcon={true}
     showHomeIcon={true}
   />
-  <div class="flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64">
-    <SignInForm client:visible username={username} successURL="/auth/sign-in" />
-    <a class="text-gray-700 underline text-sm mt-6" href="/auth/reset-password">비밀번호 재설정</a>
+  <div class='flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64'>
+    <SignInForm
+      client:visible
+      username={username}
+      successURL='/auth/sign-in'
+    />
+    <!--href 이동이 아닌, 액션을 넣거나 해야함-->
+    <a
+      href='/auth/reset-password'
+      class='body6 text-gray-700 underline mt-6'
+    >
+      비밀번호 재설정
+    </a>
   </div>
 </Layout>

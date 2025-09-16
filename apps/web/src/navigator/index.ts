@@ -1,5 +1,5 @@
-import { navigate } from "astro:transitions/client";
-import { withQuery } from "ufo";
+import { navigate } from 'astro:transitions/client';
+import { withQuery } from 'ufo';
 /**
  * 특수한 경우가 아닐 경우 navigate() 대신 <a> 태그를 사용하세요.
  */

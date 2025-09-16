@@ -3,18 +3,18 @@ import { createPortal } from 'preact/compat';
 interface ModalProps {
   isOpen: boolean;
   children: preact.VNode | preact.VNode[];
-  onRequestClose: () => void;
+  onClose: () => void;
 }
 
 function DefaultModal(props: ModalProps) {
-  const { isOpen, children, onRequestClose } = props;
+  const { isOpen, children, onClose } = props;
 
   return createPortal(
     <dialog
       className='modal z-[3000]'
       open={isOpen}
-      onClose={onRequestClose}
-      onClick={onRequestClose}
+      onClose={onClose}
+      onClick={onClose}
     >
       <div
         className='modal-box  p-0 bg-white rounded-t-2xl rounded-b-none shadow-lg flex flex-col max-w-(--max-width) w-full fixed bottom-0 pb-[--sait]'
@@ -24,7 +24,7 @@ function DefaultModal(props: ModalProps) {
           <button
             type='button'
             className='btn btn-sm btn-circle btn-ghost'
-            onClick={onRequestClose}
+            onClick={onClose}
           >
             ✕
           </button>
@@ -50,7 +50,7 @@ function ModalHeader(props: ModalElementType) {
 
   return (
     <div
-      className={`sticky top-0 z-[2000] w-full rounded-t-2xl bg-white px-4 py-3 ${className}`}
+      className={`sticky top-0 z-[2000] w-full rounded-t-2xl bg-white px-4 py-4 ${className}`}
     >
       {children}
     </div>

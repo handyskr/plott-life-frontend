@@ -9,7 +9,7 @@ import {
 
 interface FilterModalProps {
   isOpen: boolean;
-  onRequestClose: () => void;
+  onClose: () => void;
 }
 
 interface Option {
@@ -32,7 +32,7 @@ const bathroomOptions: Option[] = [
 ];
 
 export default function FilterModal(props: FilterModalProps) {
-  const { isOpen, onRequestClose } = props;
+  const { isOpen, onClose } = props;
 
   const [bedroom, setBedroom] = useState<number[]>([]);
   const [bathroom, setBathroom] = useState<number[]>([]);
@@ -108,13 +108,13 @@ export default function FilterModal(props: FilterModalProps) {
     // TODO: URL 어떻게 처리할지 결정되면 사용
     window.location.href = newUrl.toString();
     // window.history.replaceState({}, '', newUrl);
-    onRequestClose();
+    onClose();
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onClose={onClose}
     >
       <ModalHeader className='relative flex items-center w-full border-b border-gray-100'>
         <>
@@ -123,7 +123,7 @@ export default function FilterModal(props: FilterModalProps) {
           </span>
           <button
             className='ml-auto flex items-center cursor-pointer'
-            onClick={onRequestClose}
+            onClick={onClose}
           >
             ✕
           </button>
