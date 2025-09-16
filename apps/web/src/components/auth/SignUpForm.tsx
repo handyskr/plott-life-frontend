@@ -23,6 +23,9 @@ export const SignUpForm = (props: Props) => {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(signUpInput),
+    defaultValues: {
+      email: props.email ?? "",
+    }
   });
 
   const setActionError = handleSetActionInputError(setError);

@@ -7,6 +7,11 @@ import { withQuery } from "ufo";
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
 const redirectURL = searchParams?.get('redirectURL');
+
+// TODO: 이메일 인증 기능 추가
+// withQuery('/auth/verify-email', {
+//   redirectURL
+// })
 ---
 <Layout>
   <Header
@@ -19,9 +24,7 @@ const redirectURL = searchParams?.get('redirectURL');
     <SignUpForm
       client:only="preact"
       email={email}
-      successURL={withQuery('/auth/verify-email', {
-        redirectURL
-      })}
+      successURL={redirectURL as string}
     />
   </div>
 </Layout>

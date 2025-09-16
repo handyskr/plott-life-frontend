@@ -29,14 +29,15 @@ export const signUp = defineAction({
       await context.session?.set("accessToken", accessToken);
       await context.session?.set("refreshToken", refreshToken);
 
-      // 이메일 본인인증 요청
-      await fetch(`${PRIVATE_API_URL}/v1/verification`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      // TODO: 이메일 인증은 추후 작업
+      // // 이메일 본인인증 요청
+      // await fetch(`${PRIVATE_API_URL}/v1/verification`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // });
 
       return {};
     } catch (e) {
