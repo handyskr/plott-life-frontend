@@ -46,10 +46,10 @@ if (!image) {
           <slot />
         </div>
         <slot name='footer' />
+        <nav class="bottom-navigation sticky w-full mx-auto bottom-0 z-1000 pb-(--bait)">
+          <slot name='nav' />
+        </nav>
       </main>
-      <nav class="bottom-navigation sticky w-(--max-width) mx-auto bottom-0 z-1000 pb-(--bait)">
-        <slot name='nav' />
-      </nav>
     </div>
   </body>
   <!-- Toast section -->
@@ -75,7 +75,6 @@ if (!image) {
     const elements = [
       document.getElementById('nav-contract'),
       document.getElementById('nav-my'),
-      document.getElementById('btn-contract'),
       document.getElementById('btn-inquiry'),
       document.getElementById('privacy-policy'),
       document.getElementById('terms-of-service'),

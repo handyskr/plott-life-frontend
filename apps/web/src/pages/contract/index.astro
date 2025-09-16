@@ -1,0 +1,51 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import BottomNav from '@components/template/BottomNav.astro';
+import RoomList from '@components/home/RoomList';
+import Footer from '@components/template/Footer.astro';
+
+import IconSearch from '@plott-life/ui/icons/search.svg';
+import IconLogo from '@plott-life/ui/icons/logo.svg';
+import {Image} from "astro:assets";
+---
+
+<Layout>
+  <Header slot='header'>
+    <div class='flex flex-col w-full'>
+      <p class="title1 text-gray-900 px-6">
+        계약
+      </p>
+    </div>
+  </Header>
+  <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+    <Image
+      alt='bed image'
+      src='/images/bed.png'
+      format='webp'
+      width={200}
+      height={183}
+    />
+    <h4
+      class='title4 text-gray-900 mt-8 mb-2'
+    >
+      진행중인 계약이 없습니다
+    </h4>
+    <p
+      class='body6 text-gray-600'
+    >
+      새로운 방을 찾아 계약을 시작해보세요
+    </p>
+    <div
+      class='px-6 py-6'
+    >
+      <a
+        href='/search'
+        class='btn btn-primary w-full body3 px-9 cursor-pointer'
+      >
+        방 찾아보기
+      </a>
+    </div>
+  </div>
+  <BottomNav slot='nav' />
+</Layout>
