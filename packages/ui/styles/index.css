@@ -131,3 +131,23 @@
     }
   }
 }
+
+@utility toast {
+  .alert-error {
+    border-color: var(--color-error);
+    color: var(--color-error-content);
+    --alert-color: var(--color-error);
+  }
+
+  .alert-warning {
+    border-color: var(--color-warning);
+    color: var(--color-warning-content);
+    --alert-color: var(--color-warning);
+  }
+
+  .alert-default {
+    border-color: var(--color-gray-700);
+    color: var(--color-neutral-content);
+    --alert-color: var(--color-gray-700);
+  }
+}

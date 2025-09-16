@@ -175,7 +175,6 @@ export default function SearchWrapper(props: SearchWrapperProps) {
           전체 삭제
         </span>
         <button
-         // UFO query parameter 수정
           className='w-[120px] rounded-lg btn btn-primary body2'
           onClick={handleSearchClick}
         >
