@@ -51,6 +51,9 @@ const isOpen = Astro.locals.test;
           <slot name='nav' />
         </nav>
       </main>
+      <nav class="bottom-navigation sticky bottom-0 left-0 w-full z-1000 pb-(--bait)">
+        <slot name='nav' />
+      </nav>
     </div>
     <CRMTest client:visible isOpen={isOpen} />
   </body>
