@@ -21,7 +21,7 @@ if (!id) {
 
 // 상세 API 호출 함수
 async function fetchRoomDetail(id: string) {
-  const res = await fetch(`${import.meta.env.PUBLIC_INTERNAL_API_URL}/v1/building-unit/${id}`, {
+  const res = await fetch(`${import.meta.env.PRIVATE_API_URL}/v1/building-unit/${id}`, {
     headers: { 'Content-Type': 'application/json' },
   });
 
