@@ -1,13 +1,14 @@
 import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
+import { toast } from "@libs/toast.ts";
 import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/ko';
 
 dayjs.locale('ko');
 
 interface CalendarProps {
-  startAt?: string;
-  endAt?: string;
+  startAt?: string | null;
+  endAt?: string | null;
   onDatesChange?: (start: Dayjs, end: Dayjs) => void;
 }
 
@@ -15,6 +16,7 @@ export default function Calendar(props: CalendarProps) {
   const { startAt: startAtParam, endAt: endAtParam, onDatesChange } = props;
 
   const today = dayjs();
+  const [isFirstCheck, setIsFirstCheck] = useState(true);
 
   const [startAt, setStartAt] = useState<Dayjs | null>(
     startAtParam ? dayjs(startAtParam) : null
@@ -31,6 +33,15 @@ export default function Calendar(props: CalendarProps) {
   const handleDateClick = (day: Dayjs) => {
     if (day.isBefore(today, 'day')) {
       return;
+    }
+    // 필터를 처음 적용하는 경우, 노티
+    if (isFirstCheck) {
+      toast.show({
+        message: '1주일 단위로 선택 가능합니다',
+        type: 'error',
+        duration: 3000,
+      });
+      setIsFirstCheck(false);
     }
     // 선택된 경우 초기화 후 다시 선택
     if (startAt && endAt) {
