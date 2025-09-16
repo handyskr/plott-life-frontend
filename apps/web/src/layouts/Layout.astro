@@ -35,20 +35,29 @@ if (!image) {
     <GoogleAnalytics />
     <GoogleTagManager />
   </head>
-  <body class='flex justify-center min-h-screen'>
+  <body class='flex justify-center '>
     <GoogleTagManagerFallback />
-    <div class='relative flex flex-col w-full min-h-screen bg-base-100'>
-      <main class='flex flex-col max-w-(--max-width) bg-white mx-auto w-full shadow-[0_0_20px_rgba(0,0,0,0.05)] min-h-screen'>
+    <div class='relative flex flex-col w-full bg-base-100'>
+      <main class='flex flex-col max-w-(--max-width) bg-white mx-auto w-full shadow-[0_0_20px_rgba(0,0,0,0.05)] min-h-[calc(100dvh-var(--sait)-var(--bait))]'>
         <slot name='header' />
         <div class='flex-1 overflow-y-auto'>
           <slot />
         </div>
         <slot name='footer' />
-        <slot name='nav' />
       </main>
-      <!--<button class="fixed bottom-4 right-1/2 translate-x-1/2 btn btn-primary rounded-full shadow-lg"> + </button>-->
+      <nav class="bottom-navigation sticky bottom-0 left-0 w-full z-1000 pb-(--bait)">
+        <slot name='nav' />
+      </nav>
     </div>
   </body>
+  <!-- bottom style -->
+  <style>
+    .bottom-navigation:empty {
+      display: none;
+    }
+    .bottom-navigation:not(:empty) {
+    }
+  </style>
   <!-- 임시로 준비중 처리 -->
   <script type="module">
     const elements = [

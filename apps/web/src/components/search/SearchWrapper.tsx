@@ -71,7 +71,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
   return (
     <>
       {/* 헤더, 푸터, 간격 */}
-      <div className='flex flex-col h-[calc(100vh-64px-74px)]'>
+      <div className='flex flex-col h-[calc(100dvh-64px-74px-var(--sait))]'>
         {/* 위치 */}
         <div
           className={`
