@@ -1,4 +1,5 @@
 ---
+import {Image} from 'astro:assets';
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import BottomNav from '@components/template/BottomNav.astro';
@@ -7,45 +8,198 @@ import Footer from '@components/template/Footer.astro';
 
 import IconSearch from '@plott-life/ui/icons/search.svg';
 import IconLogo from '@plott-life/ui/icons/logo.svg';
-import {Image} from "astro:assets";
+import dayjs from 'dayjs';
+import {
+  EXPOSE_DATE_FORMAT,
+  ContractStatusLabel, ContractStatus,
+} from '../../libs/values';
+
+const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
+
+async function fetchContractList() {
+  const res = await fetch(`${import.meta.env.PUBLIC_INTERNAL_API_URL}/v1/contract`, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+// TODO: 계약 목록 API 연결
+// const contractList = await fetchContractList();
+
+const items = [
+  {
+    'id' : 0,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-16',
+    'weeks' : 4,
+    contractStatusLabel: '승인대기',
+    'contractStatus' : 'REQUESTED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : 'Unit 301',
+      'mainImage' : null,
+    }
+  },
+  {
+    'id' : 1,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-09',
+    'weeks' : 3,
+    contractStatusLabel: '결제대기',
+    'contractStatus' : 'APPROVED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : '어반스테이 명동점',
+      'mainImage' : null,
+    }
+  },
+  {
+    'id' : 1,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-09',
+    'weeks' : 3,
+    contractStatusLabel: '계약완료',
+    'contractStatus' : 'COMPLETED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : '어반스테이 명동점',
+      'mainImage' : null,
+    }
+  },
+  {
+    'id' : 1,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-09',
+    'weeks' : 3,
+    contractStatusLabel: '이용중',
+    'contractStatus' : 'COMPLETED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : '어반스테이 명동점',
+      'mainImage' : null,
+    }
+  },
+  {
+    'id' : 1,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-09',
+    'weeks' : 3,
+    contractStatusLabel: '계약취소',
+    'contractStatus' : 'CANCELED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : '어반스테이 명동점',
+      'mainImage' : null,
+    }
+  },
+  {
+    'id' : 1,
+    'startAt' : '2025-09-15',
+    'endAt' : '2025-10-09',
+    'weeks' : 3,
+    contractStatusLabel: '계약만료',
+    'contractStatus' : 'EXPIRED',
+    'buildingUnit' : {
+      'id' : 0,
+      'name' : '어반스테이 명동점',
+      'mainImage' : null,
+    }
+  },
+];
+
 ---
 
 <Layout>
   <Header slot='header'>
     <div class='flex flex-col w-full'>
-      <p class="title1 text-gray-900 px-6">
+      <p class='title1 text-gray-900 px-6'>
         계약
       </p>
     </div>
   </Header>
-  <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
-    <Image
-      alt='bed image'
-      src='/images/bed.png'
-      format='webp'
-      width={200}
-      height={183}
-    />
-    <h4
-      class='title4 text-gray-900 mt-8 mb-2'
-    >
-      진행중인 계약이 없습니다
-    </h4>
-    <p
-      class='body6 text-gray-600'
-    >
-      새로운 방을 찾아 계약을 시작해보세요
-    </p>
-    <div
-      class='px-6 py-6'
-    >
-      <a
-        href='/search'
-        class='btn btn-primary w-full body3 px-9 cursor-pointer'
-      >
-        방 찾아보기
-      </a>
-    </div>
+  <div>
+    {items.length > 0 ? (
+      <div class='bg-gray-50 px-6 py-8 space-y-8 pb-10'>
+        {items.map((item) => {
+          const {
+            id,
+            startAt,
+            endAt,
+            weeks,
+            contractStatus,
+            contractStatusLabel,
+            buildingUnit: {
+              mainImage: image,
+              name,
+            },
+          } = item;
+
+
+          return (
+            <a
+              href=`/contract/${id}`
+              class='rounded-2xl border-1 border-gray-200 shadow-[0_5px_20px_0_rgba(0,0,0,0.12)] cursor-pointer flex flex-col'
+            >
+              <div class='relative'>
+                <div
+                  class:list={[
+                    `rounded-full px-3 py-1.5 inline caption1 text-white absolute top-4 left-4`,
+                    contractStatus === ContractStatus.APPROVED ? 'bg-error'
+                      : (contractStatus === ContractStatus.CANCELED_NOPAY || contractStatus === ContractStatus.CANCELED || contractStatus === ContractStatus.EXPIRED) ? 'bg-gray-500'
+                        : 'bg-gray-900'
+                  ]}
+                >
+                  {contractStatusLabel}
+                </div>
+                <img
+                  src={`${IMAGE_URL}/${image ?? 'null'}.webp?w=800&h=170`}
+                  alt='room image'
+                  height='170'
+                  class='w-full object-cover rounded-t-2xl'
+                />
+              </div>
+              <div class='p-6'>
+                <p class='body1 text-gray-900'>
+                  {name}
+                </p>
+                <p class='body6 text-gray-600'>
+                  {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
+                </p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+        <Image
+          alt='bed image'
+          src='/images/bed.png'
+          format='webp'
+          width={200}
+          height={183}
+        />
+        <h4 class='title4 text-gray-900 mt-8 mb-2'>
+          진행중인 계약이 없습니다
+        </h4>
+        <p class='body6 text-gray-600'>
+          새로운 방을 찾아 계약을 시작해보세요
+        </p>
+        <div class='px-6 py-6'>
+          <a
+            href='/search'
+            class='btn btn-primary w-full body3 px-9 cursor-pointer'
+          >
+            방 찾아보기
+          </a>
+        </div>
+      </div>
+    )}
   </div>
   <BottomNav slot='nav' />
 </Layout>

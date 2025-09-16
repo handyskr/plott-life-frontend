@@ -7,6 +7,7 @@ import {
   getWeeksBetween,
   getPaymentPriceData,
 } from "@plott-life/utils";
+import {EXPOSE_DATE_FORMAT} from "../../libs/values";
 
 const searchParams = Astro.url.searchParams;
 
@@ -64,6 +65,7 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
   weeks,
 });
 ---
+
 <Layout>
   <Header
     slot='header'
@@ -101,7 +103,7 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
         <p class='body4 text-gray-900'>임대기간</p>
-        <p class='body5 text-gray-700 mt-1.5 mb-3'>{weeks}주 · {dayjs(startAt).format('YYYY년 M월 D일')} ~ {dayjs(endAt).format('YYYY년 M월 D일')} </p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)} </p>
       </div>
     </section>
 
