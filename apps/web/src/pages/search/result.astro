@@ -8,6 +8,7 @@ import { Filters } from '@components/search';
 
 import { getWeeksBetween } from '@plott-life/utils';
 import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
+import {EXPOSE_DATE_FORMAT} from "../../libs/values";
 
 const searchParams = Astro.url.searchParams;
 
@@ -35,7 +36,7 @@ const queryString = searchParams.toString();
               {stateOrCity}
             </span>
             <span class='caption1 text-gray-700'>
-              {weeks}주 · {dayjs(startAt).format('M월 D일')} ~ {dayjs(endAt).format('M월 D일')}
+              {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
             </span>
           </div>
         </a>

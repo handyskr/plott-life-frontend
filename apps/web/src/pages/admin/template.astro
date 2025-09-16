@@ -1,5 +1,9 @@
 ---
 import Layout from '@layouts/Layout.astro';
+import {ContractStatus, EXPOSE_DATE_FORMAT} from "../libs/values";
+import dayjs from "dayjs";
+
+const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
 ---
 
 <Layout>
@@ -49,6 +53,33 @@ import Layout from '@layouts/Layout.astro';
         계약하기
       </button>
     </div>
+    <div class='w-full h-px bg-gray-300 my-0'></div>
+    <div class="title3">기본 카드</div>
+    <a
+      class='rounded-2xl border-1 border-gray-200 shadow-[0_5px_20px_0_rgba(0,0,0,0.12)] cursor-pointer flex flex-col'
+    >
+      <div class='relative'>
+        <div
+          class=`rounded-full px-3 py-1.5 inline caption1 text-white absolute top-4 left-4 bg-gray-900`
+        >
+          라벨
+        </div>
+        <img
+          src={`${IMAGE_URL}/null.webp?w=800&h=170`}
+          alt='room image'
+          height='170'
+          class='w-full object-cover rounded-t-2xl'
+        />
+      </div>
+      <div class='p-6'>
+        <p class='body1 text-gray-900'>
+          타이틀
+        </p>
+        <p class='body6 text-gray-600'>
+          서브타이틀 내용
+        </p>
+      </div>
+    </a>
     <div class='w-full h-px bg-gray-300 my-0'></div>
 
 
