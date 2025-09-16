@@ -62,11 +62,11 @@ export default function Filters(props: FiltersProps) {
       <SortModal
         isOpen={isSortOpen}
         handleSortChange={handleSortChange}
-        onRequestClose={() => setIsSortOpen(false)}
+        onClose={() => setIsSortOpen(false)}
       />
       <FilterModal
         isOpen={isFilterOpen}
-        onRequestClose={() => setIsFilterOpen(false)}
+        onClose={() => setIsFilterOpen(false)}
       />
     </>
   );

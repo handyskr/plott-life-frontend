@@ -8,6 +8,7 @@ import {
   getPaymentPriceData,
 } from "@plott-life/utils";
 import {EXPOSE_DATE_FORMAT} from "../../libs/values";
+import {BottomNav} from "../../components/contract";
 
 const searchParams = Astro.url.searchParams;
 
@@ -148,8 +149,6 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
       </div>
     </section>
   </div>
-
-
   <div class='px-6 py-8 bg-gray-50'>
     <section class='mb-8'>
       <p class='body1 text-gray-900 mb-4'>계약 취소 시 환불 규정</p>
@@ -170,10 +169,14 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
       </ul>
     </section>
   </div>
-  <div
+  <!--<div-->
+  <!--  slot='nav'-->
+  <!--  class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'-->
+  <!--&gt;-->
+  <!--  <button class='btn btn-block btn-primary body2'>계약 요청하기</button>-->
+  <!--</div>-->
+  <BottomNav
     slot='nav'
-    class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
-  >
-    <button class='btn btn-block btn-primary body2'>계약 요청하기</button>
-  </div>
+    client:only="preact"
+  />
 </Layout>

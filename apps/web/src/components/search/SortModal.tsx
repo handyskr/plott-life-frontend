@@ -4,7 +4,7 @@ import { SORT_OPTIONS } from '@libs/values.ts';
 interface SortModalProps {
   isOpen: boolean;
   handleSortChange: (value: string) => void;
-  onRequestClose: () => void;
+  onClose: () => void;
 }
 
 export default function SortModal(props: SortModalProps) {
