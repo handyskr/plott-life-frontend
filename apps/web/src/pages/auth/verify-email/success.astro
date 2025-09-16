@@ -1,6 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import { Image } from 'astro:assets';
+const searchParams = Astro.url?.searchParams;
+const redirectURL = searchParams?.get('redirectURL');
 ---
 <Layout>
   <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
@@ -30,7 +32,7 @@ import { Image } from 'astro:assets';
     class='px-6 py-6'
   >
     <a
-      href='/'
+      href={redirectURL}
       class='btn btn-lg btn-primary w-full body3'
     >
       서비스 시작하기

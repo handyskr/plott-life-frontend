@@ -1,26 +1,11 @@
 import { ActionError, defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { signUpInput, verifyCodeInput } from "./schema.ts";
 
 const { PRIVATE_API_URL } = import.meta.env;
 
-const USER_POLICY_CODES = [
-  "TERMS_OF_SERVICE",
-  "PRIVACY_POLICY",
-  "IS_ADULT",
-  "MARKETING_CONSENT",
-] as const;
-
 export const signUp = defineAction({
-  accept: "form",
-  input: z.object({
-    email: z.string().email(),
-    password: z.string().min(8).max(20),
-    firstName: z.string().min(1).max(32),
-    lastName: z.string().min(1).max(32),
-    phoneCode: z.string().regex(/\d{1,3}/),
-    phoneNumber: z.string().regex(/\d{6,15}/),
-    agreedPolicyCodes: z.array(z.enum(USER_POLICY_CODES)),
-  }),
+  accept: "json",
+  input: signUpInput,
   handler: async (input, context) => {
     const res = await fetch(`${PRIVATE_API_URL}/v1/user`, {
       method: "POST",
@@ -63,7 +48,7 @@ export const signUp = defineAction({
 });
 
 // 이메일 본인인증 요청 - 재요청시 사용
-export const requestVerification = defineAction({
+export const requestCode = defineAction({
   accept: "json",
   handler: async (input, context) => {
     const accessToken = await context.session?.get("accessToken");
@@ -91,11 +76,9 @@ export const requestVerification = defineAction({
   },
 });
 
-export const verifyVerification = defineAction({
+export const verifyCode = defineAction({
   accept: "json",
-  input: z.object({
-    code: z.string().length(6),
-  }),
+  input: verifyCodeInput,
   handler: async (input, context) => {
     const accessToken = await context.session?.get("accessToken");
     if (!accessToken) {

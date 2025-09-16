@@ -5,7 +5,7 @@ import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
 import { navigate } from '../../navigator';
 
 interface Props {
-  username?: string | null;
+  email?: string | null;
   successURL: string;
 }
 
@@ -54,18 +54,18 @@ export const VerifyEmailForm = (props: Props) => {
     >
       {/* MEMO: 이메일 주소 필요한 경우 사용 */}
       {/*<Fieldset*/}
-      {/*  hidden={!!props.username}*/}
+      {/*  hidden={!!props.email}*/}
       {/*  label={'이메일'}*/}
-      {/*  error={fieldErrors.username && '올바른 이메일을 입력해 주세요.'}*/}
+      {/*  error={fieldErrors.email && '올바른 이메일을 입력해 주세요.'}*/}
       {/*>*/}
       {/*  <input*/}
       {/*    type='email'*/}
       {/*    className={'w-full input input-lg input-neutral validator'}*/}
-      {/*    name='username'*/}
+      {/*    name='email'*/}
       {/*    placeholder='이메일 주소 입력'*/}
       {/*    required*/}
-      {/*    defaultValue={props.username as string}*/}
-      {/*    onInvalid={() => setFieldErrors((it) => ({ ...it, username: [''] }))}*/}
+      {/*    defaultValue={props.email as string}*/}
+      {/*    onInvalid={() => setFieldErrors((it) => ({ ...it, email: [''] }))}*/}
       {/*  />*/}
       {/*</Fieldset>*/}
       <Fieldset
@@ -76,8 +76,8 @@ export const VerifyEmailForm = (props: Props) => {
           name='code'
           placeholder='코드 입력'
           required
-          defaultValue={props.username as string}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, username: [''] }))}
+          defaultValue={props.email as string}
+          onInvalid={() => setFieldErrors((it) => ({ ...it, email: [''] }))}
         />
       </Fieldset>
       <button type='submit' className='block btn btn-lg btn-neutral'>

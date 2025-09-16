@@ -3,6 +3,14 @@ import { LoginForm } from '../../components/auth/LoginForm';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
 import IconLogo from '@plott-life/ui/icons/logo.svg';
+import { withQuery } from "ufo";
+
+const redirectURL = '/'
+
+const accessToken = await Astro.session?.get('accessToken');
+if (accessToken) {
+  return Astro.redirect(redirectURL);
+}
 ---
 <Layout>
   <Header
@@ -20,8 +28,12 @@ import IconLogo from '@plott-life/ui/icons/logo.svg';
     </h1>
     <LoginForm
       client:visible
-      successURL='/auth/sign-in'
-      failureURL='/auth/sign-up'
+      successURL={withQuery('/auth/sign-in', {
+        redirectURL
+      })}
+      failureURL={withQuery('/auth/sign-up', {
+          redirectURL
+      })}
     />
   </div>
 </Layout>

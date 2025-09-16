@@ -16,18 +16,16 @@ const { SITE, REDIS_URL } = env;
 export default defineConfig({
   site: SITE,
   integrations: [
-    preact(),
+    preact({ compat: true }),
     sitemap({
       filter: (page) =>
         page.startsWith(liveURL) &&
         !page.startsWith(`${liveURL}/theme`) &&
-        !page.startsWith(`${liveURL}/auth`)
+        !page.startsWith(`${liveURL}/auth`),
     }),
   ],
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
   output: "server",
   adapter: node({

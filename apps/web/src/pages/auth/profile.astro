@@ -1,0 +1,49 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BottomNav from "../../components/template/BottomNav.astro";
+const accessToken = await Astro.session?.get('accessToken');
+const res = await fetch(`${import.meta.env.PRIVATE_API_URL}/v1/user/me`, {
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${accessToken}`,
+  },
+});
+
+let user: {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+} | null = null;
+
+if (res.ok) {
+  user = await res.json();
+}
+
+console.log(res);
+---
+<Layout>
+  <section class="px-6">
+    <h1 class="text-2xl text-gray-900 my-8">프로필</h1>
+    {user ? (
+      <div class="flex flex-row gap-4 justify-between items-center">
+        <div class="avatar avatar-placeholder">
+          <div class="bg-neutral text-neutral-content w-12 rounded-full">
+            <span>{user?.lastName.substring(0, 1)}</span>
+          </div>
+        </div>
+        <div class="flex flex-col flex-1">
+          <h2 class="text-lg text-gray-900">{user?.lastName} {user?.firstName}</h2>
+          <p class="text-sm text-gray-600">{user?.email}</p>
+        </div>
+        <p class="text-2xl"> > </p>
+      </div>
+    ) : (
+      <a class="btn btn-primary btn-lg btn-block" href="/auth/login">
+        로그인/회원가입
+      </a>
+    )}
+    <hr class="border-gray-200 mt-6" />
+  </section>
+  <BottomNav slot='nav' />
+</Layout>

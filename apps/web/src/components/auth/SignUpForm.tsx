@@ -1,49 +1,65 @@
-import { actions, isInputError } from 'astro:actions';
-import { useState } from 'preact/hooks';
-import type { InferFieldErrors } from '../../actions/types.ts';
-import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
-import { navigate } from '../../navigator';
-import { TermsAgreementModal } from '@components/auth';
+import { actions, isInputError } from "astro:actions";
+import { useState } from "preact/hooks";
+import type { ActionSubmitHandler, SchemaSubmitHandler } from "../../actions/types.ts";
+import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
+import { TermsAgreementModal } from "@components/auth";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signUpInput, termAgreementInput } from "../../actions/schema.ts";
+import { handleSetActionInputError } from "../../actions/utils.ts";
+import { navigate } from "../../navigator";
 
 interface Props {
-  username?: string | null;
+  email?: string | null;
   successURL: string;
 }
 
 export const SignUpForm = (props: Props) => {
-  // NOTE: 이메일전달 확인목적으로 이메일도 포함
-  const [fieldErrors, setFieldErrors] = useState<
-    InferFieldErrors<typeof actions.login>
-  >({});
+  const {
+    register,
+    handleSubmit,
+    setError,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signUpInput),
+  });
+
+  const setActionError = handleSetActionInputError(setError);
+
+  console.error(errors);
+
   const [isOpenTermsModal, setIsOpenTermsModal] = useState(false);
 
-  const onSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
-    setFieldErrors({});
+  const onSubmit: ActionSubmitHandler<typeof actions.signUp> = async (data) => {
+    setIsOpenTermsModal(true);
+  };
 
+  const onSubmitWithTermAgreed: SchemaSubmitHandler<typeof termAgreementInput> = async (termsAgreements) => {
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const { error } = await actions.check(formData);
+      const data = getValues();
+      data.agreedPolicyCodes = (Object.entries(termsAgreements) as [keyof typeof termsAgreements, boolean][])
+        .filter(([_, v]) => v)
+        .map(([k, _]) => k);
+
+      const { error } = await actions.signUp(data);
       if (error) {
         throw error;
       }
 
-      setIsOpenTermsModal(true);
-      // ;
+      await navigate(props.successURL);
     } catch (error: any) {
       console.log(error);
+      setIsOpenTermsModal(false);
 
       if (isInputError(error)) {
-        setFieldErrors(error.fields);
+        setActionError(error);
         return;
       }
 
       switch (error?.code) {
-        case 'NOT_FOUND':
-          alert('가입되지 않은 이메일입니다.');
-          break;
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
+          alert("알 수 없는 에러가 발생했습니다.");
           console.error(error);
           break;
       }
@@ -53,101 +69,89 @@ export const SignUpForm = (props: Props) => {
   return (
     <>
       <form
-        className='flex flex-col w-full gap-8'
-        method='POST'
-        onSubmit={onSubmit}
+        className="flex flex-col w-full gap-8"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        <Fieldset label={'이메일'}>
+        <Fieldset
+          label={"이메일"}
+          error={errors.email && "이메일을 입력해주세요."}
+        >
           <input
-            type='hidden'
-            name='username'
-            value={props.username ?? ''}
-          />
-          <input
-            className='w-full input input-lg input-neutral validator'
-            defaultValue={props.username as string}
-            disabled
+            {...register("email")}
+            className="w-full input input-lg input-neutral validator"
+            type="email"
+            placeholder="이메일 주소"
+            disabled={!!props.email}
           />
         </Fieldset>
         <Fieldset
-          label={'여권상 이름'}
-          error={(fieldErrors.lastName || fieldErrors.firstName) && '이름을 입력해주세요.'}
+          label={"여권상 이름"}
+          error={
+            (errors.lastName || errors.firstName) && "이름을 입력해주세요."
+          }
         >
-          <div className={'flex flex-col gap-3'}>
+          <div className={"flex flex-col gap-3"}>
             <input
-              className={'w-full input input-lg input-neutral validator'}
-              name='lastName'
-              placeholder='이름 입력 (예: 길동)'
-              required
-              onInvalid={() => setFieldErrors((it) => ({ ...it, lastName: [''] }))}
+              {...register("lastName")}
+              className={"w-full input input-lg input-neutral validator"}
+              placeholder="이름 입력 (예: 길동)"
             />
             <input
-              className={'w-full input input-lg input-neutral validator'}
-              name='firstName'
-              placeholder='성 입력 (예: 홍)'
-              required
-              onInvalid={() => setFieldErrors((it) => ({ ...it, firstName: [''] }))}
+              {...register("firstName")}
+              className={"w-full input input-lg input-neutral validator"}
+              placeholder="성 입력 (예: 홍)"
             />
           </div>
         </Fieldset>
-        <Fieldset label={'연락처'}>
-          <div className={'flex flex-col gap-3'}>
+        <Fieldset
+          label={"연락처"}
+          error={errors.phoneNumber && "전화번호를 입력해주세요."}
+        >
+          <div className={"flex flex-col gap-3"}>
             <select
-              className={'w-full input input-lg input-neutral validator'}
-              name='phoneCode'
+              {...register("phoneCode")}
+              className={"w-full input input-lg input-neutral validator"}
             >
-              <option>+82 (South Korea)</option>
+              <option value={82}>+82 (South Korea)</option>
             </select>
             <input
-              className={'w-full input input-lg input-neutral validator'}
-              name='phoneNumber'
-              placeholder='전화번호'
-              required
-              onInvalid={() => setFieldErrors((it) => ({ ...it, phoneNumber: [''] }))}
+              {...register("phoneNumber")}
+              className={"w-full input input-lg input-neutral validator"}
+              name="phoneNumber"
+              placeholder="전화번호"
             />
           </div>
         </Fieldset>
         <Fieldset
-          label={'비밀번호'}
-          error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
+          label={"비밀번호"}
+          error={errors.password && "비밀번호가 일치하지 않습니다."}
         >
           <input
-            type='password'
-            className={'w-full input input-lg input-neutral validator'}
-            name='password'
-            placeholder='영문, 숫자, 특수문자 조합 8-20자'
-            required
-            min={8}
-            max={20}
-            onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
+            {...register("password")}
+            type="password"
+            className={"w-full input input-lg input-neutral validator"}
+            placeholder="영문, 숫자, 특수문자 조합 8-20자"
           />
         </Fieldset>
         <Fieldset
-          label={'비밀번호 확인'}
-          error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
+          label={"비밀번호 확인"}
+          error={errors.passwordConfirm && "비밀번호가 일치하지 않습니다."}
         >
           <input
-            type='password'
-            className={'w-full input input-lg input-neutral validator'}
-            name='password'
-            placeholder='영문, 숫자, 특수문자 조합 8-20자'
-            required
-            min={8}
-            max={20}
-            onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
+            {...register("passwordConfirm")}
+            type="password"
+            className={"w-full input input-lg input-neutral validator"}
+            placeholder="영문, 숫자, 특수문자 조합 8-20자"
           />
         </Fieldset>
-
-        <button type='submit' className='block btn btn-lg btn-neutral mt-8'>
+        <button type="submit" className="block btn btn-lg btn-neutral mt-8">
           다음
         </button>
       </form>
       <TermsAgreementModal
         isOpen={isOpenTermsModal}
         onClose={() => setIsOpenTermsModal(false)}
-        onSubmitClick={async () => {
-          await navigate(props.successURL);
-        }}
+        onSubmit={onSubmitWithTermAgreed}
       />
     </>
   );

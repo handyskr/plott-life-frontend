@@ -1,5 +1,5 @@
 import { ActionError, defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { emailInput, signInInput } from "./schema.ts";
 
 const { PRIVATE_API_URL } = import.meta.env;
 
@@ -7,10 +7,8 @@ const { PRIVATE_API_URL } = import.meta.env;
  * 계정이 있는 경우 {}
  */
 export const check = defineAction({
-  accept: "form",
-  input: z.object({
-    email: z.string().email(),
-  }),
+  accept: "json",
+  input: emailInput,
   handler: async (input) => {
     const res = await fetch(`${PRIVATE_API_URL}/v1/user:check`, {
       method: "POST",
@@ -38,11 +36,8 @@ export const check = defineAction({
 });
 
 export const signIn = defineAction({
-  accept: "form",
-  input: z.object({
-    email: z.string().email(),
-    password: z.string().min(8).max(32),
-  }),
+  accept: "json",
+  input: signInInput,
   handler: async (input, context) => {
     const res = await fetch(`${PRIVATE_API_URL}/v1/user:login`, {
       method: "POST",

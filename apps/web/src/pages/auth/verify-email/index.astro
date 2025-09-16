@@ -2,9 +2,11 @@
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import { VerifyEmailForm } from '@components/auth';
+import { withQuery } from "ufo";
 
 const searchParams = Astro.url?.searchParams;
-const username = searchParams?.get('username');
+const email = searchParams?.get('email');
+const redirectURL = searchParams?.get('redirectURL');
 ---
 
 <Layout>
@@ -17,12 +19,14 @@ const username = searchParams?.get('username');
       이메일 확인하기
     </p>
     <p class='body3 text-gray-600 pt-2 pb-6'>
-      {username}으로 보낸 코드를 입력하세요
+      {email}으로 보낸 코드를 입력하세요
     </p>
     <VerifyEmailForm
       client:visible
-      username={username}
-      successURL='/auth/verify-email/success'
+      email={email}
+      successURL={withQuery('/auth/verify-email/success', {
+        redirectURL,
+      })}
     />
   </div>
 </Layout>

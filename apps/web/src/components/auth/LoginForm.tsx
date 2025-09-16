@@ -1,8 +1,11 @@
-import { actions, isInputError } from "astro:actions";
-import { useState } from "preact/hooks";
-import type { InferFieldErrors } from "../../actions/types.ts";
+import { type ActionError, actions, isInputError } from "astro:actions";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigate, navigateWithQuery } from "../../navigator";
+import { navigateWithQuery } from "../../navigator";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { emailInput } from "../../actions/schema.ts";
+import type { ActionSubmitHandler } from "../../actions/types.ts";
+import { handleSetActionInputError } from "../../actions/utils.ts";
 
 interface Props {
   successURL: string;
@@ -10,38 +13,37 @@ interface Props {
 }
 
 export const LoginForm = (props: Props) => {
-  const [fieldErrors, setFieldErrors] = useState<
-    InferFieldErrors<typeof actions.check>
-  >({});
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(emailInput),
+  });
+  const setActionError = handleSetActionInputError(setError);
 
-  const onSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
-
-    setFieldErrors({});
-
-    const formData = new FormData(e.target as HTMLFormElement);
+  const onSubmit: ActionSubmitHandler<typeof actions.check> = async (data) => {
+    const { email } = data;
 
     try {
-      // TODO: 삭제
-      // const { error } = await actions.check(formData);
-      // if (error) {
-      //   throw error;
-      // }
+      const { error } = await actions.check(data);
+      if (error) {
+        throw error;
+      }
 
       await navigateWithQuery(props.successURL, {
-        username: formData.get("username") as string,
+        email,
       });
     } catch (error: any) {
       if (isInputError(error)) {
-        setFieldErrors(error.fields);
+        setActionError(error);
         return;
       }
-
-      switch (error?.code) {
+      switch ((error as ActionError)?.code) {
         case "NOT_FOUND":
-          alert("가입되지 않은 이메일입니다.");
           await navigateWithQuery(props.failureURL, {
-            username: formData.get("username") as string,
+            email,
           });
           break;
         default:
@@ -56,22 +58,19 @@ export const LoginForm = (props: Props) => {
     <form
       className="flex flex-col w-full gap-6"
       method="POST"
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Fieldset
         label={"이메일"}
-        error={fieldErrors.username && "올바른 이메일을 입력해 주세요."}
+        error={errors.email && "올바른 이메일을 입력해 주세요."}
       >
         <input
-          type="email"
-          className={"w-full input input-lg input-neutral validator"}
-          name="email"
+          {...register("email")}
+          className={"w-full input input-lg input-neutral"}
           placeholder="이메일 주소 입력"
-          required
-          onInvalid={() => setFieldErrors((it) => ({ ...it, username: [""] }))}
         />
       </Fieldset>
-      <button type="submit" className="block btn btn-lg btn-primary">
+      <button type="submit" className="btn btn-lg btn-block btn-primary">
         이메일로 계속하기
       </button>
     </form>

@@ -1,28 +1,31 @@
-import { actions, isInputError } from 'astro:actions';
-import { useState } from 'preact/hooks';
-import type { InferFieldErrors } from '../../actions/types.ts';
-import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
-import { navigate } from '../../navigator';
+import { actions, isInputError } from "astro:actions";
+import type { ActionSubmitHandler } from "../../actions/types.ts";
+import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
+import { navigate } from "../../navigator";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signInInput } from "../../actions/schema.ts";
+import { handleSetActionInputError } from "../../actions/utils.ts";
 
 interface Props {
-  username?: string | null;
+  email?: string | null;
   successURL: string;
 }
 
 export const SignInForm = (props: Props) => {
-  // NOTE: 이메일전달 확인목적으로 이메일도 포함
-  const [fieldErrors, setFieldErrors] = useState<
-    InferFieldErrors<typeof actions.login>
-  >({});
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(signInInput),
+  });
+  const setActionError = handleSetActionInputError(setError);
 
-  const onSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
-
-    setFieldErrors({});
-
+  const onSubmit: ActionSubmitHandler<typeof actions.signIn> = async (data) => {
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const { error } = await actions.check(formData);
+      const { error } = await actions.signIn(data);
       if (error) {
         throw error;
       }
@@ -30,16 +33,16 @@ export const SignInForm = (props: Props) => {
       await navigate(props.successURL);
     } catch (error: any) {
       if (isInputError(error)) {
-        setFieldErrors(error.fields);
+        setActionError(error);
         return;
       }
 
       switch (error?.code) {
-        case 'NOT_FOUND':
-          alert('가입되지 않은 이메일입니다.');
+        case "NOT_FOUND":
+          setError("password", { type: "custom" });
           break;
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
+          alert("알 수 없는 에러가 발생했습니다.");
           console.error(error);
           break;
       }
@@ -48,41 +51,34 @@ export const SignInForm = (props: Props) => {
 
   return (
     <form
-      className='flex flex-col w-full gap-6'
-      method='POST'
-      onSubmit={onSubmit}
+      className="flex flex-col w-full gap-6"
+      onSubmit={handleSubmit(onSubmit)}
     >
       <Fieldset
-        hidden={!!props.username}
-        label={'이메일'}
-        error={fieldErrors.username && '올바른 이메일을 입력해 주세요.'}
+        hidden={!!props.email}
+        label={"이메일"}
+        error={errors.email && "올바른 이메일을 입력해 주세요."}
       >
         <input
-          type='email'
-          className={'w-full input input-lg input-neutral validator'}
-          name='username'
-          placeholder='이메일 주소 입력'
-          required
-          defaultValue={props.username as string}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, username: [''] }))}
+          {...register("email")}
+          type="email"
+          className={"w-full input input-lg input-neutral validator"}
+          placeholder="이메일 주소 입력"
+          defaultValue={props.email as string}
         />
       </Fieldset>
       <Fieldset
-        label={'비밀번호'}
-        error={fieldErrors.password && '비밀번호가 일치하지 않습니다.'}
+        label={"비밀번호"}
+        error={errors.password && "비밀번호가 일치하지 않습니다."}
       >
         <input
-          type='password'
-          className={'w-full input input-lg input-neutral validator'}
-          name='password'
-          placeholder='영문, 숫자, 특수문자 조합 8-20자'
-          required
-          min={8}
-          max={20}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, password: [''] }))}
+          {...register("password")}
+          type="password"
+          className={"w-full input input-lg input-neutral validator"}
+          placeholder="영문, 숫자, 특수문자 조합 8-20자"
         />
       </Fieldset>
-      <button type='submit' className='block btn btn-lg btn-neutral'>
+      <button type="submit" className="block btn btn-lg btn-neutral">
         다음
       </button>
     </form>

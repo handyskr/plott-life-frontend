@@ -2,9 +2,11 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
 import { SignUpForm } from '../../components/auth/SignUpForm';
+import { withQuery } from "ufo";
 
 const searchParams = Astro.url?.searchParams;
-const username = searchParams?.get('username');
+const email = searchParams?.get('email');
+const redirectURL = searchParams?.get('redirectURL');
 ---
 <Layout>
   <Header
@@ -15,9 +17,11 @@ const username = searchParams?.get('username');
   />
   <div class='flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-12 lg:py-18'>
     <SignUpForm
-      client:only
-      username={username}
-      successURL='/auth/verify-email'
+      client:only="preact"
+      email={email}
+      successURL={withQuery('/auth/verify-email', {
+        redirectURL
+      })}
     />
   </div>
 </Layout>

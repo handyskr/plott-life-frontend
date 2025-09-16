@@ -1,0 +1,46 @@
+import { z } from "zod";
+
+export const USER_POLICY_CODES = [
+  "TERMS_OF_SERVICE",
+  "PRIVACY_POLICY",
+  "IS_ADULT",
+  "MARKETING_CONSENT",
+] as const;
+
+export const emailInput = z.object({
+  email: z.string().email(),
+});
+
+const password = z.string().min(8).max(20)
+
+export const signInInput = emailInput.extend({
+  password: password,
+});
+
+export const passwordConfirmInput = z.object({
+  password: password,
+  passwordConfirm: password,
+});
+
+// NOTE: 구려..astro는 zod3 밖에 지원을 안해서 약간 요상하게 해야함.
+export const signUpInput = signInInput.extend({
+  ...passwordConfirmInput.shape,
+  firstName: z.string().min(1).max(32),
+  lastName: z.string().min(1).max(32),
+  phoneCode: z.string().regex(/\d{1,3}/),
+  phoneNumber: z.string().regex(/\d{6,15}/),
+  agreedPolicyCodes: z.array(z.enum(USER_POLICY_CODES)).optional(),
+}).refine((data) => data.password === data.passwordConfirm, {
+  path: ["passwordConfirm"],
+});
+
+export const termAgreementInput = z.object({
+  TERMS_OF_SERVICE: z.literal(true),
+  PRIVACY_POLICY: z.literal(true),
+  IS_ADULT: z.literal(true),
+  MARKETING_CONSENT: z.boolean().optional(),
+});
+
+export const verifyCodeInput = z.object({
+  code: z.string().length(6),
+});
