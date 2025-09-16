@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from "dayjs";
 
 type RoomFeatures = {
   bedrooms?: number;
@@ -10,16 +10,16 @@ type RoomFeatures = {
 
 export function formatFeatures(features: RoomFeatures): string {
   const labels: Record<string, string> = {
-    bedrooms: '침실',
-    bathrooms: '욕실',
-    livingrooms: '거실',
-    kitchens: '주방',
+    bedrooms: "침실",
+    bathrooms: "욕실",
+    livingrooms: "거실",
+    kitchens: "주방",
   };
 
   return Object.entries(features)
     .filter(([key, value]) => value && value > 0)
     .map(([key, value]) => `${labels[key] ?? key} ${value}개`)
-    .join(', ');
+    .join(", ");
 }
 
 export function getWeeksBetween(startAt?: string | null, endAt?: string | null): number {
@@ -30,7 +30,24 @@ export function getWeeksBetween(startAt?: string | null, endAt?: string | null):
     return 0;
   }
 
-  const diffDays = endDate.diff(startDate, 'day');
+  const diffDays = endDate.diff(startDate, "day");
 
   return Math.ceil(diffDays / 7);
+}
+
+export function getPaymentPriceData({
+  deposit = 0,
+  rentFeePerWeek = 0,
+  cleaningFee = 0,
+  managementFeePerWeek = 0,
+}: { deposit?: number; rentFeePerWeek?: number; cleaningFee?: number; managementFeePerWeek?: number }) {
+  const commission = Math.ceil(rentFeePerWeek * 0.09);
+  const totalPrice = rentFeePerWeek + cleaningFee + managementFeePerWeek + commission;
+  const totalPaymentPrice = deposit + totalPrice;
+
+  return {
+    commission,
+    totalPrice,
+    totalPaymentPrice,
+  };
 }

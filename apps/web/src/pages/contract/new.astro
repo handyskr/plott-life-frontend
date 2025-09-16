@@ -2,162 +2,176 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
 import { SignInForm } from '../../components/auth/SignInForm';
+import dayjs from "dayjs";
+import {
+  getWeeksBetween,
+  getPaymentPriceData,
+} from "@plott-life/utils";
+
+const searchParams = Astro.url.searchParams;
+
+const id = searchParams.get('id') || 0;
+const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
+const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
+const weeks = getWeeksBetween(startAt, endAt);
+
+async function fetchRoomDetail(id: string) {
+  const res = await fetch(`${import.meta.env.PUBLIC_INTERNAL_API_URL}/v1/building-unit/${id}`, {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+const roomDetail = await fetchRoomDetail(id);
+const {
+  name,
+  address,
+  images,
+  deposit,
+  rentFeePerWeek,
+  cleaningFee,
+  managementFeePerWeek,
+} = roomDetail;
 
 const props = {
-  title: '계약',
-}
+  // 나중에 추가되는 항목
+  hostName: '고라비',
+  hostPhone: '010-****-****',
+  guestName: '김틀리',
+  guestPhone: '010-1234-1234',
+  // Url Params
+  startAt: '2025-09-27',
+  endAt: '2025-10-25',
+};
+
+const {
+  hostName,
+  hostPhone,
+  guestName,
+  guestPhone,
+} = props;
+
+const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
+  deposit,
+  rentFeePerWeek,
+  cleaningFee,
+  managementFeePerWeek,
+  weeks,
+});
 ---
 <Layout>
   <Header
     slot='header'
-    title="계약"
+    title='계약'
     showBackIcon={true}
   />
-  <div class="max-w-md mx-auto p-4">
-    <h3 class="title3 text-gray-900 px-2 pb-4">계약 정보</h3>
-    <section class="rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4">
-      <div class="flex items-center gap-4">
+  <div class='p-4'>
+    <h3 class='title3 text-gray-900 px-2 pb-4'>계약 정보</h3>
+    <section class='rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4'>
+      <div class='flex items-center gap-4'>
         <img
-          src="https://placehold.co/80x80"
-          alt="숙소 이미지"
-          class="w-20 h-20 rounded-lg object-cover"
+          src='https://placehold.co/80x80'
+          alt='숙소 이미지'
+          class='w-20 h-20 rounded-lg object-cover'
         />
-        <div class="flex-1">
-          <p class="body4 text-gray-900 mb-1.5">에반스테이 명동점</p>
-          <p class="body5 text-gray-500">서울 중구 인현동1가 158</p>
+        <div class='flex-1'>
+          <p class='body4 text-gray-900 mb-1.5'>{name}</p>
+          <p class='body5 text-gray-500'>{address}</p>
         </div>
       </div>
 
       <div class='w-full h-px bg-gray-300'></div>
-      <div class="w-full flex flex-col justify-center">
-        <p class="body4 text-gray-900">호스트</p>
-        <p class="body5 text-gray-700 mt-1.5 mb-3">유은순 / 010-****-****</p>
-        <div class="w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700">계약이 확정된 후 연락처가 공개됩니다</div>
+      <div class='w-full flex flex-col justify-center'>
+        <p class='body4 text-gray-900'>호스트</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{hostName} / {hostPhone}</p>
+        <div class='w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700'>계약이 확정된 후 연락처가 공개됩니다</div>
       </div>
 
       <div class='w-full h-px bg-gray-300'></div>
-      <div class="w-full flex flex-col justify-center">
-        <p class="body4 text-gray-900">게스트</p>
-        <p class="body5 text-gray-700 mt-1.5 mb-3">김플롯 / 010-1234-1234</p>
+      <div class='w-full flex flex-col justify-center'>
+        <p class='body4 text-gray-900'>게스트</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{guestName} / {guestPhone}</p>
       </div>
 
       <div class='w-full h-px bg-gray-300'></div>
-      <div class="w-full flex flex-col justify-center">
-        <p class="body4 text-gray-900">임대기간</p>
-        <p class="body5 text-gray-700 mt-1.5 mb-3">5주 · 2025년 8월 27일~9월 27일</p>
+      <div class='w-full flex flex-col justify-center'>
+        <p class='body4 text-gray-900'>임대기간</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{weeks}주 · {dayjs(startAt).format('YYYY년 M월 D일')} ~ {dayjs(endAt).format('YYYY년 M월 D일')} </p>
       </div>
     </section>
 
-
-    <h3 class="title3 text-gray-900 px-2 pb-4 mt-8">결제 정보</h3>
-    <section class="rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4">
-      <div class="flex justify-between">
-        <span class="body6 text-gray-600">임대료</span>
-        <span class="body4 text-gray-900">170,000원</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="body6 text-gray-600">관리비</span>
-        <span class="body4 text-gray-900">170,000원</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="body6 text-gray-600">퇴실 청소비</span>
-        <span class="body4 text-gray-900">170,000원</span>
-      </div>
-      <div class="flex justify-between">
-        <span class="body6 text-gray-600">계약 수수료</span>
-        <span class="body4 text-gray-900">170,000원</span>
+    <h3 class='title3 text-gray-900 px-2 pb-4 mt-8'>결제 정보</h3>
+    <section class='rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4'>
+      <div class='flex justify-between'>
+        <span class='body4 text-gray-900'>
+          최종 결제 금액
+        </span>
+        <span class='body1 text-gray-900'>
+          {totalPaymentPrice.toLocaleString()}원
+        </span>
       </div>
       <div class='w-full h-px bg-gray-300'></div>
-      <div class="flex justify-between">
-        <span class="body4 text-gray-900">실 이용 금액</span>
-        <span class="body1 text-gray-900">170,000원</span>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>임대료</span>
+        <span class='body4 text-gray-900'>{rentFeePerWeek.toLocaleString()}원</span>
       </div>
-      <div class="flex justify-between">
-        <span class="body6 text-gray-600">보증금</span>
-        <span class="body4 text-gray-900">170,000원</span>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>관리비</span>
+        <span class='body4 text-gray-900'>{managementFeePerWeek.toLocaleString()}원</span>
       </div>
-      <div class="w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700">계약이 확정된 후 연락처가 공개됩니다</div>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>퇴실 청소비</span>
+        <span class='body4 text-gray-900'>{cleaningFee.toLocaleString()}원</span>
+      </div>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>계약 수수료</span>
+        <span class='body4 text-gray-900'>{commission.toLocaleString()}원</span>
+      </div>
       <div class='w-full h-px bg-gray-300'></div>
-      <div class="flex justify-between">
-        <span>계약 수수료</span><span>23,760원</span>
+      <div class='flex justify-between'>
+        <span class='body4 text-gray-900'>실 이용 금액</span>
+        <span class='body1 text-gray-900'>{totalPrice.toLocaleString()}원</span>
+      </div>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>보증금</span>
+        <span class='body4 text-gray-900'>{deposit.toLocaleString()}원</span>
+      </div>
+      <div class='w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700'>
+        보증금은 plott LIFE에서 보관하며, 퇴실 후 반환됩니다.
       </div>
     </section>
   </div>
-  <div class="max-w-md mx-auto p-4 space-y-6 ">
-    <!-- 계약 정보 -->
 
-    <!-- 결제 정보 -->
-    <section class="space-y-3">
-      <h2 class="text-lg font-bold">결제 정보</h2>
-      <div class="card bg-base-100 shadow p-4 space-y-2 text-sm">
-        <div class="flex justify-between">
-          <span>임대료</span><span>170,000원</span>
-        </div>
-        <div class="flex justify-between">
-          <span>관리비</span><span>40,000원</span>
-        </div>
-        <div class="flex justify-between">
-          <span>퇴실 청소비</span><span>30,000원</span>
-        </div>
-        <div class="flex justify-between">
-          <span>계약 수수료</span><span>23,760원</span>
-        </div>
 
-        <div class="divider my-2"></div>
-
-        <div class="flex justify-between font-medium">
-          <span>실 이용 금액</span><span>263,760원</span>
-        </div>
-        <div class="flex justify-between font-medium">
-          <span>보증금</span><span>330,000원</span>
-        </div>
-        <p class="text-xs text-gray-400">
-          보증금은 plott LIFE에서 보관하며, 퇴실 후 반환됩니다.
-        </p>
-
-        <div class="divider my-2"></div>
-
-        <div class="flex justify-between font-bold text-lg">
-          <span>최종 결제 금액</span><span>593,760원</span>
-        </div>
-      </div>
+  <div class='px-6 py-8 bg-gray-50'>
+    <section class='mb-8'>
+      <p class='body1 text-gray-900 mb-4'>계약 취소 시 환불 규정</p>
+      <ul class='body6 text-gray-900 space-y-2'>
+        <li>입주일 15일 이전 : 임대료의 100% 환불</li>
+        <li>입주일 14일 ~ 8일 이전 : 임대료의 80% 환불</li>
+        <li>입주일 7일 ~ 1일 이전 : 임대료의 60% 환불</li>
+        <li>입주 당일 : 환불 불가</li>
+        <li>관리비, 청소비, 보증금은 전액 환불됩니다.</li>
+      </ul>
     </section>
-
-    <!-- 계약 취소 규정 -->
-    <section class="space-y-3">
-      <h2 class="text-lg font-bold">계약 취소 시 환불 규정</h2>
-      <div class="card bg-base-100 shadow p-4 space-y-2 text-sm leading-relaxed">
-        <p>입주 15일 이전 취소 시 → 임대료와 계약 수수료의 10% 위약금 발생</p>
-        <p>입주 8일 이전 취소 시 → 임대료와 계약 수수료의 30% 위약금 발생</p>
-        <p>입주 1일 이전 취소 시 → 임대료와 계약 수수료의 50% 위약금 발생</p>
-        <p>입주 당일 이후 취소 시 → 취소 불가</p>
-        <p class="text-gray-500 text-xs">
-          결제 취소 시, 환불 규정에 따라 임대료와 계약 수수료 중 일부가 위약금으로 부과됩니다.
-          단, 무료 취소 기간 내 취소 시에는 전액 환불됩니다.
-        </p>
-        <p class="text-gray-500 text-xs">
-          관리비, 청소비, 보증금은 전액 환불됩니다. (단, 환불 규정은 호스트의 설정에 따라
-          달라질 수 있습니다.)
-        </p>
-      </div>
+    <section class='space-y-3'>
+      <p class='body1 text-gray-900 mb-4'>계약 절차</p>
+      <ul class='body6 text-gray-900 space-y-2'>
+        <li>계약 요청 > 호스트 승인 > 결제 > 입주 > 퇴실 > 호스트 퇴실 확인 > 보증금 반환</li>
+        <li>호스트가 24시간 이내에 계약을 승인/거절합니다.</li>
+        <li>계약은 결제 완료시 확정됩니다</li>
+      </ul>
     </section>
-
-    <!-- 계약 절차 -->
-    <section class="space-y-3">
-      <h2 class="text-lg font-bold">계약 절차</h2>
-      <div class="card bg-base-100 shadow p-4 space-y-2 text-sm leading-relaxed">
-        <p>계약 요청 → 호스트 승인 → 결제 → 입주 → 퇴실</p>
-        <p>호스트 퇴실 확인 & 보증금 반환</p>
-        <p class="text-gray-500 text-xs">
-          호스트가 24시간 이내에 계약을 승인/거절합니다.
-        </p>
-        <p class="text-gray-500 text-xs">계약은 결제 완료 시 확정됩니다.</p>
-      </div>
-    </section>
-
-    <!-- 버튼 -->
-    <div class="pt-4">
-      <button class="btn btn-block btn-primary">계약 요청하기</button>
-    </div>
+  </div>
+  <div
+    slot='nav'
+    class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
+  >
+    <button class='btn btn-block btn-primary body2'>계약 요청하기</button>
   </div>
 </Layout>
