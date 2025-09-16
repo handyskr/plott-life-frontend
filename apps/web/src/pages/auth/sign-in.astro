@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/template/Header.astro';
+import { SignInForm } from '../../components/auth/SignInForm';
+
+const searchParams = Astro.url?.searchParams;
+const email = searchParams?.get('email');
+const redirectURL = searchParams?.get('redirectURL');
+---
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+    showHomeIcon={true}
+  />
+  <div class='flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64'>
+    <SignInForm
+      client:visible
+      email={email}
+      successURL={redirectURL || '/'}
+    />
+    <a
+      href='/auth/reset-password'
+      class='body6 text-gray-700 underline mt-6'
+    >
+      비밀번호 재설정
+    </a>
+  </div>
+</Layout>

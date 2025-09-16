@@ -1,10 +1,11 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import {Fieldset} from '@plott-life/ui/components/Fieldset';
+import {Checkbox} from '@plott-life/ui/components/Checkbox';
 ---
 
 <Layout>
-  <div class="p-3 flex flex-col gap-6">
+  <div class="p-3 pb-32 flex flex-col gap-6">
     <section>
       <h2 class="title2 mb-3">Typography</h2>
       <p class='title1'>Text</p>
@@ -61,19 +62,31 @@ import {Fieldset} from '@plott-life/ui/components/Fieldset';
       <input type="text" placeholder="Warning" class="input input-warning" />
       <input type="text" placeholder="Error" class="input input-error" />
       <h2 class="title2 mt-6 mb-3">Fieldset</h2>
-      <Fieldset label="Label">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" description="description">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" error="error">
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
-      <Fieldset label="Label" error="error">
-        <input class="input" placeholder="Placeholder" />
-        <input class="input" placeholder="Placeholder" />
-      </Fieldset>
+      <div class="flex flex-col gap-6">
+        <Fieldset label="Label">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" description="description">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" error="error">
+          <input class="input" placeholder="Placeholder" />
+        </Fieldset>
+        <Fieldset label="Label" error="error">
+          <label class="join join-vertical">
+            <input class="input join-item" placeholder="Placeholder" />
+            <input class="input join-item" placeholder="Placeholder" />
+          </label>
+        </Fieldset>
+        <Fieldset label="Label">
+          <input class="input" placeholder="Placeholder" value="Disabled" disabled />
+        </Fieldset>
+      </div>
+    </section>
+    <section>
+      <h2 class="title2 mb-3">Checkbox</h2>
+      <Checkbox>Checkbox</Checkbox>
+      <Checkbox>Checkbox</Checkbox>
     </section>
   </div>
 </Layout>

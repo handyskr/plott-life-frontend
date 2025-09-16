@@ -34,16 +34,16 @@ const { pathname } = Astro.url;
     </a>
 
     <a
-      id="nav-my"
-      href='/my'
-      class:list={['flex flex-col items-center w-16', pathname === '/my' ? 'text-gray-900' : 'text-gray-500']}
+      id="nav-profile"
+      href='/auth/profile'
+      class:list={['flex flex-col items-center w-16', pathname === '/auth/profile' ? 'text-gray-900' : 'text-gray-500']}
     >
       <div class="w-6 h-6 flex items-center justify-center">
         <IconUser
-          color={pathname === '/my' ? 'text-gray-900' : 'text-gray-500'}
+          color={pathname === '/auth/profile' ? 'text-gray-900' : 'text-gray-500'}
         />
       </div>
-      <span class='caption3 mt-1.5'>내 정보</span>
+      <span class='caption3 mt-1.5'>프로필</span>
     </a>
   </div>
 </nav>

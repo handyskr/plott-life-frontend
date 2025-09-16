@@ -1,0 +1,39 @@
+---
+import { LoginForm } from '../../components/auth/LoginForm';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/template/Header.astro';
+import IconLogo from '@plott-life/ui/icons/logo.svg';
+import { withQuery } from "ufo";
+
+const redirectURL = '/'
+
+const accessToken = await Astro.session?.get('accessToken');
+if (accessToken) {
+  return Astro.redirect(redirectURL);
+}
+---
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+    showHomeIcon={true}
+  />
+  <div class='flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64'>
+    <div class='flex justify-center'>
+      <IconLogo class='w-18' />
+    </div>
+    <h1 class='title1 font-bold text-center mt-8 mb-10'>
+      쉽게 가입하고<br />
+      간편하게 로그인하세요
+    </h1>
+    <LoginForm
+      client:visible
+      successURL={withQuery('/auth/sign-in', {
+        redirectURL
+      })}
+      failureURL={withQuery('/auth/sign-up', {
+          redirectURL
+      })}
+    />
+  </div>
+</Layout>

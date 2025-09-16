@@ -4,7 +4,6 @@ import '@styles/style.css';
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
-
 interface Props {
   title?: string;
   subtitle?: string;
@@ -47,13 +46,15 @@ if (!image) {
         <slot name='footer' />
         <slot name='nav' />
       </main>
+      <!--<button class="fixed bottom-4 right-1/2 translate-x-1/2 btn btn-primary rounded-full shadow-lg"> + </button>-->
     </div>
   </body>
   <!-- 임시로 준비중 처리 -->
-  <script type='module'>
+  <script type="module">
     const elements = [
+      document.getElementById('search-button'),
+      document.getElementById('nav-search'),
       document.getElementById('nav-contract'),
-      document.getElementById('nav-my'),
       document.getElementById('btn-contract'),
       document.getElementById('btn-inquiry'),
       document.getElementById('privacy-policy'),

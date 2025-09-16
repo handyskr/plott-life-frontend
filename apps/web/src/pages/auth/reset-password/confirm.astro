@@ -1,0 +1,22 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import { PasswordConfirmForm } from '@components/auth';
+
+const searchParams = Astro.url?.searchParams;
+const email = searchParams?.get('email');
+---
+<Layout>
+  <Header
+    slot='header'
+    title='비밀번호 설정하기'
+    showBackIcon={true}
+  />
+  <div class='flex flex-col max-w-2xl mx-auto items-center py-4 px-6 md:px-24 md:py-32 lg:py-64'>
+    <PasswordConfirmForm
+      client:visible
+      email={email}
+      successURL='/auth/reset-password/success'
+    />
+  </div>
+</Layout>

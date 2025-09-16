@@ -6,27 +6,43 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 const liveURL = "https://life.plott.co.kr";
-const { SITE } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
+const { NODE_ENV } = process.env;
+const env = loadEnv(NODE_ENV, process.cwd(), "");
+
+console.log(env);
+
+const { SITE, REDIS_URL } = env;
 
 export default defineConfig({
   site: SITE,
   integrations: [
-    preact(),
+    preact({ compat: true }),
     sitemap({
       filter: (page) =>
         page.startsWith(liveURL) &&
-        !page.startsWith(`${liveURL}/theme`),
+        !page.startsWith(`${liveURL}/theme`) &&
+        !page.startsWith(`${liveURL}/auth`),
     }),
   ],
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
   output: "server",
   adapter: node({
     mode: "standalone",
   }),
+  session: {
+    driver: "redis",
+    options: {
+      url: REDIS_URL,
+    },
+    cookie: {
+      name: "session",
+      sameSite: "lax",
+      httpOnly: true,
+      secure: NODE_ENV === "production",
+    },
+  },
   build: {
     assetsPrefix: "/assets",
   },

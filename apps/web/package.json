@@ -3,16 +3,21 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
+    "dev": "astro dev --host 0.0.0.0",
     "build": "astro build",
     "start": "astro preview",
     "lint": "eslint .",
     "generate:icons": "node ./scripts/generate-icons.js"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
     "astro": "^5.13.5",
+    "ioredis": "^5.7.0",
+    "react": "npm:@preact/compat@18.3.1",
+    "react-dom": "npm:@preact/compat@18.3.1",
+    "react-hook-form": "^7.62.0",
     "swiper": "^11.2.10",
     "web-vitals": "^5.1.0"
   },
@@ -21,9 +26,9 @@
     "@astrojs/preact": "^4.1.0",
     "@astrojs/sitemap": "^3.5.1",
     "@plott-life/dev": "workspace:*",
+    "@preact/compat": "18.3.1",
     "@tailwindcss/vite": "^4.1.13",
     "eslint": "^9.34.0",
-    "sharp": "^0.34.3",
     "typescript": "^5.9.2"
   }
 }
