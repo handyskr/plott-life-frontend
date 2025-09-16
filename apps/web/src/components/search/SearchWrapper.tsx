@@ -71,7 +71,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
   return (
     <>
       {/* 헤더, 푸터, 간격 */}
-      <div className='flex flex-col h-[calc(100vh-64px-74px)]'>
+      <div className='flex flex-col h-[calc(100dvh-64px-74px-var(--sait))]'>
         {/* 위치 */}
         <div
           className={`
@@ -175,7 +175,6 @@ export default function SearchWrapper(props: SearchWrapperProps) {
           전체 삭제
         </span>
         <button
-         // UFO query parameter 수정
           className='w-[120px] rounded-lg btn btn-primary body2'
           onClick={handleSearchClick}
         >
