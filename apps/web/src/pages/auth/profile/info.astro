@@ -1,0 +1,53 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Header from "../../../components/template/Header.astro";
+import IconArrowRight from "@plott-life/ui/icons/arrow-right.svg";
+if (!Astro.locals.isLoggedIn) {
+  return Astro.redirect("/auth/login");
+}
+const user = Astro.locals.user!!;
+---
+<Layout>
+  <Header
+    slot='header'
+    title="개인 정보"
+    showBackIcon={true}
+  />
+  <div class="max-w-lg mx-auto h-full flex flex-col justify-between px-6 py-8">
+    <section class="flex-1">
+      <div class="border border-gray-300 rounded-2xl py-1 px-6">
+        <div class="flex flex-row justify-between items-center gap-4 py-4">
+          <div class="flex flex-col gap-1 text-sm">
+            <p class="text-gray-900 font-bold">이메일</p>
+            <p class="text-gray-700">{user?.email}</p>
+          </div>
+        </div>
+        <hr class="border-gray-200"/>
+        <div class="flex flex-row justify-between items-center gap-4 py-4">
+          <div class="flex flex-col gap-1 text-sm">
+            <p class="text-gray-900 font-bold">여권상 이름</p>
+            <p class="text-gray-700">{user?.firstName} {user?.lastName}</p>
+          </div>
+        </div>
+        <hr class="border-gray-200"/>
+        <a class="flex flex-row justify-between items-center gap-4 py-4" href="/auth/profile/phone">
+          <div class="flex flex-col gap-1 text-sm">
+            <p class="text-gray-900 font-bold">연락처</p>
+            <p class="text-gray-700">{user?.phoneNumber || '없음'}</p>
+          </div>
+          <IconArrowRight class="size-4 text-gray-400" />
+        </a>
+        <hr class="border-gray-200"/>
+        <a class="flex flex-row justify-between items-center gap-4 py-4" href="/auth/profile/password">
+          <div class="flex flex-col gap-1 text-sm">
+            <p class="text-gray-900 font-bold">비밀번호 변경</p>
+          </div>
+          <IconArrowRight class="size-4 text-gray-400" />
+        </a>
+      </div>
+    </section>
+    <div class="flex flex-row justify-center pb-(--bait)">
+      <a class="text-sm text-gray-500 underline">회원탈퇴</a>
+    </div>
+  </div>
+</Layout>

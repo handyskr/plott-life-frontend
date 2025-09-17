@@ -1,0 +1,19 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Header from "../../../components/template/Header.astro";
+import { PhoneForm } from "../../../components/auth/PhoneForm.tsx";
+if (!Astro.locals.isLoggedIn) {
+  return Astro.redirect("/auth/login");
+}
+const user = Astro.locals.user!!;
+---
+<Layout>
+  <Header
+    slot='header'
+    title="연락처 변경"
+    showBackIcon={true}
+  />
+  <div class="max-w-lg mx-auto h-full flex flex-col justify-between px-6 py-8">
+    <PhoneForm client:load />
+  </div>
+</Layout>
