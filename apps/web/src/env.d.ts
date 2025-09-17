@@ -27,6 +27,8 @@ type EntityStatus = 'ACTIVE' | 'INACTIVE' | 'SUSPENDED' | 'DELETED';
 interface User {
   id: number;
   email: string;
+  phoneCode: string;
+  phoneNumber: string;
   firstName: string;
   lastName: string;
   status: EntityStatus;
