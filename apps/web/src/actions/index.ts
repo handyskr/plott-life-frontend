@@ -5,6 +5,6 @@ export const server = {
   check,
   signIn,
   signUp,
-  requestVerification: requestCode,
-  verifyVerification: verifyCode,
+  requestCode,
+  verifyCode,
 }

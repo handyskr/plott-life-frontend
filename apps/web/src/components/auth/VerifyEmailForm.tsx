@@ -1,8 +1,11 @@
-import { actions, isInputError } from 'astro:actions';
-import { useState } from 'preact/hooks';
-import type { InferFieldErrors } from '../../actions/types.ts';
-import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
-import { navigate } from '../../navigator';
+import { type ActionError, actions, isInputError } from "astro:actions";
+import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
+import { navigateWithQuery } from "../../navigator";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { verifyCodeInput } from "../../actions/schema.ts";
+import { handleSetActionInputError } from "../../actions/utils.ts";
+import type { ActionSubmitHandler } from "../../actions/types.ts";
 
 interface Props {
   email?: string | null;
@@ -10,86 +13,72 @@ interface Props {
 }
 
 export const VerifyEmailForm = (props: Props) => {
-  // NOTE: 이메일전달 확인목적으로 이메일도 포함
-  const [fieldErrors, setFieldErrors] = useState<
-    InferFieldErrors<typeof actions.login>
-  >({});
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(verifyCodeInput),
+  });
+  const setActionError = handleSetActionInputError(setError);
 
-  const onSubmit = async (e: SubmitEvent) => {
-    e.preventDefault();
-
-    setFieldErrors({});
-
+  const onSubmit: ActionSubmitHandler<typeof actions.verifyCode> = async (
+    data,
+  ) => {
     try {
-      const formData = new FormData(e.target as HTMLFormElement);
-      const { error } = await actions.check(formData);
+      const { error } = await actions.verifyCode(data);
       if (error) {
         throw error;
       }
 
-      await navigate(props.successURL);
+      await navigateWithQuery(props.successURL, {});
     } catch (error: any) {
       if (isInputError(error)) {
-        setFieldErrors(error.fields);
+        setActionError(error);
         return;
       }
-
-      switch (error?.code) {
-        case 'NOT_FOUND':
-          alert('가입되지 않은 이메일입니다.');
-          break;
+      switch ((error as ActionError)?.code) {
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
+          alert("알 수 없는 에러가 발생했습니다.");
           console.error(error);
           break;
       }
     }
   };
 
+  const onResend = async () => {
+    const { error } = await actions.requestCode({});
+    if (error) {
+      alert("코드 재전송에 실패했습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    alert("코드가 재전송되었습니다.");
+  };
+
   return (
     <form
-      className='flex flex-col w-full gap-6'
-      method='POST'
-      onSubmit={onSubmit}
+      className="flex flex-col w-full gap-6"
+      method="POST"
+      onSubmit={handleSubmit(onSubmit)}
     >
-      {/* MEMO: 이메일 주소 필요한 경우 사용 */}
-      {/*<Fieldset*/}
-      {/*  hidden={!!props.email}*/}
-      {/*  label={'이메일'}*/}
-      {/*  error={fieldErrors.email && '올바른 이메일을 입력해 주세요.'}*/}
-      {/*>*/}
-      {/*  <input*/}
-      {/*    type='email'*/}
-      {/*    className={'w-full input input-lg input-neutral validator'}*/}
-      {/*    name='email'*/}
-      {/*    placeholder='이메일 주소 입력'*/}
-      {/*    required*/}
-      {/*    defaultValue={props.email as string}*/}
-      {/*    onInvalid={() => setFieldErrors((it) => ({ ...it, email: [''] }))}*/}
-      {/*  />*/}
-      {/*</Fieldset>*/}
-      <Fieldset
-        error={fieldErrors.code && '코드를 입력해주세요.'}
-      >
+      <Fieldset error={errors.code && "코드를 입력해주세요."}>
         <input
-          className={'w-full input input-lg input-neutral validator'}
-          name='code'
-          placeholder='코드 입력'
-          required
-          defaultValue={props.email as string}
-          onInvalid={() => setFieldErrors((it) => ({ ...it, email: [''] }))}
+          {...register("code")}
+          className={"w-full input input-lg input-neutral validator"}
+          placeholder="코드 입력"
         />
       </Fieldset>
-      <button type='submit' className='block btn btn-lg btn-neutral'>
+      <button type="submit" className="block btn btn-lg btn-neutral">
         확인
       </button>
-      <div className={'flex flex-row items-center gap-2'}>
-        <p className='body3 text-gray-600'>
-          메일을 받지 못하셨나요?
-        </p>
+      <div className={"flex flex-row items-center gap-2"}>
+        <p className="body3 text-gray-600">메일을 받지 못하셨나요?</p>
         <button
-          type='submit'
-          className='body3 text-gray-900 underline cursor-pointer'
+          type="button"
+          className="body3 text-gray-900 underline cursor-pointer"
+          onClick={onResend}
         >
           재전송
         </button>

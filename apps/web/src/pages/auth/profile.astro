@@ -1,26 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import BottomNav from "../../components/template/BottomNav.astro";
-const accessToken = await Astro.session?.get('accessToken');
-const res = await fetch(`${import.meta.env.PRIVATE_API_URL}/v1/user/me`, {
-  headers: {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${accessToken}`,
-  },
-});
-
-let user: {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-} | null = null;
-
-if (res.ok) {
-  user = await res.json();
-}
-
-console.log(res);
+const user = Astro.locals.user;
 ---
 <Layout>
   <section class="px-6">

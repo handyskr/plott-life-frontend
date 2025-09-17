@@ -1,13 +1,13 @@
 import { ActionError, defineAction } from "astro:actions";
 import { signUpInput, verifyCodeInput } from "./schema.ts";
 
-const { PRIVATE_API_URL } = import.meta.env;
+const { API_URL } = import.meta.env;
 
 export const signUp = defineAction({
   accept: "json",
   input: signUpInput,
   handler: async (input, context) => {
-    const res = await fetch(`${PRIVATE_API_URL}/v1/user`, {
+    const res = await fetch(`${API_URL}/v1/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +31,7 @@ export const signUp = defineAction({
 
       // TODO: 이메일 인증은 추후 작업
       // // 이메일 본인인증 요청
-      // await fetch(`${PRIVATE_API_URL}/v1/verification`, {
+      // await fetch(`${API_URL}/v1/verification`, {
       //   method: "POST",
       //   headers: {
       //     "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const requestCode = defineAction({
       });
     }
 
-    const res = await fetch(`${PRIVATE_API_URL}/v1/verification`, {
+    const res = await fetch(`${API_URL}/v1/verification`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export const verifyCode = defineAction({
       });
     }
 
-    const res = await fetch(`${PRIVATE_API_URL}/v1/verification:verify`, {
+    const res = await fetch(`${API_URL}/v1/verification:verify`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
