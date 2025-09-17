@@ -3,6 +3,10 @@ import { defineMiddleware } from "astro:middleware";
 const { API_URL } = import.meta.env;
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  if (context.url.pathname.startsWith("/assets")) {
+    return next();
+  }
+
   console.log(`Middleware: ${context.url.pathname}`);
   context.session?.set("lastVisit", new Date());
 
