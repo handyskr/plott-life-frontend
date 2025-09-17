@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
-import { EXPOSE_DATE_FORMAT } from '@libs/values';
+import {ContractStatus, EXPOSE_DATE_FORMAT} from '@libs/values';
+import type { ContractStatusType } from '@libs/values.ts';
 
 interface Props {
   name: string;
@@ -16,7 +17,7 @@ interface Props {
     name: string;
     phone: string;
   };
-  isOpen?: boolean;
+  contractStatus?: ContractStatusType;
 }
 
 export default function ContractInfo(props: Props) {
@@ -28,26 +29,36 @@ export default function ContractInfo(props: Props) {
     endAt,
     host,
     guest,
-    isOpen,
+    contractStatus,
   } = props;
 
-  const [open, setOpen] = useState(isOpen);
+  const [open, setOpen] = useState(!!contractStatus && contractStatus === ContractStatus.REQUESTED);
+
+  const isActive = contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED;
+
+  const handleTabClick = () => {
+    if (isActive) {
+      setOpen(!open);
+    }
+  };
 
   return (
     <section className={`contract-info p-6 ${open ? 'open' : ''}`}>
       <div
         className='header flex justify-between cursor-pointer'
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={handleTabClick}
       >
         <h3 className='body1 text-gray-900'>계약 정보</h3>
-        <div className='icon transition-transform duration-300'>
-          ▼
-        </div>
+        {isActive && (
+          <div className='icon transition-transform duration-300'>
+            ▼
+          </div>
+        )}
       </div>
 
       <div
         className={`content overflow-hidden transition-all duration-300 ease-in-out space-y-4 ${
-          open ? 'max-h-[1000px]' : 'max-h-0'
+          (open || !isActive) ? 'max-h-[1000px]' : 'max-h-0'
         }`}
       >
         <div className='flex items-center gap-4 pt-6'>

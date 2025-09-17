@@ -7,16 +7,18 @@ import {
   getWeeksBetween,
   getPaymentPriceData,
 } from '@plott-life/utils';
-import {EXPOSE_DATE_FORMAT} from '../../libs/values';
+import {ContractStatus, EXPOSE_DATE_FORMAT} from '../../libs/values';
 import {
+  NotificationBanner,
   ContractInfo,
   PaymentInfo,
   BottomNav,
+  Payment,
 } from '../../components/contract';
 
-import NotificationBanner from '../../components/common/NotificationBanner.astro';
 import StatusTimeline from '@components/contract/StatusTimeline.astro';
 import Description from '@components/contract/Description.astro';
+import Notice from '@components/contract/Notice.astro';
 
 const { id } = Astro.params;
 
@@ -52,7 +54,7 @@ const props = {
   endAt: '2025-10-25',
   name: '성수 1호점',
   address: '서울시 성동구 성수동1가 123-45',
-  contractStatus: 'REQUESTED',
+  contractStatus: ContractStatus.COMPLETED,
   host: {
     name: '고라비',
     phone: '010-1234-5678',
@@ -97,41 +99,59 @@ const {
     showBackIcon={true}
   />
   <div class='p'>
-    <div class='w-full mb-1'>
-      <NotificationBanner type='info'>
-        <b>오후 4시 30분까지</b>&nbsp;승인 여부가 확정됩니다.
-      </NotificationBanner>
-    </div>
-    <div class='w-full bg-gray-50 px-10 py-4'>
-      <StatusTimeline
-        contractStatus={contractStatus}
-      />
-    </div>
-
+    {contractStatus !== ContractStatus.MOVED_OUT && (
+      <div class='w-full mb-1'>
+        <NotificationBanner
+          contractStatus={contractStatus}
+        />
+      </div>
+    )}
+    {(contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED) && (
+      <div class='w-full bg-gray-50 px-10 py-4'>
+        <StatusTimeline
+          contractStatus={contractStatus}
+        />
+      </div>
+    )}
     <ContractInfo
       client:visible
-      isOpen={true}
       {...props}
     />
+    {(contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.MOVED_OUT || contractStatus === ContractStatus.USING) && (
+      <>
+        <div class='bg-gray-100 w-full h-2' />
+        <Notice />
+      </>
+    )}
     <div class='bg-gray-100 w-full h-2' />
     <PaymentInfo
       client:visible
       {...props}
     />
+    {(contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED) && (
+      <>
+        <div class='bg-gray-100 w-full h-2' />
+        <Payment
+          client:visible
+          {...props}
+        />
+      </>
+    )}
   </div>
-
   <Description
     contractStatus={contractStatus}
   />
-  <div
-    class="p-4 pb-10"
-  >
-    <button
-      class="btn bg-white w-full text-gray-900 body2"
+  {contractStatus === ContractStatus.APPROVED && (
+    <div
+      class="p-6 pb-10"
     >
-      계약 취소하기
-    </button>
-  </div>
+      <button
+        class="btn bg-white w-full text-gray-900 body2"
+      >
+        계약 취소하기
+      </button>
+    </div>
+  )}
   <!--<div-->
   <!--  slot='nav'-->
   <!--  class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'-->
