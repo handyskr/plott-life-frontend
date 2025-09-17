@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
 import { SignInForm } from '../../components/auth/SignInForm';
+import { withQuery } from "ufo";
 
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
@@ -18,12 +19,10 @@ const redirectURL = searchParams?.get('redirectURL');
       client:visible
       email={email}
       successURL={redirectURL || '/'}
+      setPasswordURL='/auth/reset-password/confirm'
+      sentPasswordURL={withQuery('/auth/reset-password/sent', {
+        email: email || '',
+      })}
     />
-    <a
-      href='/auth/reset-password'
-      class='body6 text-gray-700 underline mt-6'
-    >
-      비밀번호 재설정
-    </a>
   </div>
 </Layout>

@@ -22,6 +22,17 @@ export const passwordConfirmInput = z.object({
   passwordConfirm: password,
 });
 
+export const setPasswordInput = passwordConfirmInput.extend({
+  email: z.string().email(),
+  token: z.string().min(1),
+}).refine((data) => data.password === data.passwordConfirm, {
+  path: ["passwordConfirm"],
+});
+
+export const resetPasswordInput = emailInput.extend({
+  redirectUri: z.string().url(),
+});
+
 // NOTE: 구려..astro는 zod3 밖에 지원을 안해서 약간 요상하게 해야함.
 export const signUpInput = signInInput.extend({
   ...passwordConfirmInput.shape,

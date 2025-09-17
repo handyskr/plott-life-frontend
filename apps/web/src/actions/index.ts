@@ -1,5 +1,6 @@
 import { check, signIn } from "./signIn.ts";
 import { signUp, requestCode, verifyCode } from "./signUp.ts";
+import { resetPassword, setPassword } from "./password.ts";
 
 export const server = {
   check,
@@ -7,4 +8,6 @@ export const server = {
   signUp,
   requestCode,
   verifyCode,
+  setPassword,
+  resetPassword,
 }

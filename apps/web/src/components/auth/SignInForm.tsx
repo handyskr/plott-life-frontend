@@ -10,16 +10,22 @@ import { handleSetActionInputError } from "../../actions/utils.ts";
 interface Props {
   email?: string | null;
   successURL: string;
+  setPasswordURL: string;
+  sentPasswordURL: string;
 }
 
 export const SignInForm = (props: Props) => {
   const {
     register,
     handleSubmit,
+    getValues,
     setError,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(signInInput),
+    defaultValues: {
+      email: props.email as string,
+    }
   });
   const setActionError = handleSetActionInputError(setError);
 
@@ -38,6 +44,9 @@ export const SignInForm = (props: Props) => {
       }
 
       switch (error?.code) {
+        case "BAD_REQUEST":
+          alert("입력한 정보를 다시 확인해 주세요.");
+          break;
         case "NOT_FOUND":
           setError("password", { type: "custom" });
           break;
@@ -48,6 +57,47 @@ export const SignInForm = (props: Props) => {
       }
     }
   };
+
+  const onRequestRestPassword = async () => {
+    const { email } = getValues();
+    if (!email) {
+      alert("이메일을 입력해 주세요.");
+      return;
+    }
+
+    try {
+      const { error: emailCheckError } = await actions.check({ email });
+      if (emailCheckError) {
+        throw emailCheckError;
+      }
+      const { error: resetPasswordError } = await actions.resetPassword({
+        email, redirectUri: new URL(props.setPasswordURL, location.href).href
+      });
+      if (resetPasswordError) {
+        throw resetPasswordError;
+      }
+
+      await navigate(props.sentPasswordURL);
+    } catch (error: any) {
+      if (isInputError(error)) {
+        setActionError(error);
+        return;
+      }
+
+      switch (error?.code) {
+        case "BAD_REQUEST":
+          alert("입력한 정보를 다시 확인해 주세요.");
+          break;
+        case "NOT_FOUND":
+          alert("등록되지 않은 이메일입니다.");
+          break;
+        default:
+          alert("알 수 없는 에러가 발생했습니다.");
+          console.error(error);
+          break;
+      }
+    }
+  }
 
   return (
     <form
@@ -64,12 +114,11 @@ export const SignInForm = (props: Props) => {
           type="email"
           className={"w-full input input-lg input-neutral validator"}
           placeholder="이메일 주소 입력"
-          defaultValue={props.email as string}
         />
       </Fieldset>
       <Fieldset
         label={"비밀번호"}
-        error={errors.password && "비밀번호가 일치하지 않습니다."}
+        error={errors.password && "비밀번호가 올바르지 않습니다."}
       >
         <input
           {...register("password")}
@@ -80,6 +129,13 @@ export const SignInForm = (props: Props) => {
       </Fieldset>
       <button type="submit" className="block btn btn-lg btn-neutral">
         다음
+      </button>
+      <button
+        type={"button"}
+        onClick={onRequestRestPassword}
+        class='body6 text-gray-700 underline mt-6'
+      >
+        비밀번호 재설정
       </button>
     </form>
   );
