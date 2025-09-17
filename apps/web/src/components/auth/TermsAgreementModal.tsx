@@ -108,7 +108,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [필수] 만 19세 이상 확인
-              <IconArrowRight href={"/content/policy"} />
+              <IconArrowRight href={"/content/service-policy"} />
             </p>
           </label>
           <label className="label gap-4">
@@ -123,7 +123,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [선택] 개인정보 마케팅 활용 동의
-              <IconArrowRight href={"/content/policy"} />
+              <IconArrowRight href={"/content/service-policy"} />
             </p>
           </label>
           <button type="submit" className="w-full btn btn-lg btn-neutral body2">
