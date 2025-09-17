@@ -32,7 +32,7 @@ export const SignUpForm = (props: Props) => {
 
   console.error(errors);
 
-  const [isOpenTermsModal, setIsOpenTermsModal] = useState(true);
+  const [isOpenTermsModal, setIsOpenTermsModal] = useState(false);
 
   const onSubmit: ActionSubmitHandler<typeof actions.signUp> = async (data) => {
     setIsOpenTermsModal(true);
