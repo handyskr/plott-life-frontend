@@ -32,7 +32,7 @@ const redirectURL = searchParams?.get('redirectURL');
     class='px-6 py-6'
   >
     <a
-      href={redirectURL}
+      href={redirectURL || '/'}
       class='btn btn-lg btn-primary w-full body3'
     >
       서비스 시작하기

@@ -1212,7 +1212,6 @@ __metadata:
     "@eslint/js": "npm:^9.34.0"
     eslint: "npm:^9.34.0"
     eslint-config-prettier: "npm:^10.1.8"
-    eslint-config-turbo: "npm:^2.5.6"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import: "npm:^2.32.0"
     typescript: "npm:^5.9.2"
@@ -3218,13 +3217,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.0.3":
-  version: 16.0.3
-  resolution: "dotenv@npm:16.0.3"
-  checksum: 10c0/109457ac5f9e930ca8066ea33887b6f839ab24d647a7a8b49ddcd1f32662e2c35591c5e5b9819063e430148a664d0927f0cbe60cf9575d89bc524f47ff7e78f0
-  languageName: node
-  linkType: hard
-
 "dset@npm:^3.1.4":
   version: 3.1.4
   resolution: "dset@npm:3.1.4"
@@ -3634,18 +3626,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-turbo@npm:^2.5.6":
-  version: 2.5.6
-  resolution: "eslint-config-turbo@npm:2.5.6"
-  dependencies:
-    eslint-plugin-turbo: "npm:2.5.6"
-  peerDependencies:
-    eslint: ">6.6.0"
-    turbo: ">2.0.0"
-  checksum: 10c0/77d17b9a8c3d75ff83851a0ff3ee30b6ab59833268a712175d6d67395a28b32d56d0f2dda91eb3d0fe8bfeed1a73ccea658db499a777b39cb54132a31d2c4858
-  languageName: node
-  linkType: hard
-
 "eslint-import-context@npm:^0.1.8":
   version: 0.1.9
   resolution: "eslint-import-context@npm:0.1.9"
@@ -3789,18 +3769,6 @@ __metadata:
   peerDependencies:
     eslint: ^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9.7
   checksum: 10c0/c850bfd556291d4d9234f5ca38db1436924a1013627c8ab1853f77cac73ec19b020e861e6c7b783436a48b6ffcdfba4547598235a37ad4611b6739f65fd8ad57
-  languageName: node
-  linkType: hard
-
-"eslint-plugin-turbo@npm:2.5.6":
-  version: 2.5.6
-  resolution: "eslint-plugin-turbo@npm:2.5.6"
-  dependencies:
-    dotenv: "npm:16.0.3"
-  peerDependencies:
-    eslint: ">6.6.0"
-    turbo: ">2.0.0"
-  checksum: 10c0/6440aac73fcefed02723c1fc7dcb28a024d652b22508caf53792bcfbd4c1a3f28093d5446cfccc83473f789b5754222790f4c693f21effe78f4c9f71e4a28438
   languageName: node
   linkType: hard
 

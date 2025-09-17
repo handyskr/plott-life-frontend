@@ -1,6 +1,5 @@
 import eslint from "@eslint/js";
 import importPlugin from "eslint-plugin-import";
-import turboConfig from "eslint-config-turbo/flat";
 import tseslint from "typescript-eslint";
 
 /** @type {import("eslint").Linter.Config[]} */
@@ -21,7 +20,6 @@ export default [
       },
     },
   },
-  ...turboConfig,
   {
     rules: {
       "no-console": "warn",
