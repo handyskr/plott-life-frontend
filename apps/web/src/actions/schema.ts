@@ -33,13 +33,22 @@ export const resetPasswordInput = emailInput.extend({
   redirectUri: z.string().url(),
 });
 
+export const phoneInput = z.object({
+  phoneCode: z.string().regex(/\d{1,3}/),
+  phoneNumber: z.string().regex(/\d{6,15}/),
+});
+
+export const userInput = z.union([
+  setPasswordInput,
+  phoneInput,
+])
+
 // NOTE: 구려..astro는 zod3 밖에 지원을 안해서 약간 요상하게 해야함.
 export const signUpInput = signInInput.extend({
   ...passwordConfirmInput.shape,
   firstName: z.string().min(1).max(32),
   lastName: z.string().min(1).max(32),
-  phoneCode: z.string().regex(/\d{1,3}/),
-  phoneNumber: z.string().regex(/\d{6,15}/),
+  ...phoneInput.shape,
   agreedPolicyCodes: z.array(z.enum(USER_POLICY_CODES)).optional(),
 }).refine((data) => data.password === data.passwordConfirm, {
   path: ["passwordConfirm"],
