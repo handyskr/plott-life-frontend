@@ -20,6 +20,7 @@ export default defineConfig({
     sitemap({
       filter: (page) =>
         page.startsWith(liveURL) &&
+        !page.startsWith(`${liveURL}/auth`) &&
         !page.startsWith(`${liveURL}/admin`),
     }),
   ],
