@@ -1,0 +1,145 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/template/Header.astro';
+import { SignInForm } from '../../components/auth/SignInForm';
+import dayjs from 'dayjs';
+import {
+  getWeeksBetween,
+  getPaymentPriceData,
+} from '@plott-life/utils';
+import {EXPOSE_DATE_FORMAT} from '../../libs/values';
+import {
+  ContractInfo,
+  PaymentInfo,
+  BottomNav,
+} from '../../components/contract';
+
+import NotificationBanner from '../../components/common/NotificationBanner.astro';
+import StatusTimeline from '@components/contract/StatusTimeline.astro';
+import Description from '@components/contract/Description.astro';
+
+const { id } = Astro.params;
+
+const { API_URL } = import.meta.env;
+
+// async function fetchRoomDetail(id: string) {
+//   const res = await fetch(`${API_URL}/v1/building-unit/${id}`, {
+//     headers: { 'Content-Type': 'application/json' },
+//   });
+//
+//   if (!res.ok) {
+//     throw new Error(`API Error: ${res.status}`);
+//   }
+//
+//   return res.json();
+// }
+//
+// const roomDetail = await fetchRoomDetail(id);
+// const {
+//   name,
+//   address,
+//   images,
+//   deposit,
+//   rentFeePerWeek,
+//   cleaningFee,
+//   managementFeePerWeek,
+// } = roomDetail;
+
+const props = {
+  // Contract Api
+  weeks: 5,
+  startAt: '2025-09-27',
+  endAt: '2025-10-25',
+  name: '성수 1호점',
+  address: '서울시 성동구 성수동1가 123-45',
+  contractStatus: 'REQUESTED',
+  host: {
+    name: '고라비',
+    phone: '010-1234-5678',
+  },
+  guest: {
+    name: '김틀리',
+    phone: '010-****-****',
+  },
+
+  currency: 'KRW',
+  totalRentFee: 1000000,
+  totalManagementFee: 200000,
+  cleaningFee: 50000,
+  commissionFee: 100000,
+  deposit: 300000,
+  usagePrice: 1230000,
+  totalPrice: 2530000,
+  expiresAt: '2024-10-01T15:30:00.00',
+};
+
+const {
+  weeks,
+  startAt,
+  endAt,
+  name,
+  address,
+  contractStatus,
+} = props;
+
+// const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
+//   deposit,
+//   rentFeePerWeek,
+//   cleaningFee,
+//   managementFeePerWeek,
+// });
+---
+
+<Layout>
+  <Header
+    slot='header'
+    title='계약'
+    showBackIcon={true}
+  />
+  <div class='p'>
+    <div class='w-full mb-1'>
+      <NotificationBanner type='info'>
+        <b>오후 4시 30분까지</b>&nbsp;승인 여부가 확정됩니다.
+      </NotificationBanner>
+    </div>
+    <div class='w-full bg-gray-50 px-10 py-4'>
+      <StatusTimeline
+        contractStatus={contractStatus}
+      />
+    </div>
+
+    <ContractInfo
+      client:visible
+      isOpen={true}
+      {...props}
+    />
+    <div class='bg-gray-100 w-full h-2' />
+    <PaymentInfo
+      client:visible
+      {...props}
+    />
+  </div>
+
+  <Description
+    contractStatus={contractStatus}
+  />
+  <div
+    class="p-4 pb-10"
+  >
+    <button
+      class="btn bg-white w-full text-gray-900 body2"
+    >
+      계약 취소하기
+    </button>
+  </div>
+  <!--<div-->
+  <!--  slot='nav'-->
+  <!--  class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'-->
+  <!--&gt;-->
+  <!--  <button class='btn btn-block btn-primary body2'>계약 요청하기</button>-->
+  <!--</div>-->
+  <BottomNav
+    slot='nav'
+    client:only='preact'
+  />
+</Layout>
