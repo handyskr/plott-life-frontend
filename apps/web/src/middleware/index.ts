@@ -8,7 +8,18 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   console.log(`Middleware: ${context.url.pathname}`);
-  context.session?.set("lastVisit", new Date());
+
+  // TODO: 임시 CRM 테스트용
+  if (context.url.pathname === "/" ||
+    context.url.pathname.startsWith("/search") ||
+    context.url.pathname.startsWith("/rooms")) {
+    let lastVisit = await context.session?.get("lastVisit");
+    if (!lastVisit || ((new Date().getTime() - lastVisit.getTime()) > (1000 * 60 * 60))) {
+      context.locals.test = true;
+    }
+  }
+  context.locals.lastVisit = new Date();
+  context.session?.set("lastVisit", context.locals.lastVisit);
 
   // TODO: 추후 액션은 따로 처리
   if (context.url.pathname.startsWith("/_actions")) {

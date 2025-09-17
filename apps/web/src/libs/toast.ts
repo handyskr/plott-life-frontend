@@ -18,7 +18,7 @@ class ToastManager {
       if (!this.container) {
         this.container = document.createElement('div');
         this.container.id = 'global-toast-container';
-        this.container.className = 'toast toast-center z-50';
+        this.container.className = 'toast toast-center z-[5000]';
         document.body.appendChild(this.container);
       }
     }

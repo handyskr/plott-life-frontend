@@ -11,12 +11,18 @@ interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
 
+interface Window {
+  toast: any;
+}
+
 declare namespace App {
   interface SessionData {
     accessToken?: string | null;
     refreshToken?: string | null;
   }
   interface Locals {
+    test?: boolean | null; // NOTE: 임시 CRM 테스트용
+    lastVisit: Date;
     isLoggedIn: boolean;
     user?: User | null;
   }

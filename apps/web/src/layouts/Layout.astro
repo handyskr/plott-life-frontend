@@ -4,6 +4,7 @@ import '@styles/style.css';
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
+import { CRMTest } from "../components/crm.tsx";
 interface Props {
   title?: string;
   subtitle?: string;
@@ -25,6 +26,8 @@ if (!description) {
 if (!image) {
   image = 'https://cdn.plott.co.kr/images/ogimage.webp?w=1200&h=630';
 }
+
+const isOpen = Astro.locals.test;
 ---
 <html
   lang='ko'
@@ -49,11 +52,12 @@ if (!image) {
         </nav>
       </main>
     </div>
+    <CRMTest client:visible isOpen={isOpen} />
   </body>
   <!-- Toast section -->
   <div
     id="global-toast-container"
-    class="toast toast-center pb-20"
+    class="toast toast-center pb-20 z-[5000]"
   >
   </div>
   <!-- bottom style -->
