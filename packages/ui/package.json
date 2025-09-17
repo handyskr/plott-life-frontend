@@ -8,12 +8,15 @@
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
     "./style": "./dist/style.css",
+    "./components/icons": "./dist/icons/index.js",
     "./components/*": "./components/*",
     "./icons/*": "./icons/*"
   },
   "scripts": {
-    "dev": "tailwindcss -i styles/index.css -o ./dist/style.css --watch",
-    "build": "tailwindcss -i styles/index.css -o ./dist/style.css",
+    "dev:styles": "tailwindcss -i styles/index.css -o ./dist/style.css --watch",
+    "dev:icons": "svgr --out-dir ./dist/icons -- ./icons",
+    "build:styles": "tailwindcss -i styles/index.css -o ./dist/style.css",
+    "build:icons": "svgr --out-dir ./dist/icons -- ./icons",
     "lint": "eslint ."
   },
   "dependencies": {
@@ -24,6 +27,7 @@
   },
   "devDependencies": {
     "@plott-life/dev": "workspace:*",
+    "@svgr/cli": "^8.1.0",
     "@tailwindcss/cli": "^4.1.13",
     "clsx": "^2.1.1",
     "eslint": "^9.34.0",

@@ -1,30 +1,15 @@
 import { Modal, ModalContent } from "@components/common";
-import IconArrowRightCode from "@plott-life/ui/icons/arrow-right.svg?raw";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { termAgreementInput, USER_POLICY_CODES } from "../../actions/schema.ts";
 import type { SchemaSubmitHandler } from "../../actions/types.ts";
+import { ArrowRight } from "@plott-life/ui/components/icons";
 
 interface TermsAgreementModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: SchemaSubmitHandler<typeof termAgreementInput>;
 }
-
-const IconArrowRight = ({ href }: { href: string }) => {
-  return (
-    <a
-      className="py-2 inline-flex flex-1 justify-end"
-      href={href}
-      target="_blank"
-    >
-      <i
-        className={"text-gray-400 w-4 h-4"}
-        dangerouslySetInnerHTML={{ __html: IconArrowRightCode }}
-      />
-    </a>
-  );
-};
 
 export default function TermsAgreementModal(props: TermsAgreementModalProps) {
   const {
@@ -38,8 +23,8 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
   const { isOpen, onClose, onSubmit } = props;
 
   const onInvalid = (data: any) => {
-    alert('필수 약관에 모두 동의해 주세요.');
-  }
+    alert("필수 약관에 모두 동의해 주세요.");
+  };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -62,7 +47,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
                   "inline-flex flex-1 justify-between items-center text-black"
                 }
               >
-                [필수] 서비스 이용약관 동의
+                약관 전체 동의
               </p>
             </label>
           </div>
@@ -78,7 +63,13 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [필수] 서비스 이용약관 동의
-              <IconArrowRight href={"/content/terms-of-service"} />
+              <a
+                className="py-2 inline-flex flex-1 justify-end"
+                href={"/content/terms-of-service"}
+                target="_blank"
+              >
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+              </a>
             </p>
           </label>
           <label className="label gap-4">
@@ -93,7 +84,13 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [필수] 개인정보 처리 방침 동의
-              <IconArrowRight href={"/content/privacy-policy"} />
+              <a
+                className="py-2 inline-flex flex-1 justify-end"
+                href={"/content/privacy-policy"}
+                target="_blank"
+              >
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+              </a>
             </p>
           </label>
           <label className="label gap-4">
@@ -108,7 +105,13 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [필수] 만 19세 이상 확인
-              <IconArrowRight href={"/content/service-policy"} />
+              <a
+                className="py-2 inline-flex flex-1 justify-end"
+                href={"/content/service-policy"}
+                target="_blank"
+              >
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+              </a>
             </p>
           </label>
           <label className="label gap-4">
@@ -123,7 +126,13 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               }
             >
               [선택] 개인정보 마케팅 활용 동의
-              <IconArrowRight href={"/content/service-policy"} />
+              <a
+                className="py-2 inline-flex flex-1 justify-end"
+                href={"/content/service-policy"}
+                target="_blank"
+              >
+                <ArrowRight className="w-4 h-4 text-gray-400" />
+              </a>
             </p>
           </label>
           <button type="submit" className="w-full btn btn-lg btn-neutral body2">
