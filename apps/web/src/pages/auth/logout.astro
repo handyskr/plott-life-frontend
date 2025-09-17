@@ -1,6 +1,9 @@
 ---
 Astro.session?.destroy();
 
-return Astro.redirect("/");
+const searchParams = Astro.url?.searchParams;
+const redirectURL = searchParams?.get('redirectURL');
+
+return Astro.redirect(redirectURL || "/");
 ---
 로그아웃...

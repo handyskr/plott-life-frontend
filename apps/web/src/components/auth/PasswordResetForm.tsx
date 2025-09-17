@@ -13,7 +13,7 @@ interface Props {
   successURL: string;
 }
 
-export const PasswordConfirmForm = (props: Props) => {
+export const PasswordResetForm = (props: Props) => {
   const {
     handleSubmit,
     register,
