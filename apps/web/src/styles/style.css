@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 @import "@plott-life/ui/style";
 
 @plugin "daisyui" {
