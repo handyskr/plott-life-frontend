@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@plott-life/utils": "workspace:*",
+    "@tailwindcss/typography": "^0.5.16",
     "daisyui": "^5.1.8",
     "preact": "^10.27.1",
     "tailwindcss": "^4.1.13"
