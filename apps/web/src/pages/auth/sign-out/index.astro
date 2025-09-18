@@ -1,7 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
-import { PasswordUpdateForm, PasswordResetForm } from '@components/auth';
 
 if (!Astro.locals.isLoggedIn) {
   return Astro.redirect('/auth/login');
@@ -49,9 +48,22 @@ if (!Astro.locals.isLoggedIn) {
   </div>
 </Layout>
 <script>
-  (document.querySelector('input[name="agree"]') as HTMLInputElement)
-    ?.addEventListener('change', (e: any) => {
-      const button = document.getElementById('sign-out') as HTMLButtonElement;
+  import { actions } from "astro:actions";
+  import { navigate } from "astro:transitions/client";
+
+  const button = document.getElementById('sign-out') as HTMLButtonElement;
+  const checkbox = document.querySelector('input[name="agree"]') as HTMLInputElement;
+
+  checkbox?.addEventListener('change', (e: any) => {
       button.disabled = !e.target.checked;
   });
+  button?.addEventListener("click", async (e: any) => {
+    const { error } = await actions.signOut();
+    if (error) {
+      alert("탈퇴 처리 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+      return;
+    }
+
+    await navigate("/auth/sign-out/success");
+  })
 </script>
