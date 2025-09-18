@@ -1,0 +1,16 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import Success from "@components/template/Success.astro";
+---
+<Layout>
+  <Header
+    slot='header'
+    showBackIcon={true}
+  />
+  <Success
+    title="탈퇴가 완료되었습니다"
+    description="그동안 플라트 라이프를 이용해 주셔서 감사합니다."
+    buttonText="메인 화면으로"
+    buttonLink="/" />
+</Layout>

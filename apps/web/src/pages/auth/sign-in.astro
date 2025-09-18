@@ -19,8 +19,8 @@ const redirectURL = searchParams?.get('redirectURL');
       client:visible
       email={email}
       successURL={redirectURL || '/'}
-      setPasswordURL='/auth/reset-password/confirm'
-      sentPasswordURL={withQuery('/auth/reset-password/sent', {
+      setPasswordURL='/auth/password'
+      sentPasswordURL={withQuery('/auth/password/email', {
         email: email || '',
       })}
     />

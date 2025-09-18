@@ -38,7 +38,7 @@ const user = Astro.locals.user!!;
           <IconArrowRight class="size-4 text-gray-400" />
         </a>
         <hr class="border-gray-200"/>
-        <a class="flex flex-row justify-between items-center gap-4 py-4" href="/auth/profile/password">
+        <a class="flex flex-row justify-between items-center gap-4 py-4" href="/auth/password">
           <div class="flex flex-col gap-1 text-sm">
             <p class="text-gray-900 font-bold">비밀번호 변경</p>
           </div>
@@ -46,8 +46,8 @@ const user = Astro.locals.user!!;
         </a>
       </div>
     </section>
-    <!--<div class="flex flex-row justify-center pb-(&#45;&#45;bait)">-->
-    <!--  <a class="text-sm text-gray-500 underline">회원탈퇴</a>-->
-    <!--</div>-->
+    <div class="flex flex-row justify-center pb-(--bait)">
+      <a class="text-sm text-gray-500 underline" href="/auth/sign-out">회원탈퇴</a>
+    </div>
   </div>
 </Layout>

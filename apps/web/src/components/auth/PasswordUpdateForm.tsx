@@ -6,6 +6,7 @@ import { password } from "../../actions/schema.ts";
 import { handleSetActionInputError } from "../../actions/utils.ts";
 import { useState } from "preact/hooks";
 import { z } from "zod";
+import { navigate } from "astro:transitions/client";
 
 const schema = z
   .object({
@@ -19,8 +20,11 @@ const schema = z
 
 type DataType = z.infer<typeof schema>;
 
-// TODO: PasswordConfirmForm 과 병합?
-export const PasswordForm = () => {
+interface Props {
+  successURL: string;
+}
+
+export const PasswordUpdateForm = (props: Props) => {
   const [bit, setBit] = useState(1);
   const {
     handleSubmit,
@@ -49,7 +53,7 @@ export const PasswordForm = () => {
         throw error;
       }
 
-      history.back();
+      await navigate(props.successURL)
     } catch (error: any) {
       if (isInputError(error)) {
         setActionError(error);

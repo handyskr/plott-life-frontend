@@ -1,0 +1,29 @@
+---
+import IconCheck from "@plott-life/ui/icons/check.svg"
+
+interface Props {
+  title: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+}
+const props = Astro.props as Props;
+---
+<div class='max-w-lg mx-auto h-full flex flex-col justify-between py-4'>
+  <div class='flex-1 flex flex-col justify-center items-center text-center'>
+    <IconCheck class="w-10 h-auto text-success" />
+    <p class='title2 text-gray-900 mt-10 mb-4'>
+      {props.title}
+    </p>
+    <p class='body6 text-gray-600'>
+      {props.description}
+    </p>
+  </div>
+  <div class='px-6 py-6'>
+    <a class='btn btn-lg btn-neutral btn-block cursor-pointer' href={props.buttonLink}>
+      {props.buttonText}
+    </a>
+  </div>
+</div>
+
+
