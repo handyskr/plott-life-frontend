@@ -12,8 +12,10 @@ import IconRuler from '@plott-life/ui/icons/ruler.svg';
 import IconBuilding from '@plott-life/ui/icons/building.svg';
 import IconCheck from '@plott-life/ui/icons/check.svg';
 import NaverStaticMap from '@plott-life/ui/components/NaverStaticMap';
+import { BottomNav } from "../../components/room";
 
 const { id } = Astro.params;
+const isLoggedIn = Astro.locals.isLoggedIn;
 
 if (!id) {
   throw new Error('Room ID is required');
@@ -68,7 +70,6 @@ const structure = formatFeatures({
   kitchens,
 });
 
-const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (managementFeePerWeek || 0);
 ---
 
 <Layout
@@ -282,27 +283,15 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
       </div>
       <p class='body3 text-gray-900'>{managementFeeDescription}</p>
     </div>
-    <!-- 하단 고정 CTA -->
   </div>
-  <div
+  <BottomNav
+    client:only="preact"
     slot='nav'
-    class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
-  >
-    <div class='flex flex-col'>
-      <span class='body1 mb-1.5'>
-        ₩{(totalFee).toLocaleString()}
-      </span>
-      <span class='caption1 text-gray-700 underline'>
-        1주 · 9월 8일~9월 15일
-      </span>
-    </div>
-    <button
-      id='btn-contract'
-      class='w-[120px] rounded-lg btn btn-primary body2'
-    >
-      계약하기
-    </button>
-  </div>
-  <!--<Footer />-->
-  <!--<BottomNav slot='footer' />-->
+    id={id}
+    isLoggedIn={isLoggedIn}
+    deposit={deposit}
+    rentFeePerWeek={rentFeePerWeek}
+    managementFeePerWeek={managementFeePerWeek}
+    cleaningFee={cleaningFee}
+  />
 </Layout>

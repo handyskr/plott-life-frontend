@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import { ArrowDown } from "@plott-life/ui/components/icons";
 
 interface Props {
   currency: string;
@@ -36,26 +37,29 @@ export default function PaymentInfo(props: Props) {
         <h3 className="body1 text-gray-900">
           {open ? '결제 정보' : '최종 결제 금액'}
         </h3>
-        <div className="icon flex gap-3 transition-transform duration-300">
+        <div className="icon flex gap-3 items-center">
           {!open && (
-            <p className={'body1 text-gray-900'}>
+            <p className="body1 text-gray-900">
               {totalPrice.toLocaleString()}원
             </p>
           )}
-          ▼
+          <ArrowDown
+            className={`w-4 h-4 transition-transform duration-300 ${
+              open ? "rotate-180" : "rotate-0"
+            }`}
+          />
         </div>
       </div>
 
       <div
-        className={`content overflow-hidden transition-all duration-300 ease-in-out space-y-4 ${
-          open ? 'max-h-[1000px]' : 'max-h-0'
+        className={`content overflow-hidden transition-all duration-500 ease-in-out space-y-4 ${
+          open ? "max-h-[1000px] opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2"
         }`}
       >
         <div className="flex justify-between items-center pt-6">
           <span className="body4 text-gray-900">최종 결제 금액</span>
           <span className="body1 text-gray-900">
-            {totalPrice.toLocaleString()}
-            원
+            {totalPrice.toLocaleString()}원
           </span>
         </div>
 
@@ -64,32 +68,28 @@ export default function PaymentInfo(props: Props) {
         <div className="flex justify-between">
           <span className="body6 text-gray-600">임대료</span>
           <span className="body4 text-gray-900">
-            {totalRentFee.toLocaleString()}
-            원
+            {totalRentFee.toLocaleString()}원
           </span>
         </div>
 
         <div className="flex justify-between">
           <span className="body6 text-gray-600">관리비</span>
           <span className="body4 text-gray-900">
-            {totalManagementFee.toLocaleString()}
-            원
+            {totalManagementFee.toLocaleString()}원
           </span>
         </div>
 
         <div className="flex justify-between">
           <span className="body6 text-gray-600">퇴실 청소비</span>
           <span className="body4 text-gray-900">
-            {cleaningFee.toLocaleString()}
-            원
+            {cleaningFee.toLocaleString()}원
           </span>
         </div>
 
         <div className="flex justify-between">
           <span className="body6 text-gray-600">계약 수수료</span>
           <span className="body4 text-gray-900">
-            {commissionFee.toLocaleString()}
-            원
+            {commissionFee.toLocaleString()}원
           </span>
         </div>
 
@@ -98,16 +98,14 @@ export default function PaymentInfo(props: Props) {
         <div className="flex justify-between">
           <span className="body4 text-gray-900">실 이용 금액</span>
           <span className="body1 text-gray-900">
-            {usagePrice.toLocaleString()}
-            원
+            {usagePrice.toLocaleString()}원
           </span>
         </div>
 
         <div className="flex justify-between">
           <span className="body6 text-gray-600">보증금</span>
           <span className="body4 text-gray-900">
-            {deposit.toLocaleString()}
-            원
+            {deposit.toLocaleString()}원
           </span>
         </div>
 

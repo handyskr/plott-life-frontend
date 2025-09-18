@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import { Calendar, LocationSelect } from '@components/common';
+import type {ContractStatusType} from "@libs/values.ts";
 
 interface BottomNavProps {
 }
@@ -7,6 +8,7 @@ interface BottomNavProps {
 export default function BottomNav(props: BottomNavProps) {
   const {
   } = props;
+
 
   return (
     <>

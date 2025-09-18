@@ -35,19 +35,32 @@ export function getWeeksBetween(startAt?: string | null, endAt?: string | null):
   return Math.ceil(diffDays / 7);
 }
 
-export function getPaymentPriceData({
+type PriceDataParams = {
+  weeks?: number;
+  deposit?: number;
+  rentFeePerWeek?: number;
+  cleaningFee?: number;
+  managementFeePerWeek?: number;
+}
+
+export function getPriceData({
+  weeks = 1,
   deposit = 0,
   rentFeePerWeek = 0,
   cleaningFee = 0,
   managementFeePerWeek = 0,
-}: { deposit?: number; rentFeePerWeek?: number; cleaningFee?: number; managementFeePerWeek?: number }) {
-  const commission = Math.ceil(rentFeePerWeek * 0.09);
-  const totalPrice = rentFeePerWeek + cleaningFee + managementFeePerWeek + commission;
-  const totalPaymentPrice = deposit + totalPrice;
+}: PriceDataParams) {
+  const totalRentFee = rentFeePerWeek * weeks;
+  const totalManagementFee = managementFeePerWeek * weeks;
+  const commissionFee = Math.ceil((totalRentFee + totalManagementFee + cleaningFee) * 0.099);
+  const totalPrice = totalRentFee + totalManagementFee + cleaningFee + commissionFee + deposit
+  const usagePrice = totalPrice - deposit;
 
   return {
-    commission,
+    totalRentFee,
+    totalManagementFee,
+    commissionFee,
     totalPrice,
-    totalPaymentPrice,
+    usagePrice,
   };
 }

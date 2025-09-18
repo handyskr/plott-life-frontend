@@ -1,6 +1,7 @@
 /** @jsxImportSource preact */
 import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
 import { Card } from '@plott-life/ui';
+import { navigateWithQuery } from "../../navigator";
 
 interface Room {
   id: number;
@@ -149,8 +150,10 @@ export default function RoomList() {
               bedrooms={room.bedrooms}
               bathrooms={room.bathrooms}
               rentFeePerWeek={room.rentFeePerWeek}
-              onClick={() => {
-                window.location.href = `/rooms/${room.id}`;
+              onClick={async () => {
+                await navigateWithQuery(`/rooms/${room.id}`, {
+                  ...getQueryParams(),
+                });
               }}
             />
           ))

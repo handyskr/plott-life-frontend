@@ -4,6 +4,7 @@ import { resetPassword, setPassword } from "./password.ts";
 import { updateUser } from "./user.ts";
 import { test } from "./crm.ts";
 import { signOut } from "./signOut.ts";
+import { createContract } from "./contract.ts";
 
 export const server = {
   check,
@@ -15,5 +16,6 @@ export const server = {
   setPassword,
   resetPassword,
   updateUser,
+  createContract,
   test,
 }

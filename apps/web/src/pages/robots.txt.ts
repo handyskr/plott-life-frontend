@@ -5,6 +5,7 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /auth/
+Disallow: /contract/
 
 Sitemap: ${sitemapURL.href}
 `;

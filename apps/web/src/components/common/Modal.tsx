@@ -64,7 +64,7 @@ function DefaultModal(props: ModalProps) {
 
 export type ModalElementType = {
   className?: string;
-  children?: preact.VNode;
+  children?: preact.VNode | preact.VNode[];
 };
 
 function ModalHeader(props: ModalElementType) {

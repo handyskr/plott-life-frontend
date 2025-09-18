@@ -1,24 +1,41 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
-import { SignInForm } from '../../components/auth/SignInForm';
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 import {
   getWeeksBetween,
-  getPaymentPriceData,
-} from "@plott-life/utils";
-import {EXPOSE_DATE_FORMAT} from "../../libs/values";
-import {BottomNav} from "../../components/contract";
+  getPriceData,
+} from '@plott-life/utils';
+import { EXPOSE_DATE_FORMAT } from '../../libs/values';
+import {
+  PaymentInfo,
+  BottomContractButton,
+} from '../../components/contract';
 
+const {
+  IMAGE_URL,
+  API_URL,
+} = import.meta.env;
+
+if (!Astro.locals.isLoggedIn) {
+  return Astro.redirect('/auth/login');
+}
+
+const user = Astro.locals.user!!;
 const searchParams = Astro.url.searchParams;
-
 const id = searchParams.get('id') || 0;
+
+if (!id) {
+  throw new Error('Room ID is required');
+  return Astro.redirect('/');
+}
+
 const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
 const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
 const weeks = getWeeksBetween(startAt, endAt);
 
 async function fetchRoomDetail(id: string) {
-  const res = await fetch(`${import.meta.env.PUBLIC_INTERNAL_API_URL}/v1/building-unit/${id}`, {
+  const res = await fetch(`${API_URL}/v1/building-unit/${id}`, {
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -30,6 +47,7 @@ async function fetchRoomDetail(id: string) {
 }
 
 const roomDetail = await fetchRoomDetail(id);
+
 const {
   name,
   address,
@@ -38,32 +56,21 @@ const {
   rentFeePerWeek,
   cleaningFee,
   managementFeePerWeek,
+  host,
 } = roomDetail;
 
-const props = {
-  // 나중에 추가되는 항목
-  hostName: '고라비',
-  hostPhone: '010-****-****',
-  guestName: '김틀리',
-  guestPhone: '010-1234-1234',
-  // Url Params
-  startAt: '2025-09-27',
-  endAt: '2025-10-25',
-};
-
 const {
-  hostName,
-  hostPhone,
-  guestName,
-  guestPhone,
-} = props;
-
-const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
+  totalRentFee,
+  totalManagementFee,
+  commissionFee,
+  totalPrice,
+  usagePrice,
+} = getPriceData({
+  weeks,
   deposit,
   rentFeePerWeek,
   cleaningFee,
   managementFeePerWeek,
-  weeks,
 });
 ---
 
@@ -73,12 +80,12 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
     title='계약'
     showBackIcon={true}
   />
-  <div class='p-4'>
+  <div class='p-4 pb-0'>
     <h3 class='title3 text-gray-900 px-2 pb-4'>계약 정보</h3>
     <section class='rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4'>
       <div class='flex items-center gap-4'>
         <img
-          src='https://placehold.co/80x80'
+          src={`${IMAGE_URL}/${images.length > 0 ? images[0] : null}.webp?w=160`}
           alt='숙소 이미지'
           class='w-20 h-20 rounded-lg object-cover'
         />
@@ -87,67 +94,37 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
           <p class='body5 text-gray-500'>{address}</p>
         </div>
       </div>
-
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
         <p class='body4 text-gray-900'>호스트</p>
-        <p class='body5 text-gray-700 mt-1.5 mb-3'>{hostName} / {hostPhone}</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{host.name} / {host.phone}</p>
         <div class='w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700'>계약이 확정된 후 연락처가 공개됩니다</div>
       </div>
-
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
         <p class='body4 text-gray-900'>게스트</p>
-        <p class='body5 text-gray-700 mt-1.5 mb-3'>{guestName} / {guestPhone}</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{user.firstName}{user.lastName} / {user.phoneNumber}</p>
       </div>
-
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
         <p class='body4 text-gray-900'>임대기간</p>
         <p class='body5 text-gray-700 mt-1.5 mb-3'>{weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)} </p>
       </div>
     </section>
-
     <h3 class='title3 text-gray-900 px-2 pb-4 mt-8'>결제 정보</h3>
-    <section class='rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4'>
-      <div class='flex justify-between'>
-        <span class='body4 text-gray-900'>
-          최종 결제 금액
-        </span>
-        <span class='body1 text-gray-900'>
-          {totalPaymentPrice.toLocaleString()}원
-        </span>
-      </div>
-      <div class='w-full h-px bg-gray-300'></div>
-      <div class='flex justify-between'>
-        <span class='body6 text-gray-600'>임대료</span>
-        <span class='body4 text-gray-900'>{rentFeePerWeek.toLocaleString()}원</span>
-      </div>
-      <div class='flex justify-between'>
-        <span class='body6 text-gray-600'>관리비</span>
-        <span class='body4 text-gray-900'>{managementFeePerWeek.toLocaleString()}원</span>
-      </div>
-      <div class='flex justify-between'>
-        <span class='body6 text-gray-600'>퇴실 청소비</span>
-        <span class='body4 text-gray-900'>{cleaningFee.toLocaleString()}원</span>
-      </div>
-      <div class='flex justify-between'>
-        <span class='body6 text-gray-600'>계약 수수료</span>
-        <span class='body4 text-gray-900'>{commission.toLocaleString()}원</span>
-      </div>
-      <div class='w-full h-px bg-gray-300'></div>
-      <div class='flex justify-between'>
-        <span class='body4 text-gray-900'>실 이용 금액</span>
-        <span class='body1 text-gray-900'>{totalPrice.toLocaleString()}원</span>
-      </div>
-      <div class='flex justify-between'>
-        <span class='body6 text-gray-600'>보증금</span>
-        <span class='body4 text-gray-900'>{deposit.toLocaleString()}원</span>
-      </div>
-      <div class='w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700'>
-        보증금은 plott LIFE에서 보관하며, 퇴실 후 반환됩니다.
-      </div>
-    </section>
+    <div class='rounded-2xl border-1 border-gray-300 space-y-4 mb-10'>
+      <PaymentInfo
+        client:load
+        currency='KRW'
+        totalRentFee={totalRentFee}
+        totalManagementFee={totalManagementFee}
+        cleaningFee={cleaningFee}
+        commissionFee={commissionFee}
+        deposit={deposit}
+        usagePrice={usagePrice}
+        totalPrice={totalPrice}
+      />
+    </div>
   </div>
   <div class='px-6 py-8 bg-gray-50'>
     <section class='mb-8'>
@@ -169,14 +146,11 @@ const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
       </ul>
     </section>
   </div>
-  <!--<div-->
-  <!--  slot='nav'-->
-  <!--  class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'-->
-  <!--&gt;-->
-  <!--  <button class='btn btn-block btn-primary body2'>계약 요청하기</button>-->
-  <!--</div>-->
-  <BottomNav
+  <BottomContractButton
     slot='nav'
-    client:only="preact"
+    client:only='preact'
+    id={Number(id)}
+    startAt={startAt}
+    endAt={endAt}
   />
 </Layout>

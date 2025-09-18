@@ -5,7 +5,7 @@ import { SignInForm } from '../../components/auth/SignInForm';
 import dayjs from 'dayjs';
 import {
   getWeeksBetween,
-  getPaymentPriceData,
+  getPriceData,
 } from '@plott-life/utils';
 import {ContractStatus, EXPOSE_DATE_FORMAT} from '../../libs/values';
 import {
@@ -84,7 +84,7 @@ const {
   contractStatus,
 } = props;
 
-// const { commission, totalPrice, totalPaymentPrice} = getPaymentPriceData({
+// const { commission, totalPrice, totalPaymentPrice} = getPriceData({
 //   deposit,
 //   rentFeePerWeek,
 //   cleaningFee,

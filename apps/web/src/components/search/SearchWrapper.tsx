@@ -26,10 +26,10 @@ export default function SearchWrapper(props: SearchWrapperProps) {
 
   const handleSearchClick = () => {
     const params = new URLSearchParams({
-      stateOrCity: selectedLocation ?? "",
-      startAt: startAt ?? "",
-      endAt: endAt ?? "",
-      durationType: "RENT",
+      stateOrCity: selectedLocation ?? '',
+      startAt: startAt ?? '',
+      endAt: endAt ?? '',
+      durationType: 'RENT',
     });
 
     const newUrl = `${window.location.pathname}${
