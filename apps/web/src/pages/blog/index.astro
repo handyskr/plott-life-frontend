@@ -1,0 +1,38 @@
+---
+
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import { getBlogPosts } from "../../libs/strapi";
+import Footer from "../../components/template/Footer.astro";
+
+const { data: blogPosts } = await getBlogPosts();
+console.log(blogPosts);
+---
+<Layout>
+  <Header
+    slot="header"
+    title="블로그"
+    showBackIcon={true}
+    showHomeIcon={true} />
+  <section class='px-6 py-8'>
+    <div class='flex flex-col gap-6'>
+      {blogPosts.map((it) => (
+        <a href={`/article/${it.slug}`} class='flex flex-row gap-4'>
+          <figure class='bg-gray-200 w-60 h-40 object-cover rounded-2xl overflow-hidden'>
+            {it.coverImage ? (
+              <img src={`${import.meta.env.PUBLIC_STRAPI_URL}${(it.coverImage.formats as any).thumbnail.url}`}
+                   alt={it.coverImage.alternativeText} class='w-full h-full' />
+            ) : (
+              <div class='w-full h-full flex items-center justify-center text-gray-600 text-sm'>plott LIFE</div>
+            )}
+          </figure>
+          <div class='flex-1 flex flex-col gap-2 py-2'>
+            <h2 class='text-lg font-bold text-gray-900'>{it.title}</h2>
+            <p class='text-base text-gray-600'>{it.excerpt}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+  <Footer slot="footer" />
+</Layout>
