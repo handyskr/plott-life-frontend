@@ -5,10 +5,11 @@ options:
 
 substitutions:
   _REGION: "asia-northeast3"
-  _IMAGE: "web-dev"
-  _SERVICE: "dev-plott-life-web"
+  _ENVIRONMENT: "dev"
+  _IMAGE: "web-${_ENVIRONMENT}"
+  _SERVICE: "${_ENVIRONMENT}-plott-life-web"
   _IMAGE_NAME: "${_REGION}-docker.pkg.dev/${PROJECT_ID}/plott-life-frontend/${_IMAGE}"
-  _ASSETS_BUCKET: "dev-plott-life-assets"
+  _ASSETS_BUCKET: "${_ENVIRONMENT}-plott-life-assets"
 
 steps:
   - id: "Build Docker image"

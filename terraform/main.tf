@@ -39,7 +39,7 @@ data "google_artifact_registry_repository" "frontend" {
 resource "google_cloud_run_v2_service" "web" {
   location = local.locaiton
   name     = local.web_resource_name
-  ingress  = "INGRESS_TRAFFIC_ALL"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
 
   invoker_iam_disabled = true
 
@@ -62,6 +62,15 @@ resource "google_cloud_run_v2_service" "web" {
       resources {
         cpu_idle          = false
         startup_cpu_boost = true
+      }
+    }
+
+    vpc_access {
+      egress = "PRIVATE_RANGES_ONLY"
+
+      network_interfaces {
+        network    = "default"
+        subnetwork = "default"
       }
     }
   }
