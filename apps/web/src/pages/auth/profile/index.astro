@@ -6,6 +6,7 @@ import IconChat from "@plott-life/ui/icons/chat.svg";
 import IconHeadphone from "@plott-life/ui/icons/headphone.svg";
 import IconBook from "@plott-life/ui/icons/book.svg";
 import IconExit from "@plott-life/ui/icons/exit.svg";
+import IconContract from "@plott-life/ui/icons/contract.svg";
 const user = Astro.locals.user;
 ---
 <Layout>
@@ -35,7 +36,12 @@ const user = Astro.locals.user;
       <hr class="border-gray-200 mt-6" />
     </section>
     <section class="px-6 mt-4">
-      <a class="flex flex-row gap-4 justify-between items-center py-4" href="#">
+      <a class="flex flex-row gap-4 justify-between items-center py-4" href="/blog">
+        <IconContract class="size-6 text-gray-900" />
+        <h3 class="flex-1 text-base text-gray-900">블로그</h3>
+        <IconArrowRight class="size-4 text-gray-400" />
+      </a>
+      <a class="flex flex-row gap-4 justify-between items-center py-4" href="/faqs">
         <IconChat class="size-6 text-gray-900" />
         <h3 class="flex-1 text-base text-gray-900">자주 묻는 질문</h3>
         <IconArrowRight class="size-4 text-gray-400" />
