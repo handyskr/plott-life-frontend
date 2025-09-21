@@ -71,13 +71,15 @@ export async function getFaqs() {
   const { data: faqCategories } = await getFetch("/faq-categories", {
     "pagination[pageSize]": 100,
     populate: "*",
-    sort: "order:asc",
+    'sort[0]': 'audience:asc',
+    'sort[1]': "order:asc",
   });
 
   const { data: faqs } = await getFetch("/faqs", {
     "pagination[pageSize]": 100,
     populate: "*",
-    sort: "order:asc",
+    'sort[0]': 'category.audience:asc',
+    'sort[1]': "order:asc",
   });
 
   return { faqCategories, faqs };

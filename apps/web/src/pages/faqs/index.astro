@@ -14,19 +14,17 @@ console.log(faqCategories, faqs);
     showBackIcon={true}
     showHomeIcon={true} />
   <section class='px-6 py-8 flex flex-col gap-6'>
-    <div>
-      <div class='flex flex-row flex-wrap gap-4'>
-        {faqCategories.map(it => (
-          <div class="badge badge-soft badge-primary">{it.name}</div>
-        ))}
-      </div>
+    <div class='flex flex-row flex-wrap gap-4'>
+      {faqCategories.map(it => (
+        <div class:list={["badge", it.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{it.name}</div>
+      ))}
     </div>
-    <article class='prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline'>
-      <div class="join join-vertical bg-base-100">
+    <article class='w-full mx-auto prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline'>
+      <div class="join join-vertical">
         {faqs.map(faq => (
           <div tabindex="0" class="collapse collapse-arrow join-item border-base-300 border">
             <div class="collapse-title font-semibold">
-              <div class="badge badge-soft badge-primary">{faq.category.name}</div>
+              <div class:list={["badge", faq.category?.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{faq.category?.name}</div>
               {faq.question}
             </div>
             <div class="collapse-content text-sm">
