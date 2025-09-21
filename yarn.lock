@@ -1339,8 +1339,14 @@ __metadata:
     react: "npm:@preact/compat@18.3.1"
     react-dom: "npm:@preact/compat@18.3.1"
     react-hook-form: "npm:^7.62.0"
+    rehype-sanitize: "npm:^6.0.0"
+    rehype-stringify: "npm:^10.0.1"
+    remark-parse: "npm:^11.0.0"
+    remark-rehype: "npm:^11.1.2"
+    remark-toc: "npm:^9.0.0"
     swiper: "npm:^11.2.10"
     typescript: "npm:^5.9.2"
+    unified: "npm:^11.0.5"
     web-vitals: "npm:^5.1.0"
   languageName: unknown
   linkType: soft
@@ -2181,6 +2187,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/d077a761a0753b079bf8279b3993948030ca86ed9125437b9b29c1de40db9b2deb7fddc369f014b58861d450e8b8cc75f163aa29dc8cea81952efbfd859168cf
+  languageName: node
+  linkType: hard
+
+"@types/ungap__structured-clone@npm:^1.0.0":
+  version: 1.2.0
+  resolution: "@types/ungap__structured-clone@npm:1.2.0"
+  checksum: 10c0/52f341ded16708603e5631769b26acf0e9ed7c556ce81abb4e55962110b30442576c631c8f7e298b561b8ff77c7823f0edc9f5e313e1c5e1441825a590e5b0f3
   languageName: node
   linkType: hard
 
@@ -4863,6 +4876,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"hast-util-sanitize@npm:^5.0.0":
+  version: 5.0.2
+  resolution: "hast-util-sanitize@npm:5.0.2"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    "@ungap/structured-clone": "npm:^1.0.0"
+    unist-util-position: "npm:^5.0.0"
+  checksum: 10c0/20951652078a8c21341c1c9a84f90015b2ba01cc41fa16772f122c65cda26a7adb0501fdeba5c8e37e40e2632447e8fe455d0dd2dc27d39663baacca76f2ecb6
+  languageName: node
+  linkType: hard
+
 "hast-util-to-html@npm:^9.0.0, hast-util-to-html@npm:^9.0.5":
   version: 9.0.5
   resolution: "hast-util-to-html@npm:9.0.5"
@@ -6016,6 +6040,21 @@ __metadata:
   dependencies:
     "@types/mdast": "npm:^4.0.0"
   checksum: 10c0/2d3c1af29bf3fe9c20f552ee9685af308002488f3b04b12fa66652c9718f66f41a32f8362aa2d770c3ff464c034860b41715902ada2306bb0a055146cef064d7
+  languageName: node
+  linkType: hard
+
+"mdast-util-toc@npm:^7.0.0":
+  version: 7.1.0
+  resolution: "mdast-util-toc@npm:7.1.0"
+  dependencies:
+    "@types/mdast": "npm:^4.0.0"
+    "@types/ungap__structured-clone": "npm:^1.0.0"
+    "@ungap/structured-clone": "npm:^1.0.0"
+    github-slugger: "npm:^2.0.0"
+    mdast-util-to-string: "npm:^4.0.0"
+    unist-util-is: "npm:^6.0.0"
+    unist-util-visit: "npm:^5.0.0"
+  checksum: 10c0/bd1b4705c24097669b3c8f6c20b3a0d54463a38d088cfc6f45106853c9907eb1dc0ed8084fe01b38c619858ecc04fb9377f16992287270521b0ffb7366faab7e
   languageName: node
   linkType: hard
 
@@ -7319,6 +7358,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rehype-sanitize@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "rehype-sanitize@npm:6.0.0"
+  dependencies:
+    "@types/hast": "npm:^3.0.0"
+    hast-util-sanitize: "npm:^5.0.0"
+  checksum: 10c0/43d6c056e63c994cf56e5ee0e157052d2030dc5ac160845ee494af9a26e5906bf5ec5af56c7d90c99f9c4dc0091e45a48a168618135fb6c64a76481ad3c449e9
+  languageName: node
+  linkType: hard
+
 "rehype-stringify@npm:^10.0.0, rehype-stringify@npm:^10.0.1":
   version: 10.0.1
   resolution: "rehype-stringify@npm:10.0.1"
@@ -7401,6 +7450,16 @@ __metadata:
     mdast-util-to-markdown: "npm:^2.0.0"
     unified: "npm:^11.0.0"
   checksum: 10c0/0cdb37ce1217578f6f847c7ec9f50cbab35df5b9e3903d543e74b405404e67c07defcb23cd260a567b41b769400f6de03c2c3d9cd6ae7a6707d5c8d89ead489f
+  languageName: node
+  linkType: hard
+
+"remark-toc@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "remark-toc@npm:9.0.0"
+  dependencies:
+    "@types/mdast": "npm:^4.0.0"
+    mdast-util-toc: "npm:^7.0.0"
+  checksum: 10c0/f579645a642a152d4daf4e4b21a516fd15da9d153251faddf65213bcb0bd41a8d98d4cdbd3bbe364660fb646322d1192f1629f167eb5c14f1720734df119c9c7
   languageName: node
   linkType: hard
 

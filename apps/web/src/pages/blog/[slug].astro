@@ -1,0 +1,26 @@
+---
+import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
+import { getBlogPost } from "../../libs/strapi";
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import StrapiContent from "../../components/template/StrapiContent.astro";
+
+const slug = Astro.params.slug;
+const blogPost = await getBlogPost(slug as string);
+const contents = blogPost?.content || [];
+console.log(blogPost, contents);
+---
+<Layout>
+  <Header
+    slot="header"
+    title={`블로그 | ${blogPost.title}`}
+    showBackIcon={true}
+    showHomeIcon={true} />
+  <section class='px-6 py-8'>
+    <article class='prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline'>
+      {contents.map(content => (
+        <StrapiContent content={content} />
+      ))}
+    </article>
+  </section>
+</Layout>

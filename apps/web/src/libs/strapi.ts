@@ -1,48 +1,8 @@
 import type { paths as Paths } from "./strapi.type";
+import { withQuery } from "ufo";
+import { markdownToHtml } from "@libs/markdown.ts";
 
 const STRAPI_API_URL = `${import.meta.env.STRAPI_URL}/api`;
-
-interface Page<T> {
-  data: T[];
-  meta: {
-    pagination: {
-      page: number;
-      pageSize: number;
-      pageCount: number;
-      total: number;
-    };
-  };
-}
-
-type Media = {
-  id: number;
-  alternativeText: string | null;
-  caption: string | null;
-  formats: {
-    [key in "thumbnail" | "large" | "medium" | "small"]: {
-      name: string;
-      hash: string;
-      mime: string;
-      path: string | null;
-      width: number;
-      height: number;
-      size: number;
-      url: string;
-    };
-  };
-};
-
-interface Article {
-  id: number;
-  documentId: string;
-  slug: string;
-  title: string;
-  description: string;
-  cover: Media;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-}
 
 type Operation<
   TPath extends keyof Paths,
@@ -59,9 +19,8 @@ type SuccessJSON<T> =
     : unknown;
 // @formatter:on
 
-async function getFetch<TPath extends keyof Paths & string>(path: TPath) {
-  const res = await fetch(
-    `${STRAPI_API_URL}${path}?populate=*&sort=createdAt:desc&status=draft`,
+async function getFetch<TPath extends keyof Paths & string>(path: TPath | string, query: any = {}) {
+  const res = await fetch(withQuery(`${STRAPI_API_URL}${path}`, query),
     {
       method: "GET",
       headers: {
@@ -75,5 +34,25 @@ async function getFetch<TPath extends keyof Paths & string>(path: TPath) {
 }
 
 export async function getBlogPosts() {
-  return await getFetch("/blog-posts");
+  return await getFetch("/blog-posts", {
+    populate: '*',
+    sort: 'createdAt:desc',
+  });
+}
+
+export async function parseContent(content: any) {
+  switch (content?.__component) {
+    case 'content.html': return content.html;
+    case 'content.markdown': return markdownToHtml(content.markdown);
+  }
+  return 'TODO';
+}
+
+export async function getBlogPost(slug: string) {
+  const { data: [data] } = await getFetch(`/blog-posts`, {
+    'filters[slug][$eq]': slug,
+    populate: '*',
+  });
+
+  return data;
 }

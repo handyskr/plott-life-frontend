@@ -1,0 +1,6 @@
+---
+import { parseContent } from "../../libs/strapi";
+
+const { content } = Astro.props;
+---
+<Fragment set:html={parseContent(content)} />
