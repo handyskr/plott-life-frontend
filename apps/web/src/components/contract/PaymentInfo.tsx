@@ -26,7 +26,7 @@ export default function PaymentInfo(props: Props) {
     isOpen,
   } = props;
 
-  const [open, setOpen] = useState(isOpen);
+  const [open, setOpen] = useState(!!isOpen);
 
   return (
     <section className={`payment-info p-6 ${open ? 'open' : ''}`}>

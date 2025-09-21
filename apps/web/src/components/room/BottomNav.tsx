@@ -44,7 +44,7 @@ export default function BottomNav(props: BottomNavProps) {
   });
 
   const handleContractClick = async () => {
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       const redirectURL = `${window.location.pathname}${window.location.search}`;
 
       await navigateWithQuery(`/auth/login`, {

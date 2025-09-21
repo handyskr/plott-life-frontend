@@ -12,68 +12,36 @@ import {
   NotificationBanner,
   ContractInfo,
   PaymentInfo,
-  BottomNav,
+  CancelButton,
   Payment,
+  BottomContractButton,
 } from '../../components/contract';
 
 import StatusTimeline from '@components/contract/StatusTimeline.astro';
 import Description from '@components/contract/Description.astro';
 import Notice from '@components/contract/Notice.astro';
 
-const { id } = Astro.params;
-
 const { API_URL } = import.meta.env;
 
-// async function fetchRoomDetail(id: string) {
-//   const res = await fetch(`${API_URL}/v1/building-unit/${id}`, {
-//     headers: { 'Content-Type': 'application/json' },
-//   });
-//
-//   if (!res.ok) {
-//     throw new Error(`API Error: ${res.status}`);
-//   }
-//
-//   return res.json();
-// }
-//
-// const roomDetail = await fetchRoomDetail(id);
-// const {
-//   name,
-//   address,
-//   images,
-//   deposit,
-//   rentFeePerWeek,
-//   cleaningFee,
-//   managementFeePerWeek,
-// } = roomDetail;
+const { id } = Astro.params;
+const accessToken = await Astro.session?.get('accessToken');
 
-const props = {
-  // Contract Api
-  weeks: 5,
-  startAt: '2025-09-27',
-  endAt: '2025-10-25',
-  name: '성수 1호점',
-  address: '서울시 성동구 성수동1가 123-45',
-  contractStatus: ContractStatus.COMPLETED,
-  host: {
-    name: '고라비',
-    phone: '010-1234-5678',
-  },
-  guest: {
-    name: '김틀리',
-    phone: '010-****-****',
-  },
+async function fetchContract() {
+  const res = await fetch(`${API_URL}/v1/contract/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
-  currency: 'KRW',
-  totalRentFee: 1000000,
-  totalManagementFee: 200000,
-  cleaningFee: 50000,
-  commissionFee: 100000,
-  deposit: 300000,
-  usagePrice: 1230000,
-  totalPrice: 2530000,
-  expiresAt: '2024-10-01T15:30:00.00',
-};
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+const contract = await fetchContract();
 
 const {
   weeks,
@@ -81,15 +49,16 @@ const {
   endAt,
   name,
   address,
+  approvalExpiresAt,
+  expiresAt,
   contractStatus,
-} = props;
+  buildingUnit,
+} = contract;
 
-// const { commission, totalPrice, totalPaymentPrice} = getPriceData({
-//   deposit,
-//   rentFeePerWeek,
-//   cleaningFee,
-//   managementFeePerWeek,
-// });
+console.log(expiresAt);
+
+const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED;
+
 ---
 
 <Layout>
@@ -103,10 +72,12 @@ const {
       <div class='w-full mb-1'>
         <NotificationBanner
           contractStatus={contractStatus}
+          expiresAt={expiresAt}
+          approvalExpiresAt={approvalExpiresAt}
         />
       </div>
     )}
-    {(contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED) && (
+    {isBeforePayment && (
       <div class='w-full bg-gray-50 px-10 py-4'>
         <StatusTimeline
           contractStatus={contractStatus}
@@ -115,7 +86,7 @@ const {
     )}
     <ContractInfo
       client:visible
-      {...props}
+      {...contract}
     />
     {(contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.MOVED_OUT || contractStatus === ContractStatus.USING) && (
       <>
@@ -126,14 +97,14 @@ const {
     <div class='bg-gray-100 w-full h-2' />
     <PaymentInfo
       client:visible
-      {...props}
+      {...contract}
     />
-    {(contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED) && (
+    {isBeforePayment && (
       <>
         <div class='bg-gray-100 w-full h-2' />
         <Payment
           client:visible
-          {...props}
+          {...contract}
         />
       </>
     )}
@@ -141,16 +112,12 @@ const {
   <Description
     contractStatus={contractStatus}
   />
-  {contractStatus === ContractStatus.APPROVED && (
-    <div
-      class="p-6 pb-10"
-    >
-      <button
-        class="btn bg-white w-full text-gray-900 body2"
-      >
-        계약 취소하기
-      </button>
-    </div>
+  {isBeforePayment && (
+    <CancelButton
+      client:only='preact'
+      id={Number(id)}
+      {...contract}
+    />
   )}
   <!--<div-->
   <!--  slot='nav'-->
@@ -158,8 +125,10 @@ const {
   <!--&gt;-->
   <!--  <button class='btn btn-block btn-primary body2'>계약 요청하기</button>-->
   <!--</div>-->
-  <BottomNav
-    slot='nav'
-    client:only='preact'
-  />
+  {contractStatus === ContractStatus.APPROVED && (
+    <BottomContractButton
+      slot='nav'
+      client:only='preact'
+    />
+  )}
 </Layout>

@@ -1,11 +1,10 @@
 import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
-import {ContractStatus, EXPOSE_DATE_FORMAT} from '@libs/values';
+import { ContractStatus, EXPOSE_DATE_FORMAT } from '@libs/values';
 import type { ContractStatusType } from '@libs/values.ts';
+import { ArrowDown } from "@plott-life/ui/components/icons";
 
 interface Props {
-  name: string;
-  address: string;
   weeks: number;
   startAt: string;
   endAt: string;
@@ -18,18 +17,22 @@ interface Props {
     phone: string;
   };
   contractStatus?: ContractStatusType;
+  buildingUnit: {
+    id: number;
+    name: string;
+    address: string;
+  },
 }
 
 export default function ContractInfo(props: Props) {
   const {
-    name,
-    address,
     weeks,
     startAt,
     endAt,
     host,
     guest,
     contractStatus,
+    buildingUnit,
   } = props;
 
   const [open, setOpen] = useState(!!contractStatus && contractStatus === ContractStatus.REQUESTED);
@@ -50,9 +53,11 @@ export default function ContractInfo(props: Props) {
       >
         <h3 className='body1 text-gray-900'>계약 정보</h3>
         {isActive && (
-          <div className='icon transition-transform duration-300'>
-            ▼
-          </div>
+          <ArrowDown
+            className={`w-4 h-4 transition-transform duration-300 ${
+              open ? "rotate-180" : "rotate-0"
+            }`}
+          />
         )}
       </div>
 
@@ -62,15 +67,13 @@ export default function ContractInfo(props: Props) {
         }`}
       >
         <div className='flex items-center gap-4 pt-6'>
-          <img
-            src='https://placehold.co/80x80'
-            alt='숙소 이미지'
-            className='w-20 h-20 rounded-lg object-cover'
-          />
-          <div className='flex-1'>
-            <p className='body4 text-gray-900 mb-1.5'>{name}</p>
-            <p className='body5 text-gray-500'>{address}</p>
-          </div>
+          <a
+            href={`/rooms/${buildingUnit.id}`}
+            className='flex-1 cursor-pointer'
+          >
+            <p className='body4 text-gray-900 mb-1.5'>{buildingUnit.name} ></p>
+            <p className='body5 text-gray-500'>{buildingUnit.address}</p>
+          </a>
         </div>
 
         <div className='w-full h-px bg-gray-300'></div>

@@ -13,7 +13,7 @@ import {
 } from '../../components/contract';
 
 const {
-  IMAGE_URL,
+  PUBLIC_IMAGE_URL,
   API_URL,
 } = import.meta.env;
 
@@ -85,7 +85,7 @@ const {
     <section class='rounded-2xl border-1 border-gray-300 py-5 px-6 space-y-4'>
       <div class='flex items-center gap-4'>
         <img
-          src={`${IMAGE_URL}/${images.length > 0 ? images[0] : null}.webp?w=160`}
+          src={`${PUBLIC_IMAGE_URL}/${images.length > 0 ? images[0] : null}.webp?w=160`}
           alt='숙소 이미지'
           class='w-20 h-20 rounded-lg object-cover'
         />

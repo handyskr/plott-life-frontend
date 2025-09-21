@@ -39,6 +39,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
   if (userRes.ok) {
     const user = await userRes.json();
     context.locals.user = user;

@@ -82,3 +82,7 @@ export const contractData = z.object({
   start: z.string(),
   end: z.string(),
 });
+
+export const contractCancelData = contractData.extend({
+  id: z.number(),
+});
