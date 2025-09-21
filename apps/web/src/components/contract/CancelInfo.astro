@@ -1,0 +1,47 @@
+---
+import dayjs from "dayjs";
+import {EXPOSE_DATE_FORMAT} from "../../libs/values";
+
+// const {  } = Astro.props;
+const totalPrice = 1000000;
+const penaltyPrice = 152930;
+const canceledAt = dayjs().format('YYYY/MM/DD HH:mm');
+const refundPrice = totalPrice - penaltyPrice;
+---
+
+<section class={`p-6`}>
+  <div
+    class='header flex justify-between'
+  >
+    <h3 class='body1 text-gray-900'>취소/환불 정보</h3>
+  </div>
+
+  <div>
+    <div class="flex justify-between items-center pt-6">
+      <span class="body4 text-gray-900">결제 금액</span>
+      <span class="body4 text-gray-900">
+        {totalPrice.toLocaleString()}원
+      </span>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-4'></div>
+    <div class="flex justify-between pb-4">
+      <span class="body6 text-gray-600">위약금</span>
+      <span class="body4 text-error">
+        -{penaltyPrice.toLocaleString()}원
+      </span>
+    </div>
+    <div class="flex justify-between">
+      <span class="body6 text-gray-600">취소 일시</span>
+      <span class="body6 text-gray-900">
+        {canceledAt}
+      </span>
+    </div>
+    <div class='w-full h-px bg-gray-300 my-4'></div>
+    <div class="flex justify-between items-center">
+      <span class="body1 text-gray-900">환불 금액</span>
+      <span class="title2 text-error">
+        {refundPrice.toLocaleString()}원
+      </span>
+    </div>
+  </div>
+</section>

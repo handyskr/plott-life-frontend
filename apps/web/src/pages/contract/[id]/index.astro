@@ -1,13 +1,13 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/template/Header.astro';
-import { SignInForm } from '../../components/auth/SignInForm';
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/template/Header.astro';
+import { SignInForm } from '../../../components/auth/SignInForm';
 import dayjs from 'dayjs';
 import {
   getWeeksBetween,
   getPriceData,
 } from '@plott-life/utils';
-import {ContractStatus, EXPOSE_DATE_FORMAT} from '../../libs/values';
+import {ContractStatus, EXPOSE_DATE_FORMAT} from '../../../libs/values';
 import {
   NotificationBanner,
   ContractInfo,
@@ -15,11 +15,14 @@ import {
   CancelButton,
   Payment,
   BottomContractButton,
-} from '../../components/contract';
+} from '../../../components/contract';
 
 import StatusTimeline from '@components/contract/StatusTimeline.astro';
 import Description from '@components/contract/Description.astro';
 import Notice from '@components/contract/Notice.astro';
+import CancelInfo from '@components/contract/CancelInfo.astro';
+
+import {ArrowRight} from "@plott-life/ui/components/icons";
 
 const { API_URL } = import.meta.env;
 
@@ -51,14 +54,16 @@ const {
   address,
   approvalExpiresAt,
   expiresAt,
-  contractStatus,
+  // contractStatus,
   buildingUnit,
 } = contract;
 
-console.log(expiresAt);
+const contractStatus = ContractStatus.COMPLETED;
+
+console.log(contract);
 
 const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED;
-
+const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.MOVED_OUT || contractStatus === ContractStatus.USING;
 ---
 
 <Layout>
@@ -67,7 +72,7 @@ const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractS
     title='계약'
     showBackIcon={true}
   />
-  <div class='p'>
+  <div>
     {contractStatus !== ContractStatus.MOVED_OUT && (
       <div class='w-full mb-1'>
         <NotificationBanner
@@ -88,7 +93,7 @@ const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractS
       client:visible
       {...contract}
     />
-    {(contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.MOVED_OUT || contractStatus === ContractStatus.USING) && (
+    {isPaymentCompleted && (
       <>
         <div class='bg-gray-100 w-full h-2' />
         <Notice />
@@ -108,23 +113,39 @@ const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractS
         />
       </>
     )}
+    {(isPaymentCompleted || contractStatus === ContractStatus.CANCELED) && (
+      <>
+        <div class='bg-gray-100 w-full h-2' />
+        <CancelInfo {...contract} />
+      </>
+    )}
   </div>
   <Description
     contractStatus={contractStatus}
   />
-  {isBeforePayment && (
+  {(isPaymentCompleted || contractStatus === ContractStatus.CANCELED) && (
+    <>
+      <div class='bg-gray-100 w-full h-2' />
+      <section class={`p-6`}>
+        <a
+          href=`/contract/${id}/history`
+          class='header flex justify-between'
+        >
+          <h3 class='body1 text-gray-900'>{isPaymentCompleted ? '결제 내역' : '취소 내역'}</h3>
+          <ArrowRight width="24" height="24" />
+        </a>
+      </section>
+      <div class='bg-gray-100 w-full h-2' />
+    </>
+  )}
+  {(isBeforePayment || contractStatus === ContractStatus.COMPLETED) && (
     <CancelButton
       client:only='preact'
       id={Number(id)}
       {...contract}
     />
   )}
-  <!--<div-->
-  <!--  slot='nav'-->
-  <!--  class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'-->
-  <!--&gt;-->
-  <!--  <button class='btn btn-block btn-primary body2'>계약 요청하기</button>-->
-  <!--</div>-->
+
   {contractStatus === ContractStatus.APPROVED && (
     <BottomContractButton
       slot='nav'

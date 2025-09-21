@@ -7,3 +7,6 @@ export { default as CancelButton } from './CancelButton';
 export { default as Payment } from './Payment';
 
 export { default as ContractSuccessModal } from './ContractSuccessModal';
+
+// Detail
+export { default as DetailCancelButton } from './DetailCancelButton';
