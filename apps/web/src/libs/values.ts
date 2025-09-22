@@ -1,3 +1,4 @@
+export const DEFAULT_PAGE_SIZE = 20;
 export const EXPOSE_DATE_FORMAT = 'YYYY년 M월 D일';
 export const EXPOSE_DATETIME_FORMAT = 'YYYY/MM/DD HH:mm';
 

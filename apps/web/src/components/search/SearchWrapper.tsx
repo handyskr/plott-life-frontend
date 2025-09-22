@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import { Calendar, LocationSelect } from '@components/common';
+import { Info } from '@plott-life/ui/components/icons';
 
 interface SearchWrapperProps {
   locations: string[];
@@ -95,9 +96,10 @@ export default function SearchWrapper(props: SearchWrapperProps) {
               />
               <div className='w-full h-px bg-gray-300 my-6 mb-4'></div>
               <div className='flex items-center mb-2'>
-                <p className='mx-1.5 body5 text-gray-500'>원하는 지역이 없나요?</p>
+                <Info className='text-gray-600' />
+                <p className='ml-1.5 mr-2 body6 text-gray-600'>원하는 지역이 없나요?</p>
                 {/* TODO: 문의하기 링크 붙여야함 */}
-                <a className='body5 text-gray-900 underline'>
+                <a className='body6 text-gray-900 underline'>
                   문의하기
                 </a>
               </div>

@@ -7,13 +7,46 @@ import Footer from '@components/template/Footer.astro';
 
 import IconSearch from '@plott-life/ui/icons/search.svg';
 import IconLogo from '@plott-life/ui/icons/logo.svg';
+import {DEFAULT_PAGE_SIZE} from '../libs/values';
+import {toast} from '../libs/toast';
+
+const {
+  API_URL,
+} = import.meta.env;
+
+async function initRooms() {
+  const res = await fetch(`${API_URL}/v1/building-unit?page=0&size=${DEFAULT_PAGE_SIZE}`, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+// 기본값 준비
+let items = [];
+try {
+  const data = await initRooms();
+  items = data.items ?? [];
+} catch (err) {
+  toast.show({
+    type: 'error',
+    message: '방 정보를 불러오는데 실패했습니다. 잠시 후 다시 시도해주세요.',
+  });
+  console.error('실패:', err);
+}
 ---
 
 <Layout>
   <Header slot='header'>
     <div class='flex flex-col w-full'>
       <div class='flex justify-center items-center h-16'>
-        <IconLogo class="w-16" />
+        <IconLogo class='w-16' />
       </div>
       <div class='flex items-center px-6 pb-4 w-full shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
         <a
@@ -35,7 +68,7 @@ import IconLogo from '@plott-life/ui/icons/logo.svg';
   <div class='bg-white p-6'>
     <RoomList
       client:only='preact'
-      initialRooms={[]}
+      initialRooms={items}
     />
   </div>
   <Footer slot='footer' />
