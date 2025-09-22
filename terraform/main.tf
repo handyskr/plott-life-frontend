@@ -39,7 +39,7 @@ data "google_artifact_registry_repository" "frontend" {
 resource "google_cloud_run_v2_service" "web" {
   location = local.locaiton
   name     = local.web_resource_name
-  ingress  = "INGRESS_TRAFFIC_INTERNAL_LOAD_BALANCER"
+  ingress  = "INGRESS_TRAFFIC_INTERNAL_ONLY"
 
   invoker_iam_disabled = true
 
