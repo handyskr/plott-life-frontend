@@ -1,9 +1,11 @@
+import { useState } from "preact/hooks";
 import dayjs from 'dayjs';
 import {
   getWeeksBetween,
   getPriceData,
 } from '@plott-life/utils';
 import { EXPOSE_DATE_FORMAT } from '@libs/values.ts';
+import DateModal from '../../pages/rooms/_components/DateModal';
 
 import { navigateWithQuery } from '../../navigator';
 
@@ -26,6 +28,8 @@ export default function BottomNav(props: BottomNavProps) {
     cleaningFee,
   } = props;
 
+  const [isDateModalOpen, setIsDateModalOpen] = useState(false);
+
   const searchParams = new URLSearchParams(window.location.search);
 
   const today = dayjs();
@@ -43,7 +47,7 @@ export default function BottomNav(props: BottomNavProps) {
     managementFeePerWeek,
   });
 
-  const handleContractClick = async () => {
+  const onContractButtonClick = async () => {
     if (!isLoggedIn) {
       const redirectURL = `${window.location.pathname}${window.location.search}`;
 
@@ -60,25 +64,54 @@ export default function BottomNav(props: BottomNavProps) {
     });
   };
 
+  const onDateClick = async () => {
+    const redirectURL = `${window.location.pathname}`;
+
+    await navigateWithQuery(`/search`, {
+      redirectURL,
+    });
+  }
+
+  const handleDateApply = (newStartAt: string, newEndAt: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('startAt', newStartAt);
+    params.set('endAt', newEndAt);
+
+    const newUrl = `${window.location.pathname}?${params.toString()}`;
+    window.location.href = newUrl;
+  };
+
   return (
-    <nav
-      slot='footer'
-      className='sticky bottom-0 bg-white border-t border-gray-300 py-3 px-6 flex justify-between items-center'
-    >
-      <div class='flex flex-col'>
-      <span class='body1 mb-1.5'>
-        ₩{(totalPrice).toLocaleString()}
-      </span>
-        <span class='caption1 text-gray-700 underline'>
-        {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
-      </span>
-      </div>
-      <button
-        class='w-[120px] rounded-lg btn btn-primary body2'
-        onClick={handleContractClick}
+    <>
+      <nav
+        slot='footer'
+        className='sticky bottom-0 bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
       >
-        계약하기
-      </button>
-    </nav>
+        <div
+          class='flex flex-col cursor-pointer'
+          onClick={() => setIsDateModalOpen(true)}
+        >
+        <span class='body1 mb-1.5'>
+          ₩{(totalPrice).toLocaleString()}
+        </span>
+          <span class='caption1 text-gray-700 underline'>
+          {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
+        </span>
+        </div>
+        <button
+          class='w-[120px] rounded-lg btn btn-primary body2'
+          onClick={onContractButtonClick}
+        >
+          계약하기
+        </button>
+      </nav>
+      <DateModal
+        isOpen={isDateModalOpen}
+        startAt={startAt}
+        endAt={endAt}
+        onAction={handleDateApply}
+        onClose={() => setIsDateModalOpen(false)}
+      />
+    </>
   );
 }

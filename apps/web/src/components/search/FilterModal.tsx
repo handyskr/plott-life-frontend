@@ -58,9 +58,6 @@ export default function FilterModal(props: FilterModalProps) {
     const min = Number(params.get('minRentFeePerWeek') ?? MIN_PRICE);
     const max = Number(params.get('maxRentFeePerWeek') ?? MAX_PRICE);
 
-    console.log(bedrooms);
-    console.log(bathrooms);
-
     setBedroom(bedrooms);
     setBathroom(bathrooms);
     setPrice([min, max]);

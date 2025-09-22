@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import dayjs from 'dayjs';
 import { toast } from '@libs/toast.ts';
 import type { Dayjs } from 'dayjs';
@@ -39,7 +39,7 @@ export default function Calendar(props: CalendarProps) {
       toast.show({
         message: '1주일 단위로 선택 가능합니다',
         type: 'default',
-        duration: 3000,
+        duration: 300000,
       });
       setIsFirstCheck(false);
     }
@@ -64,12 +64,10 @@ export default function Calendar(props: CalendarProps) {
       if (day.day() !== expectedEndWeekday) {
         return;
       }
-
       // 끝 날짜는 반드시 시작 날짜보다 이후여야 함
       if (!day.isAfter(startAt, 'day')) {
         return;
       }
-
       // 정상적으로 범위 설정
       setEndAt(day);
 
@@ -78,7 +76,6 @@ export default function Calendar(props: CalendarProps) {
       }
     }
   };
-
 
   const isCellDisabled = (day: Dayjs) => {
     if (day.isBefore(today, 'day')) {
@@ -134,6 +131,14 @@ export default function Calendar(props: CalendarProps) {
 
     return true;
   };
+
+  useEffect(() => {
+    setStartAt(startAtParam ? dayjs(startAtParam) : null);
+  }, [startAtParam]);
+
+  useEffect(() => {
+    setEndAt(endAtParam ? dayjs(endAtParam) : null);
+  }, [endAtParam]);
 
   return (
     <div className='mx-auto px-4 py-6 space-y-8'>
