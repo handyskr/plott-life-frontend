@@ -4,8 +4,8 @@ export const EXPOSE_DATETIME_FORMAT = 'YYYY/MM/DD HH:mm';
 
 export const SORT_OPTIONS = [
   { label: '최신순', value: 'CREATED_AT_DESC' },
-  { label: '낮은 가격순', value: 'PRICE_DESC' },
-  { label: '높은 가격순', value: 'PRICE_ASC' },
+  { label: '낮은 가격순', value: 'PRICE_ASC' },
+  { label: '높은 가격순', value: 'PRICE_DESC' },
 ];
 
 export enum ContractStatus {
@@ -54,3 +54,15 @@ export const PaymentStatusLabel: Record<PaymentStatus, string> = {
   [PaymentStatus.EXPIRED]: '결제 만료',
 };
 
+export enum BedroomOption {
+  ONE = 'ONE',
+  TWO = 'TWO',
+  THREE = 'THREE',
+  FOUR_PLUS = 'FOUR_PLUS',
+}
+
+export enum BathroomOption {
+  ONE = 'ONE',
+  TWO = 'TWO',
+  THREE_PLUS = 'THREE_PLUS',
+}

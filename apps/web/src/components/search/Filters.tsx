@@ -5,8 +5,7 @@ import {
 } from '@components/search';
 import { SORT_OPTIONS } from '@libs/values.ts';
 
-// import IconArrowDown from '@plott-life/ui/icons/arrow-down.svg';
-// import IconSort from '@plott-life/ui/icons/sort.svg';
+import { ArrowDown, Sort } from '@plott-life/ui/components/icons';
 
 interface FiltersProps {
 }
@@ -47,7 +46,10 @@ export default function Filters(props: FiltersProps) {
         `}
         onClick={() => setIsSortOpen(true)}
       >
-        {/*<IconSort/>*/}
+        <Sort
+          viewBox='0 0 24 24'
+          className={'size-3'}
+        />
         {sortLabel}
       </button>
       <button
@@ -57,10 +59,14 @@ export default function Filters(props: FiltersProps) {
         onClick={() => setIsFilterOpen(true)}
       >
         필터
-        {/*<IconArrowDown/>*/}
+        <ArrowDown
+          viewBox='0 0 24 24'
+          className={'size-3'}
+        />
       </button>
       <SortModal
         isOpen={isSortOpen}
+        sortValue={sortValue}
         handleSortChange={handleSortChange}
         onClose={() => setIsSortOpen(false)}
       />

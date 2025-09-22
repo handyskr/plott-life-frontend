@@ -1,8 +1,10 @@
 import { Modal, ModalContent, ModalFooter, ModalHeader } from '@components/common';
-import { SORT_OPTIONS } from '@libs/values.ts';
+import { SORT_OPTIONS } from '@libs/values';
+import { RadioButtonActive, RadioButtonInactive } from '@plott-life/ui/components/icons';
 
 interface SortModalProps {
   isOpen: boolean;
+  sortValue: null | string;
   handleSortChange: (value: string) => void;
   onClose: () => void;
 }
@@ -30,7 +32,6 @@ export default function SortModal(props: SortModalProps) {
           </button>
         </>
       </ModalHeader>
-
       <ModalContent>
         <div className={'flex flex-col bg-white px-6 py-8 gap-6'}>
           {SORT_OPTIONS.map((option) => {
@@ -39,6 +40,8 @@ export default function SortModal(props: SortModalProps) {
               value,
             } = option;
 
+            const isSelected = props.sortValue === value;
+
             return (
               <div
                 key={label}
@@ -46,9 +49,15 @@ export default function SortModal(props: SortModalProps) {
                 onClick={() => handleSortChange(value)}
               >
                 <span className='body3 text-gray-900'>{label}</span>
-                <div
-                  className={`w-4 h-4 rounded-full border border-gray-300`}
-                />
+                {isSelected ? (
+                  <RadioButtonActive
+                    className={'size-6 text-gray-900'}
+                  />
+                ) : (
+                  <RadioButtonInactive
+                    className={'size-6 text-gray-400'}
+                  />
+                )}
               </div>
             );
           })}
