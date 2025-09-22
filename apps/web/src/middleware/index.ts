@@ -3,7 +3,8 @@ import { defineMiddleware } from "astro:middleware";
 const { API_URL } = import.meta.env;
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  if (context.url.pathname.startsWith("/assets")) {
+  if (context.url.pathname.startsWith("/icons") ||
+      context.url.pathname.startsWith("/images")) {
     return next();
   }
 

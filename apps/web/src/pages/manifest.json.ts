@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
 
-const iconPrefix = "/assets";
+const iconPrefix = "/icons";
 
 export const GET: APIRoute = ({ site }) => {
   const icons = [48, 72, 96, 144, 168, 192, 256, 512].map((size) => ({

@@ -43,7 +43,4 @@ export default defineConfig({
       secure: NODE_ENV === "production",
     },
   },
-  build: {
-    assetsPrefix: "/assets",
-  },
 });
