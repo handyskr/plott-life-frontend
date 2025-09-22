@@ -1,0 +1,32 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import { Image } from 'astro:assets';
+---
+
+<Layout>
+  <Header slot='header' />
+  <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+    <div>
+      <Image
+        alt='check green image'
+        src='/images/check-green.png'
+        format='webp'
+        width={40}
+        height={40}
+      />
+    </div>
+    <p class='title2 text-gray-900 mt-10 mb-4'>퇴실이 완료되었습니다</p>
+    <p class='body6 text-gray-600 px-6'>
+      보증금 반환은 호스트 확인 후 영업일 2일 내에 처리됩니다.
+    </p>
+  </div>
+  <div slot='footer' class='px-6 py-6'>
+    <a
+      href='/contract'
+      class='btn btn-lg btn-neutral w-full body3 cursor-pointer text-white'
+    >
+      확인
+    </a>
+  </div>
+</Layout>

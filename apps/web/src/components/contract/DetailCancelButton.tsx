@@ -1,7 +1,4 @@
 import { actions, isInputError } from 'astro:actions';
-import { useState } from 'preact/hooks';
-import ConfirmModal from '@components/template/ConfirmModal';
-import type {ContractStatusType} from '@libs/values.ts';
 
 interface Props {
   id: number;
@@ -10,7 +7,6 @@ interface Props {
   buildingUnit: {
     id: number,
   },
-  contractStatus: ContractStatusType;
 }
 
 export default function DetailCancelButton(props: Props) {
@@ -34,7 +30,7 @@ export default function DetailCancelButton(props: Props) {
         throw error;
       }
 
-      window.location.reload();
+      window.location.href = `/contract/${id}`;
     } catch (error: any) {
       if (isInputError(error)) {
         console.log(error);

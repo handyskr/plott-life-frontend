@@ -1,6 +1,7 @@
 import { actions, isInputError } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import ContractSuccessModal from '@components/contract/ContractSuccessModal.tsx';
+import {toast} from "@libs/toast.ts";
 
 interface BottomContractButtonProps {
   id: number;
@@ -38,7 +39,11 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
 
       switch (error?.code) {
         case 'BAD_REQUEST':
-          console.log(error);
+          toast.show({
+            message: '잘못된 요청입니다. 새로고침 후 다시 시도해주세요.',
+            type: 'default',
+            duration: 3000,
+          });
           break;
         default:
           alert('알 수 없는 에러가 발생했습니다.');

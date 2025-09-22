@@ -1332,6 +1332,7 @@ __metadata:
     "@plott-life/utils": "workspace:*"
     "@preact/compat": "npm:18.3.1"
     "@tailwindcss/vite": "npm:^4.1.13"
+    "@tosspayments/tosspayments-sdk": "npm:^2.4.0"
     astro: "npm:^5.13.5"
     eslint: "npm:^9.34.0"
     ioredis: "npm:^5.7.0"
@@ -2059,6 +2060,13 @@ __metadata:
   peerDependencies:
     vite: ^5.2.0 || ^6 || ^7
   checksum: 10c0/4e9b1d54a64655b775f26816a7be52236d4716a35f88af6b835fcb4f7f466db3c9cbb6c052e5550a97b3e5cff821f337cd6d9ddefd480e71db21a2844719b20e
+  languageName: node
+  linkType: hard
+
+"@tosspayments/tosspayments-sdk@npm:^2.4.0":
+  version: 2.4.0
+  resolution: "@tosspayments/tosspayments-sdk@npm:2.4.0"
+  checksum: 10c0/8b51330ec51491610323c75d9f251b97b11a3cf58458e7bb83c9d2a307732e13d8bffe9d6115c7448a143fb91b634a48943f1d7f6c0b8b13b063d21a486bd02c
   languageName: node
   linkType: hard
 

@@ -38,7 +38,7 @@ export default function Calendar(props: CalendarProps) {
     if (isFirstCheck) {
       toast.show({
         message: '1주일 단위로 선택 가능합니다',
-        type: 'error',
+        type: 'default',
         duration: 3000,
       });
       setIsFirstCheck(false);

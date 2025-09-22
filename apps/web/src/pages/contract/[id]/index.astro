@@ -12,9 +12,9 @@ import {
   NotificationBanner,
   ContractInfo,
   PaymentInfo,
-  CancelButton,
   Payment,
-  BottomContractButton,
+  CancelButton,
+  MoveOutButton,
 } from '../../../components/contract';
 
 import StatusTimeline from '@components/contract/StatusTimeline.astro';
@@ -22,12 +22,14 @@ import Description from '@components/contract/Description.astro';
 import Notice from '@components/contract/Notice.astro';
 import CancelInfo from '@components/contract/CancelInfo.astro';
 
-import {ArrowRight} from "@plott-life/ui/components/icons";
+import { ArrowRight } from "@plott-life/ui/components/icons";
 
 const { API_URL } = import.meta.env;
 
 const { id } = Astro.params;
 const accessToken = await Astro.session?.get('accessToken');
+
+console.log(accessToken);
 
 async function fetchContract() {
   const res = await fetch(`${API_URL}/v1/contract/${id}`, {
@@ -54,11 +56,9 @@ const {
   address,
   approvalExpiresAt,
   expiresAt,
-  // contractStatus,
+  contractStatus,
   buildingUnit,
 } = contract;
-
-const contractStatus = ContractStatus.COMPLETED;
 
 console.log(contract);
 
@@ -76,6 +76,7 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
     {contractStatus !== ContractStatus.MOVED_OUT && (
       <div class='w-full mb-1'>
         <NotificationBanner
+          client:only
           contractStatus={contractStatus}
           expiresAt={expiresAt}
           approvalExpiresAt={approvalExpiresAt}
@@ -104,25 +105,24 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
       client:visible
       {...contract}
     />
-    {isBeforePayment && (
+    {contractStatus === ContractStatus.APPROVED && (
       <>
         <div class='bg-gray-100 w-full h-2' />
         <Payment
           client:visible
+          id={Number(id)}
+          accessToken={accessToken}
           {...contract}
         />
       </>
     )}
-    {(isPaymentCompleted || contractStatus === ContractStatus.CANCELED) && (
+    {(contractStatus === ContractStatus.CANCELED) && (
       <>
         <div class='bg-gray-100 w-full h-2' />
         <CancelInfo {...contract} />
       </>
     )}
   </div>
-  <Description
-    contractStatus={contractStatus}
-  />
   {(isPaymentCompleted || contractStatus === ContractStatus.CANCELED) && (
     <>
       <div class='bg-gray-100 w-full h-2' />
@@ -138,6 +138,8 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
       <div class='bg-gray-100 w-full h-2' />
     </>
   )}
+  <Description contractStatus={contractStatus}/>
+
   {(isBeforePayment || contractStatus === ContractStatus.COMPLETED) && (
     <CancelButton
       client:only='preact'
@@ -146,10 +148,15 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
     />
   )}
 
-  {contractStatus === ContractStatus.APPROVED && (
-    <BottomContractButton
-      slot='nav'
+  {(contractStatus === ContractStatus.USING || contractStatus === ContractStatus.MOVED_OUT) && (
+    <MoveOutButton
       client:only='preact'
+      id={Number(id)}
+      {...contract}
     />
+  )}
+
+  {contractStatus === ContractStatus.APPROVED && (
+    <div class="h-[90px] pb-[calc(var(--bait)+24px)]"></div>
   )}
 </Layout>

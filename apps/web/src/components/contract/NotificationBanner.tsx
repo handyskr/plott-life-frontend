@@ -2,11 +2,11 @@ import { useRef, useEffect } from 'preact/hooks';
 import type { ContractStatusType } from '@libs/values.ts';
 import { Notification } from '@components/common';
 import dayjs from 'dayjs';
-import duration from 'dayjs/plugin/duration'; // ⬅️ 추가
+import duration from 'dayjs/plugin/duration';
 import 'dayjs/locale/ko';
 
 dayjs.locale('ko');
-dayjs.extend(duration); // ⬅️ duration 활성화
+dayjs.extend(duration);
 
 interface NotificationBannerProps {
   expiresAt?: string;
@@ -20,18 +20,26 @@ function CountdownText({ expiresAt }: { expiresAt: string }) {
   useEffect(() => {
     function update() {
       const now = dayjs();
-      const end = dayjs(expiresAt);
-      const diff = end.diff(now);
+      // 명시적으로 포맷 지정 (YYYY-MM-DDTHH:mm:ss)
+      const end = dayjs(expiresAt, "YYYY-MM-DDTHH:mm:ss");
 
-      if (diff <= 0) {
-        if (spanRef.current) spanRef.current.textContent = '만료됨';
+      if (!end.isValid()) {
+        console.warn("Invalid expiresAt:", expiresAt);
+        if (spanRef.current) spanRef.current.textContent = "시간 정보 오류";
         return;
       }
 
-      const d = dayjs.duration(diff); // 이제 정상 동작
-      const h = String(d.hours()).padStart(2, '0');
-      const m = String(d.minutes()).padStart(2, '0');
-      const s = String(d.seconds()).padStart(2, '0');
+      const diff = end.diff(now);
+
+      if (diff <= 0) {
+        if (spanRef.current) spanRef.current.textContent = "만료됨";
+        return;
+      }
+
+      const d = dayjs.duration(diff);
+      const h = String(Math.floor(d.asHours())).padStart(2, "0"); // 총 시간 계산
+      const m = String(d.minutes()).padStart(2, "0");
+      const s = String(d.seconds()).padStart(2, "0");
 
       if (spanRef.current) {
         spanRef.current.textContent = `${h}시 ${m}분 ${s}초`;
@@ -46,6 +54,7 @@ function CountdownText({ expiresAt }: { expiresAt: string }) {
   return <span ref={spanRef} />;
 }
 
+
 export default function NotificationBanner(props: NotificationBannerProps) {
   const { contractStatus, expiresAt, approvalExpiresAt } = props;
 
@@ -55,6 +64,9 @@ export default function NotificationBanner(props: NotificationBannerProps) {
     COMPLETED: 'success',
     USING: 'success',
   };
+
+  console.log("expiresAt:", expiresAt);
+
 
   const contractStatusMessageMap: Partial<Record<ContractStatusType, preact.VNode>> = {
     REQUESTED: (

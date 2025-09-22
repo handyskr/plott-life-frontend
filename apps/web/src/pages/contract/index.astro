@@ -10,6 +10,10 @@ import {
   ContractStatus,
 } from '../../libs/values';
 
+if (!Astro.locals.isLoggedIn) {
+  return Astro.redirect('/auth/login');
+}
+
 const {
   PUBLIC_IMAGE_URL,
   API_URL,

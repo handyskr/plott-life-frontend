@@ -3,6 +3,7 @@ export { default as PaymentInfo } from './PaymentInfo';
 export { default as NotificationBanner } from './NotificationBanner';
 export { default as BottomContractButton } from './BottomContractButton';
 export { default as CancelButton } from './CancelButton';
+export { default as MoveOutButton } from './MoveOutButton';
 
 export { default as Payment } from './Payment';
 

@@ -8,7 +8,12 @@ import {
   createContract,
   cancelContract,
   listContracts,
+  moveOutContract,
 } from "./contract.ts";
+
+import {
+  createPayment,
+} from './payment.ts';
 
 export const server = {
   check,
@@ -23,5 +28,7 @@ export const server = {
   listContracts,
   createContract,
   cancelContract,
+  moveOutContract,
   test,
+  createPayment,
 }

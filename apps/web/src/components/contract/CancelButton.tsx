@@ -1,7 +1,7 @@
 import { actions, isInputError } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import ConfirmModal from '@components/template/ConfirmModal';
-import type {ContractStatusType} from '@libs/values.ts';
+import {navigateWithQuery} from "../../navigator";
 
 interface CancelButtonProps {
   id: number;
@@ -10,7 +10,7 @@ interface CancelButtonProps {
   buildingUnit: {
     id: number,
   },
-  contractStatus: ContractStatusType;
+  expectedPenalty: null | number;
 }
 
 export default function CancelButton(props: CancelButtonProps) {
@@ -19,6 +19,7 @@ export default function CancelButton(props: CancelButtonProps) {
     buildingUnit,
     startAt,
     endAt,
+    expectedPenalty,
   } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -62,7 +63,15 @@ export default function CancelButton(props: CancelButtonProps) {
       >
         <button
           class='btn bg-white w-full text-gray-900 body2'
-          onClick={() => setIsOpen(true)}
+          onClick={async () => {
+            // MEMO: 위약금이 발생하는 경우, 별도의 취소 페이지로 이동
+            if (expectedPenalty !== null) {
+              await navigateWithQuery(`/contract/${id}/cancel`, {});
+              return;
+            }
+
+            setIsOpen(true);
+          }}
         >
           계약 취소하기
         </button>

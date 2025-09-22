@@ -1,5 +1,5 @@
 import { ActionError, defineAction } from 'astro:actions';
-import { contractCancelData, contractData } from './schema.ts';
+import {contractCancelData, contractData, contractIdData} from './schema.ts';
 
 const { API_URL } = import.meta.env;
 
@@ -56,7 +56,31 @@ export const cancelContract = defineAction({
   input: contractCancelData,
   handler: async (input, context) => {
     const accessToken = await context.session?.get('accessToken');
-    const res = await fetch(`${API_URL}/v1/contract:cancel/${input.id}`, {
+    const res = await fetch(`${API_URL}/v1/contract/${input.id}:cancel`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(input),
+    });
+
+    if (!res.ok) {
+      throw new ActionError({
+        code: ActionError.statusToCode(res.status),
+      });
+    }
+
+    return {};
+  },
+});
+
+export const moveOutContract = defineAction({
+  accept: 'json',
+  input: contractIdData,
+  handler: async (input, context) => {
+    const accessToken = await context.session?.get('accessToken');
+    const res = await fetch(`${API_URL}/v1/contract/${input.id}:move-out`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

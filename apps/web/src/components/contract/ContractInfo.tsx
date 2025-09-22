@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
 import { ContractStatus, EXPOSE_DATE_FORMAT } from '@libs/values';
 import type { ContractStatusType } from '@libs/values.ts';
-import { ArrowDown } from "@plott-life/ui/components/icons";
+import { ArrowDown } from '@plott-life/ui/components/icons';
 
 interface Props {
   weeks: number;
@@ -55,7 +55,7 @@ export default function ContractInfo(props: Props) {
         {isActive && (
           <ArrowDown
             className={`w-4 h-4 transition-transform duration-300 ${
-              open ? "rotate-180" : "rotate-0"
+              open ? 'rotate-180' : 'rotate-0'
             }`}
           />
         )}
@@ -63,7 +63,7 @@ export default function ContractInfo(props: Props) {
 
       <div
         className={`content overflow-hidden transition-all duration-300 ease-in-out space-y-4 ${
-          (open || !isActive) ? 'max-h-[1000px]' : 'max-h-0'
+          (open || !isActive) ? 'max-h-[1000px] opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-2'
         }`}
       >
         <div className='flex items-center gap-4 pt-6'>
