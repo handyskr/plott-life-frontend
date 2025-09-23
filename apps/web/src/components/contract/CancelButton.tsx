@@ -1,7 +1,8 @@
-import { actions, isInputError } from 'astro:actions';
+import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import ConfirmModal from '@components/template/ConfirmModal';
-import {navigateWithQuery} from "../../navigator";
+import { navigateWithQuery } from '../../navigator';
+import { toast } from '@libs/toast.ts';
 
 interface CancelButtonProps {
   id: number;
@@ -39,17 +40,19 @@ export default function CancelButton(props: CancelButtonProps) {
 
       window.location.reload();
     } catch (error: any) {
-      if (isInputError(error)) {
-        console.log(error);
-        return;
-      }
-
       switch (error?.code) {
         case 'BAD_REQUEST':
+          toast.show({
+            message: '취소 정보가 일치하지 않습니다.',
+            type: 'default',
+          });
           console.log(error);
           break;
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
+          toast.show({
+            message: '알 수 없는 에러가 발생했습니다.',
+            type: 'default',
+          });
           console.error(error);
           break;
       }
@@ -58,9 +61,7 @@ export default function CancelButton(props: CancelButtonProps) {
 
   return (
     <>
-      <div
-        class='p-6 pb-10'
-      >
+      <div class='p-6 pb-10'>
         <button
           class='btn bg-white w-full text-gray-900 body2'
           onClick={async () => {

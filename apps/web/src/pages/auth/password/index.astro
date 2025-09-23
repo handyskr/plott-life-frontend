@@ -1,7 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
-import { PasswordUpdateForm, PasswordResetForm } from '@components/auth';
+import { PasswordUpdateForm } from '../_components/PasswordUpdateForm';
+import { PasswordResetForm } from '../_components/PasswordResetForm';
 import { withQuery } from "ufo";
 
 const searchParams = Astro.url?.searchParams;
