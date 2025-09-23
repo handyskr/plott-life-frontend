@@ -6,6 +6,7 @@ options:
 substitutions:
   _REGION: "asia-northeast3"
   _ENVIRONMENT: "dev"
+  _MODE: "production"
   _IMAGE: "web-${_ENVIRONMENT}"
   _SERVICE: "${_ENVIRONMENT}-plott-life-web"
   _IMAGE_NAME: "${_REGION}-docker.pkg.dev/${PROJECT_ID}/plott-life-frontend/${_IMAGE}"
