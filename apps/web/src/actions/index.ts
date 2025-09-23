@@ -1,15 +1,15 @@
-import { check, signIn } from "./signIn.ts";
-import { signUp, requestCode, verifyCode } from "./signUp.ts";
-import { resetPassword, setPassword } from "./password.ts";
-import { updateUser } from "./user.ts";
-import { test } from "./crm.ts";
-import { signOut } from "./signOut.ts";
+import { check, signIn } from './signIn.ts';
+import { signUp, requestCode, verifyCode } from './signUp.ts';
+import { resetPassword, setPassword } from './password.ts';
+import { updateUser } from './user.ts';
+import { test } from './crm.ts';
+import { signOut } from './signOut.ts';
 import {
   createContract,
   cancelContract,
   listContracts,
   moveOutContract,
-} from "./contract.ts";
+} from './contract.ts';
 
 import {
   createPayment,

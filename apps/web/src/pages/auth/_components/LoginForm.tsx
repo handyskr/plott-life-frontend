@@ -1,11 +1,11 @@
 import { type ActionError, actions, isInputError } from "astro:actions";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigateWithQuery } from "../../navigator";
+import { navigateWithQuery } from "../../../navigator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { emailInput } from "../../actions/schema.ts";
-import type { ActionSubmitHandler } from "../../actions/types.ts";
-import { handleSetActionInputError } from "../../actions/utils.ts";
+import { emailInput } from "../../../actions/schema.ts";
+import type { ActionSubmitHandler } from "../../../actions/types.ts";
+import { handleSetActionInputError } from "../../../actions/utils.ts";
 
 interface Props {
   successURL: string;

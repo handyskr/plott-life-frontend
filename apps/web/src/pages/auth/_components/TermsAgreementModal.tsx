@@ -1,8 +1,8 @@
 import { Modal, ModalContent } from "@components/common";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { termAgreementInput, USER_POLICY_CODES } from "../../actions/schema.ts";
-import type { SchemaSubmitHandler } from "../../actions/types.ts";
+import { termAgreementInput, USER_POLICY_CODES } from "../../../actions/schema.ts";
+import type { SchemaSubmitHandler } from "../../../actions/types.ts";
 import { ArrowRight } from "@plott-life/ui/components/icons";
 
 interface TermsAgreementModalProps {

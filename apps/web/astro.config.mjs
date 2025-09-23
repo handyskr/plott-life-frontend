@@ -8,8 +8,6 @@ import { defineConfig } from "astro/config";
 const liveURL = "https://life.plott.co.kr";
 const env = loadEnv(process.env.MODE, process.cwd(), '');
 
-console.log(env);
-
 const { NODE_ENV, SITE, REDIS_URL } = env;
 
 export default defineConfig({

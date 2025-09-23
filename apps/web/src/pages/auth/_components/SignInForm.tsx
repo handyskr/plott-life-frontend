@@ -1,11 +1,11 @@
 import { actions, isInputError } from "astro:actions";
-import type { ActionSubmitHandler } from "../../actions/types.ts";
+import type { ActionSubmitHandler } from "../../../actions/types.ts";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigate } from "../../navigator";
+import { navigate } from "../../../navigator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInInput } from "../../actions/schema.ts";
-import { handleSetActionInputError } from "../../actions/utils.ts";
+import { signInInput } from "../../../actions/schema.ts";
+import { handleSetActionInputError } from "../../../actions/utils.ts";
 
 interface Props {
   email?: string | null;

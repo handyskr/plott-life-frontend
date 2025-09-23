@@ -1,7 +1,7 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/template/Header.astro";
-import { PhoneForm } from "../../../components/auth/PhoneForm.tsx";
+import { PhoneForm } from "../_components/PhoneForm.tsx";
 if (!Astro.locals.isLoggedIn) {
   return Astro.redirect("/auth/login");
 }
