@@ -6,9 +6,12 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 const liveURL = "https://life.plott.co.kr";
-const env = loadEnv(process.env.MODE, process.cwd(), '');
+const { NODE_ENV, MODE } = process.env;
+const env = loadEnv(MODE || NODE_ENV, process.cwd(), '');
 
-const { NODE_ENV, SITE, REDIS_URL } = env;
+console.log(env);
+
+const { SITE, REDIS_URL } = env;
 
 export default defineConfig({
   site: SITE,
