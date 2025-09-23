@@ -13,6 +13,8 @@ interface ImportMeta {
 
 interface Window {
   toast: any;
+  ChannelIO: any;
+  ChannelIOInitialized: boolean;
 }
 
 declare namespace App {
