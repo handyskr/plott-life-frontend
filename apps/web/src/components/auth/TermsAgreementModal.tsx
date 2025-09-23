@@ -65,7 +65,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [필수] 서비스 이용약관 동의
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/content/terms-of-service"}
+                href={"/info/terms-of-service"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />
@@ -86,7 +86,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [필수] 개인정보 처리 방침 동의
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/content/privacy-policy"}
+                href={"/info/privacy-policy"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />
@@ -107,7 +107,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [필수] 만 19세 이상 확인
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/content/service-policy"}
+                href={"/info/service-policy"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />
@@ -128,7 +128,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [선택] 개인정보 마케팅 활용 동의
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/content/service-policy"}
+                href={"/info/service-policy"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />
