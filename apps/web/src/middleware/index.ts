@@ -1,33 +1,33 @@
-import { defineMiddleware } from "astro:middleware";
+import { defineMiddleware } from 'astro:middleware';
 
 const { API_URL } = import.meta.env;
 
 export const onRequest = defineMiddleware(async (context, next) => {
-  if (context.url.pathname.startsWith("/icons") ||
-      context.url.pathname.startsWith("/images")) {
+  if (context.url.pathname.startsWith('/icons') ||
+      context.url.pathname.startsWith('/images')) {
     return next();
   }
 
   console.log(`Middleware: ${context.url.pathname}`);
 
   // TODO: 임시 CRM 테스트용
-  if (context.url.pathname === "/" ||
-    context.url.pathname.startsWith("/search") ||
-    context.url.pathname.startsWith("/rooms")) {
-    let lastVisit = await context.session?.get("lastVisit");
+  if (context.url.pathname === '/' ||
+    context.url.pathname.startsWith('/search') ||
+    context.url.pathname.startsWith('/rooms')) {
+    let lastVisit = await context.session?.get('lastVisit');
     if (!lastVisit || ((new Date().getTime() - lastVisit.getTime()) > (1000 * 60 * 60))) {
       context.locals.test = true;
     }
   }
   context.locals.lastVisit = new Date();
-  context.session?.set("lastVisit", context.locals.lastVisit);
+  context.session?.set('lastVisit', context.locals.lastVisit);
 
   // TODO: 추후 액션은 따로 처리
-  if (context.url.pathname.startsWith("/_actions")) {
+  if (context.url.pathname.startsWith('/_actions')) {
     return next();
   }
 
-  const accessToken = await context.session?.get("accessToken");
+  const accessToken = await context.session?.get('accessToken');
   if (!accessToken) {
     context.locals.isLoggedIn = false;
     return next();
@@ -35,7 +35,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const userRes = await fetch(`${API_URL}/v1/user/me`, {
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${accessToken}`,
     },
   });
@@ -45,27 +45,27 @@ export const onRequest = defineMiddleware(async (context, next) => {
     context.locals.user = user;
     context.locals.isLoggedIn = true;
 
-    if (context.url.pathname.startsWith("/auth")) {
+    if (context.url.pathname.startsWith('/auth')) {
       return next();
     }
 
     switch (user.status) {
-      case "ACTIVE":
+      case 'ACTIVE':
         return next();
-      case "INACTIVE": {
-        return new Response("", {
+      case 'INACTIVE': {
+        return new Response('', {
           status: 302,
           headers: {
-            Location: "/auth/verify-email",
+            Location: '/auth/verify-email',
           },
         });
       }
       default: {
         context.session?.destroy();
-        return new Response("", {
-          status: 301,
+        return new Response('', {
+          status: 302,
           headers: {
-            Location: "/",
+            Location: '/',
           },
         });
       }
@@ -73,20 +73,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
   // 토큰이 만료된 경우
   try {
-    const refreshToken = await context.session?.get("refreshToken");
+    const refreshToken = await context.session?.get('refreshToken');
     const tokenRes = await fetch(`${API_URL}/v1/token`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ refreshToken }),
     });
     if (!tokenRes.ok) {
-      throw new Error("Failed to refresh token");
+      throw new Error('Failed to refresh token');
     }
     const token = await tokenRes.json();
-    context.session?.set("accessToken", token.accessToken);
-    context.session?.set("refreshToken", token.refreshToken);
+    context.session?.set('accessToken', token.accessToken);
+    context.session?.set('refreshToken', token.refreshToken);
 
     return next();
   } catch (e) {
