@@ -3,7 +3,7 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 
 import { ImageSwiper } from '@components/room';
-import { BottomNav } from "../../components/room";
+import { BottomNav } from './_components/BottomNav';
 
 import { formatFeatures, formatBedOptions } from '@plott-life/utils';
 import IconCheck from '@plott-life/ui/icons/check.svg';
@@ -186,7 +186,7 @@ console.log(roomDetail);
             {defaultOptions.map((option) => {
               return (
                 <div class='flex items-center gap-x-3 gap-y-2 h-12'>
-                  <IconByCode code={option.code} className="w-6 h-6 text-gray-900" />
+                  <IconByCode code={option.code} className='w-6 h-6 text-gray-900' />
                   <span class='body3 text-gray-900'>{option.name}</span>
                 </div>
               );
@@ -293,7 +293,7 @@ console.log(roomDetail);
     </div>
   </div>
   <BottomNav
-    client:only="preact"
+    client:only='preact'
     slot='nav'
     id={id}
     isLoggedIn={isLoggedIn}

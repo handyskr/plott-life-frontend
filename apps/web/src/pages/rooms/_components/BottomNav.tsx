@@ -1,13 +1,14 @@
-import { useState } from "preact/hooks";
+import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
+import DateModal from './DateModal.tsx';
+
 import {
   getWeeksBetween,
   getPriceData,
 } from '@plott-life/utils';
 import { EXPOSE_DATE_FORMAT } from '@libs/values.ts';
-import DateModal from '../../pages/rooms/_components/DateModal';
 
-import { navigateWithQuery } from '../../navigator';
+import { navigateWithQuery } from '../../../navigator';
 
 interface BottomNavProps {
   id: number | string;
@@ -63,14 +64,6 @@ export default function BottomNav(props: BottomNavProps) {
       endAt,
     });
   };
-
-  const onDateClick = async () => {
-    const redirectURL = `${window.location.pathname}`;
-
-    await navigateWithQuery(`/search`, {
-      redirectURL,
-    });
-  }
 
   const handleDateApply = (newStartAt: string, newEndAt: string) => {
     const params = new URLSearchParams(window.location.search);

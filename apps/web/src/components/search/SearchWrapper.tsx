@@ -27,7 +27,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
 
   const handleSearchClick = () => {
     const params = new URLSearchParams({
-      stateOrCity: selectedLocation ?? '',
+      q: selectedLocation ?? '',
       startAt: startAt ?? '',
       endAt: endAt ?? '',
       durationType: 'RENT',
@@ -45,7 +45,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
     const applyQueryParams = () => {
       const searchParams = new URLSearchParams(window.location.search);
 
-      const stateOrCity = searchParams.get('stateOrCity');
+      const stateOrCity = searchParams.get('q');
       const queryStartAt = searchParams.get('startAt');
       const queryEndAt = searchParams.get('endAt');
 
