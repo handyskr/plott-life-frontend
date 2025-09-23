@@ -12,7 +12,7 @@ const { pathname } = Astro.url;
       href='/'
       class:list={['flex flex-col items-center w-16', pathname === '/' ? 'text-gray-900' : 'text-gray-500']}
     >
-      <div class="w-6 h-6 flex items-center justify-center">
+      <div class='w-6 h-6 flex items-center justify-center'>
         <IconSearch
           color={pathname === '/' ? 'text-gray-900' : 'text-gray-500'}
         />
@@ -21,11 +21,10 @@ const { pathname } = Astro.url;
     </a>
 
     <a
-      id="nav-contract"
       href='/contract'
       class:list={['flex flex-col items-center w-16', pathname === '/contract' ? 'text-gray-900' : 'text-gray-500']}
     >
-      <div class="w-6 h-6 flex items-center justify-center">
+      <div class='w-6 h-6 flex items-center justify-center'>
         <IconContract
           color={pathname === '/contract' ? 'text-gray-900' : 'text-gray-500'}
         />
@@ -38,7 +37,7 @@ const { pathname } = Astro.url;
       href='/auth/profile'
       class:list={['flex flex-col items-center w-16', pathname === '/auth/profile' ? 'text-gray-900' : 'text-gray-500']}
     >
-      <div class="w-6 h-6 flex items-center justify-center">
+      <div class='w-6 h-6 flex items-center justify-center'>
         <IconUser
           color={pathname === '/auth/profile' ? 'text-gray-900' : 'text-gray-500'}
         />

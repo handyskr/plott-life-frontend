@@ -1,0 +1,131 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import BottomNav from '@components/template/BottomNav.astro';
+
+import dayjs from 'dayjs';
+import {
+  EXPOSE_DATE_FORMAT,
+  ContractStatus,
+} from '../../libs/values';
+
+if (!Astro.locals.isLoggedIn) {
+  return Astro.redirect('/auth/login');
+}
+
+const {
+  PUBLIC_IMAGE_URL,
+  API_URL,
+} = import.meta.env;
+
+const accessToken = await Astro.session?.get('accessToken');
+
+async function fetchContractList() {
+  const res = await fetch(`${API_URL}/v1/contract?page=0&size=100`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+const {
+  items,
+} = await fetchContractList();
+---
+
+<Layout>
+  <Header slot='header'>
+    <div class='flex flex-col w-full'>
+      <p class='title1 text-gray-900 px-6'>
+        계약
+      </p>
+    </div>
+  </Header>
+  <div class="bg-gray-50">
+    {items.length > 0 ? (
+      <div class='px-6 py-6 pb-12 space-y-8'>
+        {items.map((item) => {
+          const {
+            id,
+            startAt,
+            endAt,
+            weeks,
+            contractStatus,
+            contractStatusLabel,
+            buildingUnit: {
+              mainImage: image,
+              name,
+            },
+          } = item;
+
+          return (
+            <a
+              href=`/contract/${id}`
+              class='rounded-2xl border-1 border-gray-200 shadow-[0_5px_20px_0_rgba(0,0,0,0.12)] cursor-pointer flex flex-col'
+            >
+              <div class='relative'>
+                <div
+                  class:list={[
+                    `rounded-full px-3 py-1.5 inline caption1 text-white absolute top-4 left-4`,
+                    (contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.MOVED_OUT)
+                      ? 'bg-gray-900' : contractStatus === ContractStatus.APPROVED
+                        ? 'bg-error' : (contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.USING)
+                          ? 'bg-success' : 'bg-gray-500'
+                  ]}
+                >
+                  {contractStatusLabel}
+                </div>
+                <img
+                  src={`${PUBLIC_IMAGE_URL}/${image ?? 'null'}.webp?w=800&h=170`}
+                  alt='room image'
+                  class='w-full h-[170px] object-cover rounded-t-2xl'
+                />
+              </div>
+              <div class='p-6'>
+                <p class='body1 text-gray-900'>
+                  {name}
+                </p>
+                <p class='body6 text-gray-600'>
+                  {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
+                </p>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    ) : (
+      <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+        <Image
+          alt='bed image'
+          src='/images/bed.png'
+          format='webp'
+          width={200}
+          height={183}
+        />
+        <h4 class='title4 text-gray-900 mt-8 mb-2'>
+          진행중인 계약이 없습니다
+        </h4>
+        <p class='body6 text-gray-600'>
+          새로운 방을 찾아 계약을 시작해보세요
+        </p>
+        <div class='px-6 py-6'>
+          <a
+            href='/search'
+            class='btn btn-primary w-full body3 px-9 cursor-pointer'
+          >
+            방 찾아보기
+          </a>
+        </div>
+      </div>
+    )}
+  </div>
+  <BottomNav slot='nav' />
+</Layout>

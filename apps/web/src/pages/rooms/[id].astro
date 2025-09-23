@@ -3,17 +3,24 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 
 import { ImageSwiper } from '@components/room';
-import { IconWrapper } from '@components/common';
+import { BottomNav } from "../../components/room";
 
-import { formatFeatures } from '@plott-life/utils';
-import IconBed from '@plott-life/ui/icons/bed.svg';
-import IconBathtub from '@plott-life/ui/icons/bathtub.svg';
-import IconRuler from '@plott-life/ui/icons/ruler.svg';
-import IconBuilding from '@plott-life/ui/icons/building.svg';
+import { formatFeatures, formatBedOptions } from '@plott-life/utils';
 import IconCheck from '@plott-life/ui/icons/check.svg';
+
+import {
+  Bed,
+  Bathtub,
+  Ruler,
+  Building,
+} from '@plott-life/ui/components/icons';
+
 import NaverStaticMap from '@plott-life/ui/components/NaverStaticMap';
 
+import IconByCode from './_components/IconByCode.astro';
+
 const { id } = Astro.params;
+const isLoggedIn = Astro.locals.isLoggedIn;
 
 if (!id) {
   throw new Error('Room ID is required');
@@ -51,6 +58,7 @@ const {
   buildingType,
   elevatorOption,
   parkingOption,
+  bedOptions,
   defaultOptions,
   facilityOptions,
   additionalOptions,
@@ -68,7 +76,9 @@ const structure = formatFeatures({
   kitchens,
 });
 
-const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (managementFeePerWeek || 0);
+const bedInfo = formatBedOptions(bedOptions);
+
+console.log(roomDetail);
 ---
 
 <Layout
@@ -99,27 +109,19 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='grid grid-cols-4 text-center py-6 text-sm'>
       <div class='flex flex-col items-center gap-1'>
-        <IconWrapper>
-          <IconBed />
-        </IconWrapper>
+        <Bed />
         <span>침실 {bedrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconWrapper>
-          <IconBathtub />
-        </IconWrapper>
+        <Bathtub />
         <span>욕실 {bathrooms}개</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconWrapper>
-          <IconRuler />
-        </IconWrapper>
+        <Ruler />
         <span>{areaExclusive}㎡</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
-        <IconWrapper>
-          <IconBuilding />
-        </IconWrapper>
+        <Building />
         <span>{(floor || 0)}층</span>
       </div>
     </div>
@@ -143,6 +145,10 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>전용 면적</span>
           <span class='body3 text-gray-700'>{areaExclusive}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
+        </div>
+        <div class='flex'>
+          <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>침대 사이즈</span>
+          <span class='body3 text-gray-700'>{bedInfo}</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>최대 인원</span>
@@ -177,11 +183,14 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
         <div class='py-6'>
           <h2 class='text-gray-900 title3 mb-4'>기본 옵션</h2>
           <div class='grid grid-cols-2 gap-4 mb-6'>
-            {defaultOptions.map((option) => (
-              <div class='flex items-center gap-3'>
-                <span class='body3 text-gray-900'>{option.name}</span>
-              </div>
-            ))}
+            {defaultOptions.map((option) => {
+              return (
+                <div class='flex items-center gap-x-3 gap-y-2 h-12'>
+                  <IconByCode code={option.code} className="w-6 h-6 text-gray-900" />
+                  <span class='body3 text-gray-900'>{option.name}</span>
+                </div>
+              );
+            })}
           </div>
           <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
             편의시설 {defaultOptions.length}가지 모두 보기
@@ -282,27 +291,15 @@ const totalFee = (deposit || 0) + (rentFeePerWeek || 0) + (cleaningFee || 0) + (
       </div>
       <p class='body3 text-gray-900'>{managementFeeDescription}</p>
     </div>
-    <!-- 하단 고정 CTA -->
   </div>
-  <div
+  <BottomNav
+    client:only="preact"
     slot='nav'
-    class='bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
-  >
-    <div class='flex flex-col'>
-      <span class='body1 mb-1.5'>
-        ₩{(totalFee).toLocaleString()}
-      </span>
-      <span class='caption1 text-gray-700 underline'>
-        1주 · 9월 8일~9월 15일
-      </span>
-    </div>
-    <button
-      id='btn-contract'
-      class='w-[120px] rounded-lg btn btn-primary body2'
-    >
-      계약하기
-    </button>
-  </div>
-  <!--<Footer />-->
-  <!--<BottomNav slot='footer' />-->
+    id={id}
+    isLoggedIn={isLoggedIn}
+    deposit={deposit}
+    rentFeePerWeek={rentFeePerWeek}
+    managementFeePerWeek={managementFeePerWeek}
+    cleaningFee={cleaningFee}
+  />
 </Layout>

@@ -47,7 +47,7 @@ const isOpen = Astro.locals.test;
           <slot />
         </div>
         <slot name='footer' />
-        <nav class="bottom-navigation sticky bottom-0 left-0 w-full z-1000 bg-white pb-(--bait)">
+        <nav class="bottom-navigation sticky w-full mx-auto bottom-0 z-1000 bg-white pb-(--bait)">
           <slot name='nav' />
         </nav>
       </main>
@@ -78,8 +78,8 @@ const isOpen = Astro.locals.test;
       document.getElementById('search-button'),
       document.getElementById('nav-search'),
       document.getElementById('nav-contract'),
-      document.getElementById('btn-contract'),
       document.getElementById('btn-inquiry'),
+      document.getElementById('btn-contract'),
       document.getElementById('help'),
     ];
 

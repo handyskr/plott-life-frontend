@@ -1,6 +1,6 @@
-import { useState } from 'preact/hooks';
+import { useState, useEffect } from 'preact/hooks';
 import dayjs from 'dayjs';
-import { toast } from "@libs/toast.ts";
+import { toast } from '@libs/toast.ts';
 import type { Dayjs } from 'dayjs';
 import 'dayjs/locale/ko';
 
@@ -25,7 +25,7 @@ export default function Calendar(props: CalendarProps) {
     endAtParam ? dayjs(endAtParam) : null
   );
   const [activeWeekday, setActiveWeekday] = useState<number | null>(
-    startAtParam ? dayjs(startAtParam).day() : null
+    startAtParam ? (dayjs(startAtParam).day() + 6) % 7 : null
   );
 
   const months = Array.from({ length: 6 }, (_, i) => today.add(i, 'month'));
@@ -34,41 +34,45 @@ export default function Calendar(props: CalendarProps) {
     if (day.isBefore(today, 'day')) {
       return;
     }
-    // 필터를 처음 적용하는 경우, 노티
+    // 첫 필터 안내
     if (isFirstCheck) {
       toast.show({
         message: '1주일 단위로 선택 가능합니다',
-        type: 'error',
+        type: 'default',
         duration: 3000,
       });
       setIsFirstCheck(false);
     }
-    // 선택된 경우 초기화 후 다시 선택
+    // 이미 start, end 모두 존재하면 -> 새 선택으로 초기화
     if (startAt && endAt) {
       setStartAt(day);
       setEndAt(null);
-      setActiveWeekday(day.day());
+      setActiveWeekday((day.day() + 6) % 7); // N -> next (N-1)
       return;
     }
-    // 처음 선택
+    // 처음 선택 (start가 없는 경우)
     if (!startAt) {
       setStartAt(day);
-      setActiveWeekday(day.day());
+      setEndAt(null);
+      setActiveWeekday((day.day() + 6) % 7);
       return;
     }
-    // 두 번째 선택 (주 단위)
-    if (day.day() !== activeWeekday) {
-      return;
-    }
-    // 두 번째 선택일이 존재하지 않으면 범위 설정
-    if (!endAt) {
-      const [start, end] = day.isBefore(startAt, 'day') ? [day, startAt] : [startAt, day];
+    // 두 번째 선택 (end 선택 시)
+    if (startAt && !endAt) {
+      const expectedEndWeekday = (startAt.day() + 6) % 7;
 
-      setStartAt(start);
-      setEndAt(end);
+      if (day.day() !== expectedEndWeekday) {
+        return;
+      }
+      // 끝 날짜는 반드시 시작 날짜보다 이후여야 함
+      if (!day.isAfter(startAt, 'day')) {
+        return;
+      }
+      // 정상적으로 범위 설정
+      setEndAt(day);
 
       if (onDatesChange) {
-        onDatesChange(start, end);
+        onDatesChange(startAt, day);
       }
     }
   };
@@ -79,7 +83,9 @@ export default function Calendar(props: CalendarProps) {
     }
 
     if (startAt && !endAt && activeWeekday !== null) {
-      return day.day() !== activeWeekday;
+      const isActiveWeekday = day.day() === activeWeekday;
+      const isAfterStart = day.isAfter(startAt, 'day');
+      return !(isActiveWeekday && isAfterStart);
     }
 
     return false;
@@ -102,25 +108,37 @@ export default function Calendar(props: CalendarProps) {
   };
 
   const isCellStrike = (day: Dayjs) => {
-    // 첫째 날짜가 없을 때
+    // 첫째 날짜가 없거나 이미 end가 설정된 경우 없음
     if (!startAt || endAt) {
       return false;
     }
-    // 이전 날짜일 때
+    // 시작일보다 이전 날짜는 strike로 처리하지 않음
+    if (day.isBefore(startAt, 'day')) {
+      return false;
+    }
+    // 이전 날짜일 때(오늘 이전)은 제외
     if (!day.isAfter(today, 'day')) {
       return false;
     }
-    // 활성 요일과 같은 요일일 때
+    // 활성 요일과 같은 요일이면 strike 아님
     if (activeWeekday !== null && day.day() === activeWeekday) {
       return false;
     }
-    // 선택 날짜일 때
+    // 선택된 날짜라면 strike 아님
     if (isSelected(day)) {
       return false;
     }
 
     return true;
   };
+
+  useEffect(() => {
+    setStartAt(startAtParam ? dayjs(startAtParam) : null);
+  }, [startAtParam]);
+
+  useEffect(() => {
+    setEndAt(endAtParam ? dayjs(endAtParam) : null);
+  }, [endAtParam]);
 
   return (
     <div className='mx-auto px-4 py-6 space-y-8'>

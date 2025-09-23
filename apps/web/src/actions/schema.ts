@@ -76,3 +76,17 @@ export const termAgreementInput = z.object({
 export const verifyCodeInput = z.object({
   code: z.string().length(6),
 });
+
+export const contractData = z.object({
+  buildingUnitId: z.number(),
+  start: z.string(),
+  end: z.string(),
+});
+
+export const contractCancelData = contractData.extend({
+  id: z.number(),
+});
+
+export const contractIdData = z.object({
+  id: z.number(),
+});

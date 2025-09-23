@@ -1,6 +1,8 @@
 /** @jsxImportSource preact */
 import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
 import { Card } from '@plott-life/ui';
+import { navigateWithQuery } from '../../navigator';
+import { DEFAULT_PAGE_SIZE } from '@libs/values.ts';
 
 interface Room {
   id: number;
@@ -23,7 +25,6 @@ interface ApiResponse {
 }
 
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
-const PAGE_SIZE = 20;
 
 function getQueryParams(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
@@ -56,13 +57,42 @@ async function fetchRooms(
   return res.json();
 }
 
-export default function RoomList() {
-  const [rooms, setRooms] = useState<Room[]>([]);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
+export default function RoomList({ initialRooms = [] }: { initialRooms: Room[] }) {
+  const [rooms, setRooms] = useState<Room[]>(initialRooms);
+  const [page, setPage] = useState(initialRooms.length > 0 ? 1 : 0);
+  const [hasMore, setHasMore] = useState(initialRooms.length === DEFAULT_PAGE_SIZE);
   const [loading, setLoading] = useState(false);
   const [queryParams, setQueryParams] = useState<Record<string, string>>(getQueryParams());
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const didInit = useRef(false);
+
+  const loadMore = useCallback(async () => {
+    if (loading || !hasMore) return;
+
+    setLoading(true);
+    const currentPage = page;
+
+    try {
+      const data = await fetchRooms(currentPage, DEFAULT_PAGE_SIZE, queryParams);
+
+      setRooms((prev) => {
+        const ids = new Set(prev.map((r) => r.id));
+        const newItems = data.items.filter((r) => !ids.has(r.id));
+        return [...prev, ...newItems];
+      });
+
+      setPage((prev) => prev + 1);
+
+      if (data.items.length < DEFAULT_PAGE_SIZE || data.page + 1 >= data.totalPages) {
+        setHasMore(false);
+      }
+    } catch (err) {
+      console.error(err);
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, hasMore, loading, queryParams]);
 
   useEffect(() => {
     const onPopState = () => {
@@ -78,32 +108,19 @@ export default function RoomList() {
     };
   }, []);
 
-  const loadMore = useCallback(async () => {
-    if (loading || !hasMore) return;
-    setLoading(true);
-
-    try {
-      const data = await fetchRooms(page, PAGE_SIZE, queryParams);
-
-      setRooms((prev) => [...prev, ...data.items]);
-      setPage((prev) => prev + 1);
-
-      if (data.page + 1 >= data.totalPages) {
-        setHasMore(false);
-      }
-    } catch (err) {
-      console.error(err);
-      setHasMore(false);
-    } finally {
-      setLoading(false);
-    }
-  }, [page, hasMore, loading, queryParams]);
-
   useEffect(() => {
+    if (initialRooms.length > 0 && !didInit.current) {
+      didInit.current = true;
+      return;
+    }
+
     setRooms([]);
     setPage(0);
     setHasMore(true);
-    loadMore();
+
+    (async () => {
+      await loadMore();
+    })();
   }, [queryParams]);
 
   useEffect(() => {
@@ -125,17 +142,11 @@ export default function RoomList() {
 
   return (
     <div className='max-w-(--max-width) mx-auto'>
-      <div
-        className={`grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4`}
-      >
+      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {rooms.length === 0 && !hasMore ? (
           <div className='col-span-full flex flex-col items-center justify-center h-[calc(100vh-400px)]'>
-            <span className={'body2 text-gray-900 mb-2'}>
-              일치하는 검색 결과가 없습니다.
-            </span>
-            <span className={'body6 text-gray-600'}>
-              검색 조건을 다시 설정해주세요.
-            </span>
+            <span className='body2 text-gray-900 mb-2'>일치하는 검색 결과가 없습니다.</span>
+            <span className='body6 text-gray-600'>검색 조건을 다시 설정해주세요.</span>
           </div>
         ) : (
           rooms.map((room) => (
@@ -149,18 +160,20 @@ export default function RoomList() {
               bedrooms={room.bedrooms}
               bathrooms={room.bathrooms}
               rentFeePerWeek={room.rentFeePerWeek}
-              onClick={() => {
-                window.location.href = `/rooms/${room.id}`;
+              onClick={async () => {
+                const { startAt, endAt } = getQueryParams();
+
+                await navigateWithQuery(`/rooms/${room.id}`, {
+                  startAt,
+                  endAt,
+                });
               }}
             />
           ))
         )}
       </div>
       {hasMore && (
-        <div
-          ref={loaderRef}
-          className='h-12 flex justify-center items-center text-gray-300'
-        >
+        <div ref={loaderRef} className='h-12 flex justify-center items-center text-gray-300'>
           {loading ? 'Loading…' : ''}
         </div>
       )}

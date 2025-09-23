@@ -3,17 +3,22 @@ import dayjs from 'dayjs';
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import { Calendar, LocationSelect, Modal, ModalHeader, ModalContent, ModalFooter } from '@components/common';
-import RoomList from '@components/home/RoomList';
+import RoomList from '@components/search/RoomList';
 import { Filters } from '@components/search';
 
 import { getWeeksBetween } from '@plott-life/utils';
 import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
+import { EXPOSE_DATE_FORMAT } from '../../libs/values';
+import { getSearchParams } from '../../libs/utils';
 
 const searchParams = Astro.url.searchParams;
 
-const stateOrCity = searchParams.get('stateOrCity') || '전체';
-const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
-const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
+const { stateOrCity, startAt, endAt } = getSearchParams(searchParams, {
+  stateOrCity: '전체',
+  startAt: dayjs().format('YYYY-MM-DD'),
+  endAt: dayjs().add(6, 'day').format('YYYY-MM-DD'),
+});
+
 const weeks = getWeeksBetween(startAt, endAt);
 
 const queryString = searchParams.toString();
@@ -35,7 +40,7 @@ const queryString = searchParams.toString();
               {stateOrCity}
             </span>
             <span class='caption1 text-gray-700'>
-              {weeks}주 · {dayjs(startAt).format('M월 D일')} ~ {dayjs(endAt).format('M월 D일')}
+              {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
             </span>
           </div>
         </a>
@@ -50,6 +55,7 @@ const queryString = searchParams.toString();
   <div class='bg-white p-6'>
     <RoomList
       client:only='preact'
+      initialRooms={[]}
     />
   </div>
   <footer

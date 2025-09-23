@@ -1,0 +1,97 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+import { Image } from 'astro:assets';
+
+const { API_URL } = import.meta.env;
+
+const searchParams = Astro.url.searchParams;
+const accessToken = await Astro.session?.get('accessToken');
+
+const paymentNo = searchParams.get('orderId');
+const paymentGatewayNo = searchParams.get('paymentKey');
+
+let error: string | null = null;
+
+try {
+  const res = await fetch(`${API_URL}/v1/contract/payment:complete`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify({
+      paymentNo,
+      paymentGatewayNo,
+    }),
+  });
+
+  if (!res.ok) {
+    let errorBody: any = null;
+
+    try {
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        errorBody = await res.json();
+      } else {
+        errorBody = await res.text();
+      }
+    } catch {
+      errorBody = null;
+    }
+
+    console.error('API Error', res.status, errorBody);
+    error = `결제 요청에 실패했습니다. (${res.status})`;
+  }
+} catch (err) {
+  console.error('Network Error', err);
+  error = '네트워크 오류가 발생했습니다.';
+}
+---
+
+<Layout>
+  <Header slot='header' />
+  <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+    {error ? (
+      <>
+        <div>
+          <Image
+            alt='error image'
+            src='/images/warning-red.png'
+            format='webp'
+            width={40}
+            height={40}
+          />
+        </div>
+        <p class='title2 text-gray-900 mt-10'>결제 처리 중 오류 발생</p>
+        <p class='body6 text-error my-4'>사유: {error}</p>
+        <p class='body6 text-gray-600'>다시 시도해 주시기 바랍니다.</p>
+      </>
+    ) : (
+      <>
+        <div>
+          <Image
+            alt='check green image'
+            src='/images/check-green.png'
+            format='webp'
+            width={40}
+            height={40}
+          />
+        </div>
+        <p class='title2 text-gray-900 mt-10 mb-4'>결제가 완료되었습니다</p>
+        <p class='body6 text-gray-600'>
+          입주에 필요한 안내사항은<br />
+          계약 상세에서 확인하실 수 있습니다.
+        </p>
+      </>
+    )}
+  </div>
+  <div slot='footer' class='px-6 py-6'>
+    <a
+      href='/contract'
+      class='btn btn-lg btn-neutral w-full body3 cursor-pointer text-white'
+    >
+      확인
+    </a>
+  </div>
+</Layout>

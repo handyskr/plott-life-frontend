@@ -6,36 +6,37 @@ import {
   ModalHeader,
   RangeSlider,
 } from '@components/common';
+import {BathroomOption, BedroomOption} from "@libs/values.ts";
 
 interface FilterModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-interface Option {
+interface Option<T> {
   label: string;
-  value: number;
+  value: T;
 }
 
 const MIN_PRICE = 300000;
 const MAX_PRICE = 2000000;
-const bedroomOptions: Option[] = [
-  { label: '1개', value: 1 },
-  { label: '2개', value: 2 },
-  { label: '3개', value: 3 },
-  { label: '4개+', value: 10 },
+const bedroomOptions: Option<BedroomOption>[] = [
+  { label: '1개', value: BedroomOption.ONE },
+  { label: '2개', value: BedroomOption.TWO },
+  { label: '3개', value: BedroomOption.THREE },
+  { label: '4개+', value: BedroomOption.FOUR_PLUS },
 ];
-const bathroomOptions: Option[] = [
-  { label: '1개', value: 1 },
-  { label: '2개', value: 2 },
-  { label: '3개+', value: 10 },
+const bathroomOptions: Option<BathroomOption>[] = [
+  { label: '1개', value: BathroomOption.ONE },
+  { label: '2개', value: BathroomOption.TWO },
+  { label: '3개+', value: BathroomOption.THREE_PLUS },
 ];
 
 export default function FilterModal(props: FilterModalProps) {
   const { isOpen, onClose } = props;
 
-  const [bedroom, setBedroom] = useState<number[]>([]);
-  const [bathroom, setBathroom] = useState<number[]>([]);
+  const [bedroom, setBedroom] = useState<BedroomOption[]>([]);
+  const [bathroom, setBathroom] = useState<BathroomOption[]>([]);
   const [price, setPrice] = useState<[number, number]>([MIN_PRICE, MAX_PRICE]);
 
   useEffect(() => {
@@ -46,30 +47,29 @@ export default function FilterModal(props: FilterModalProps) {
     const params = new URLSearchParams(window.location.search);
 
     const bedrooms = params.get('bedrooms')
-      ? params.get('bedrooms')!.split(',').map((v) => Number(v))
-      : [];
+      ? params.get('bedrooms')!.split(',').filter((v): v is BedroomOption =>
+        Object.values(BedroomOption).includes(v as BedroomOption)
+      ) : [];
     const bathrooms = params.get('bathrooms')
-      ? params.get('bathrooms')!.split(',').map((v) => Number(v))
-      : [];
+      ? params.get('bathrooms')!.split(',').filter((v): v is BathroomOption =>
+        Object.values(BathroomOption).includes(v as BathroomOption)
+      ) : [];
+
     const min = Number(params.get('minRentFeePerWeek') ?? MIN_PRICE);
     const max = Number(params.get('maxRentFeePerWeek') ?? MAX_PRICE);
 
-    setBedroom(bedrooms.filter((v) => !isNaN(v)));
-    setBathroom(bathrooms.filter((v) => !isNaN(v)));
+    setBedroom(bedrooms);
+    setBathroom(bathrooms);
     setPrice([min, max]);
   }, [isOpen]);
 
-  const toggleOption = (
-    list: number[],
-    value: number,
-    setter: (val: number[]) => void
-  ) => {
-    if (list.includes(value)) {
-      setter(list.filter((v) => v !== value));
+  function toggleOption<T>(state: T[], value: T, setState: (next: T[]) => void) {
+    if (state.includes(value)) {
+      setState(state.filter(v => v !== value));
     } else {
-      setter([...list, value]);
+      setState([...state, value]);
     }
-  };
+  }
 
   const handleResetClick = () => {
     setBedroom([]);
@@ -111,6 +111,9 @@ export default function FilterModal(props: FilterModalProps) {
     onClose();
   };
 
+  console.log(bedroom);
+  console.log(bathroom);
+
   return (
     <Modal
       isOpen={isOpen}
@@ -131,7 +134,6 @@ export default function FilterModal(props: FilterModalProps) {
       </ModalHeader>
       <ModalContent>
         <div className='px-6 pt-8 pb-14 bg-white'>
-          {/* 침실 수 */}
           <div>
             <h3 className='title4 text-gray-900 mb-4'>침실 수</h3>
             <div className='flex flex-wrap gap-2'>
@@ -154,7 +156,6 @@ export default function FilterModal(props: FilterModalProps) {
             </div>
           </div>
           <div className='w-full h-px bg-gray-300 my-6'></div>
-          {/* 욕실 수 */}
           <div>
             <h3 className='title4 text-gray-900 mb-4'>욕실 수</h3>
             <div className='flex flex-wrap gap-2'>

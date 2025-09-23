@@ -1,0 +1,31 @@
+---
+import type { ContractStatusType } from '@libs/values';
+import { ContractStatus, ContractStatusLabel } from '../../libs/values';
+
+interface Props {
+  contractStatus: ContractStatusType;
+}
+
+const { contractStatus } = Astro.props;
+const steps = [ContractStatus.REQUESTED, ContractStatus.APPROVED, ContractStatus.COMPLETED];
+const currentIndex = steps.indexOf(contractStatus);
+---
+
+<ul class='steps w-full'>
+  <li
+    data-content={'✓'}
+    class={`step step-neutral`}
+  >
+    <p class='caption1 text-gray-900'>계약요청</p>
+  </li>
+  {steps.map((step, i) => (
+    <li
+      data-content={i === 0 && currentIndex > 0 ? '✓' : i + 1}
+      class={`step ${i <= currentIndex ? 'step-neutral' : 'step-default'}`}
+    >
+      <p class='caption1 text-gray-900'>
+        {ContractStatusLabel[step]}
+      </p>
+    </li>
+  ))}
+</ul>
