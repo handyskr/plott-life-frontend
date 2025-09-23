@@ -54,7 +54,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
         return next();
       case "INACTIVE": {
         return new Response("", {
-          status: 301,
+          status: 302,
           headers: {
             Location: "/auth/verify-email",
           },

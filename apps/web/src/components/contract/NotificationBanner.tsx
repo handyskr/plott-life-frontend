@@ -14,7 +14,6 @@ interface NotificationBannerProps {
   contractStatus?: ContractStatusType;
 }
 
-/** 카운트다운 텍스트 (최적화: 직접 초 단위 계산) */
 function CountdownText({ expiresAt }: { expiresAt: string }) {
   const spanRef = useRef<HTMLSpanElement>(null);
 
@@ -45,6 +44,7 @@ function CountdownText({ expiresAt }: { expiresAt: string }) {
 
     update();
     const timer = setInterval(update, 1000);
+
     return () => clearInterval(timer);
   }, [expiresAt]);
 

@@ -39,7 +39,7 @@ export default function Calendar(props: CalendarProps) {
       toast.show({
         message: '1주일 단위로 선택 가능합니다',
         type: 'default',
-        duration: 300000,
+        duration: 3000,
       });
       setIsFirstCheck(false);
     }

@@ -19,6 +19,14 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const onContractClick = async () => {
+    if (import.meta.env.MODE !== 'development') {
+      toast.show({
+        message: '현재 준비중입니다.',
+        type: 'warning',
+      });
+      return;
+    }
+
     try {
       const { error } = await actions.createContract({
         buildingUnitId: Number(id),
