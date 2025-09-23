@@ -3,7 +3,7 @@ interface ImportMetaEnv {
   readonly STRAPI_URL: string;
   readonly PUBLIC_APP_URL: string;
   readonly PUBLIC_IMAGE_URL: string;
-  readonly PUBLIC_STRAPI_URL: string;
+  readonly PUBLIC_MEDIA_URL: string;
   readonly PUBLIC_GA_ID: string;
   readonly PUBLIC_GTM_ID: string;
   readonly PUBLIC_NAVER_MAP_CLIENT_ID: string;
