@@ -17,6 +17,8 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args:
       - "build"
+      - --build-arg
+      - MODE=${_MODE}
       - "-t"
       - "${_IMAGE_NAME}:latest"
       - "-t"
