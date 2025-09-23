@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "astro dev --host 0.0.0.0",
-    "build": "astro build",
+    "build": "astro build --mode ${MODE:-production}",
     "start": "astro preview",
     "lint": "eslint .",
     "generate:icons": "node ./scripts/generate-icons.js"
