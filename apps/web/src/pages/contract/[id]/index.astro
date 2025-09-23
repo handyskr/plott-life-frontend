@@ -1,13 +1,7 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../components/template/Header.astro';
-import { SignInForm } from '../../../components/auth/SignInForm';
-import dayjs from 'dayjs';
-import {
-  getWeeksBetween,
-  getPriceData,
-} from '@plott-life/utils';
-import {ContractStatus, EXPOSE_DATE_FORMAT} from '../../../libs/values';
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
+
 import {
   NotificationBanner,
   ContractInfo,
@@ -15,21 +9,24 @@ import {
   Payment,
   CancelButton,
   MoveOutButton,
-} from '../../../components/contract';
+} from '@components/contract';
 
 import StatusTimeline from '@components/contract/StatusTimeline.astro';
 import Description from '@components/contract/Description.astro';
 import Notice from '@components/contract/Notice.astro';
 import CancelInfo from '@components/contract/CancelInfo.astro';
 
+import {
+  getWeeksBetween,
+  getPriceData,
+} from '@plott-life/utils';
+import { ContractStatus } from '@libs/values';
 import { ArrowRight } from "@plott-life/ui/components/icons";
 
 const { API_URL } = import.meta.env;
 
 const { id } = Astro.params;
 const accessToken = await Astro.session?.get('accessToken');
-
-console.log(accessToken);
 
 async function fetchContract() {
   const res = await fetch(`${API_URL}/v1/contract/${id}`, {
@@ -49,18 +46,10 @@ async function fetchContract() {
 const contract = await fetchContract();
 
 const {
-  weeks,
-  startAt,
-  endAt,
-  name,
-  address,
   approvalExpiresAt,
   expiresAt,
   contractStatus,
-  buildingUnit,
 } = contract;
-
-console.log(contract);
 
 const isBeforePayment = contractStatus === ContractStatus.REQUESTED || contractStatus === ContractStatus.APPROVED;
 const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contractStatus === ContractStatus.MOVED_OUT || contractStatus === ContractStatus.USING;

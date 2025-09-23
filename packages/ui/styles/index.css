@@ -161,6 +161,10 @@
     font-weight: 700;
   }
 
+  .steps .step-default:not(:has(.step-icon))::after {
+    background: white;
+  }
+
   .steps .step::before {
     width: calc(100% - 50px);
     height: 1px;

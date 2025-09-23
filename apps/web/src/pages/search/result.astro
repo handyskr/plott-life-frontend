@@ -16,7 +16,7 @@ const searchParams = Astro.url.searchParams;
 const { stateOrCity, startAt, endAt } = getSearchParams(searchParams, {
   stateOrCity: '전체',
   startAt: dayjs().format('YYYY-MM-DD'),
-  endAt: dayjs().add(1, 'week').format('YYYY-MM-DD'),
+  endAt: dayjs().add(6, 'day').format('YYYY-MM-DD'),
 });
 
 const weeks = getWeeksBetween(startAt, endAt);

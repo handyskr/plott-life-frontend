@@ -45,7 +45,7 @@ export function getWeeksBetween(startAt?: string | null, endAt?: string | null):
     return 0;
   }
 
-  const diffDays = endDate.diff(startDate, "day");
+  const diffDays = endDate.diff(startDate, "day") + 1;
 
   return Math.ceil(diffDays / 7);
 }

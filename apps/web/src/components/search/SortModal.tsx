@@ -33,7 +33,7 @@ export default function SortModal(props: SortModalProps) {
         </>
       </ModalHeader>
       <ModalContent>
-        <div className={'flex flex-col bg-white px-6 py-8 gap-6'}>
+        <div className={'flex flex-col bg-white px-6 py-8 pb-12 gap-6'}>
           {SORT_OPTIONS.map((option) => {
             const {
               label,

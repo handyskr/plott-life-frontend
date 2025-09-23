@@ -1,5 +1,5 @@
 ---
-import {Image} from 'astro:assets';
+import { Image } from 'astro:assets';
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import BottomNav from '@components/template/BottomNav.astro';
@@ -52,7 +52,7 @@ const {
   </Header>
   <div class="bg-gray-50">
     {items.length > 0 ? (
-      <div class='px-6 py-8 pb-10 space-y-8'>
+      <div class='px-6 py-6 pb-12 space-y-8'>
         {items.map((item) => {
           const {
             id,

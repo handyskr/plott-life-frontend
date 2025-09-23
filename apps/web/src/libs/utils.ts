@@ -7,18 +7,24 @@ import {
   // 나중에 필요한 다른 아이콘도 추가
 } from '@plott-life/ui/components/icons';
 
-type SearchParamDefaults<T extends Record<string, string>> = {
-  [K in keyof T]: string | undefined;
-};
-
-export function getSearchParams<T extends Record<string, string>>(
+export function getSearchParams<T extends Record<string, string | null>>(
   searchParams: URLSearchParams,
   defaults: T
-): SearchParamDefaults<T> {
-  const result = {} as SearchParamDefaults<T>;
-  for (const key in defaults) {
-    const value = searchParams.get(key);
-    result[key] = value ?? defaults[key];
-  }
+): {
+  [K in keyof T]: T[K] extends string ? string : string | null
+} {
+  const result: any = {};
+
+  (Object.keys(defaults) as (keyof T)[]).forEach((key) => {
+    const value = searchParams.get(key as string);
+
+    if (value !== null) {
+      result[key] = value;
+    } else {
+      result[key] = defaults[key];
+    }
+  });
+
   return result;
 }
+

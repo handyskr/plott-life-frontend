@@ -1,7 +1,7 @@
-import { actions, isInputError } from 'astro:actions';
+import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import ContractSuccessModal from '@components/contract/ContractSuccessModal.tsx';
-import {toast} from "@libs/toast.ts";
+import { toast } from '@libs/toast.ts';
 
 interface BottomContractButtonProps {
   id: number;
@@ -32,21 +32,18 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
 
       setIsOpen(true);
     } catch (error: any) {
-      if (isInputError(error)) {
-        console.log(error);
-        return;
-      }
-
       switch (error?.code) {
         case 'BAD_REQUEST':
           toast.show({
-            message: '잘못된 요청입니다. 새로고침 후 다시 시도해주세요.',
+            message: error?.message ?? '해당 기간에 이미 다른 사람의 계약이 존재합니다.',
             type: 'default',
-            duration: 3000,
           });
           break;
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
+          toast.show({
+            message: '알 수 없는 에러가 발생했습니다.',
+            type: 'default',
+          });
           console.error(error);
           break;
       }
@@ -55,10 +52,6 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
 
   return (
     <>
-      <ContractSuccessModal
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
       <div
         slot='footer'
         className='sticky bottom-0 bg-white border-t border-gray-300 py-5 px-6 flex justify-between items-center'
@@ -72,6 +65,10 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
           계약 요청하기
         </button>
       </div>
+      <ContractSuccessModal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+      />
     </>
   );
 }

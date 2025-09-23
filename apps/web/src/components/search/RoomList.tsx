@@ -161,8 +161,11 @@ export default function RoomList({ initialRooms = [] }: { initialRooms: Room[] }
               bathrooms={room.bathrooms}
               rentFeePerWeek={room.rentFeePerWeek}
               onClick={async () => {
+                const { startAt, endAt } = getQueryParams();
+
                 await navigateWithQuery(`/rooms/${room.id}`, {
-                  ...getQueryParams(),
+                  startAt,
+                  endAt,
                 });
               }}
             />

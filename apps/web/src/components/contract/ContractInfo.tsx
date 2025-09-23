@@ -2,7 +2,10 @@ import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
 import { ContractStatus, EXPOSE_DATE_FORMAT } from '@libs/values';
 import type { ContractStatusType } from '@libs/values.ts';
-import { ArrowDown } from '@plott-life/ui/components/icons';
+import {
+  ArrowDown,
+  ArrowRight,
+} from '@plott-life/ui/components/icons';
 
 interface Props {
   weeks: number;
@@ -54,7 +57,8 @@ export default function ContractInfo(props: Props) {
         <h3 className='body1 text-gray-900'>계약 정보</h3>
         {isActive && (
           <ArrowDown
-            className={`w-4 h-4 transition-transform duration-300 ${
+            viewBox={'0 0 24 24'}
+            className={`size-4 transition-transform duration-300 ${
               open ? 'rotate-180' : 'rotate-0'
             }`}
           />
@@ -71,7 +75,10 @@ export default function ContractInfo(props: Props) {
             href={`/rooms/${buildingUnit.id}`}
             className='flex-1 cursor-pointer'
           >
-            <p className='body4 text-gray-900 mb-1.5'>{buildingUnit.name} ></p>
+            <div className={'flex flex-row items-center gap-1'}>
+              <p className='body4 text-gray-900 mb-1.5'>{buildingUnit.name}</p>
+              <ArrowRight viewBox={'0 0 24 24'} className={'size-3'} />
+            </div>
             <p className='body5 text-gray-500'>{buildingUnit.address}</p>
           </a>
         </div>
