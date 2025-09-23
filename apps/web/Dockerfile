@@ -14,7 +14,7 @@ RUN cp /build/yarn.lock ./
 RUN yarn install --immutable
 
 ARG MODE=production
-ENV MODE=${ENV}
+ENV MODE=${MODE}
 ENV NODE_ENV=production
 
 RUN yarn build
