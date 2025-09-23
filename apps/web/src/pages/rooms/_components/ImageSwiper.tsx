@@ -5,7 +5,7 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-interface ImageSlideSectionProps {
+interface ImageSwiperProps {
   images: string[];
   className?: string;
   hasMoreIcon?: boolean;
@@ -15,13 +15,13 @@ interface ImageSlideSectionProps {
 
 const IMAGE_URL = import.meta.env.PUBLIC_IMAGE_URL;
 
-export default function ImageSlideSection({
+export default function ImageSwiper({
   images: itemImages,
   className,
   hasMoreIcon = false,
   onOpenGallery,
   onClickIcon,
-}: ImageSlideSectionProps) {
+}: ImageSwiperProps) {
   const swiperEl = useRef<HTMLDivElement>(null);
   const images = itemImages.length > 0 ? itemImages : [
     'null',
@@ -41,21 +41,19 @@ export default function ImageSlideSection({
       slidesPerView: 1,
       centeredSlides: true,
       pagination:
-        images.length > 1
-          ? {
-              el: '.swiper-pagination',
-              type: 'fraction',
-              renderFraction: (currentClass, totalClass) => {
-                return `
-                  <div class="inline items-end rounded-sm bg-[rgba(0,0,0,0.5)] px-2 py-1 mb-4 mr-4 caption1 text-white">
-                    <span class="${currentClass}"></span>
-                    <span class="swiper-pagination-line">/</span>
-                    <span class="${totalClass}"></span>
-                  </div>
-                `;
-              },
-            }
-          : undefined,
+        images.length > 1 ? {
+          el: '.swiper-pagination',
+          type: 'fraction',
+          renderFraction: (currentClass, totalClass) => {
+            return `
+              <div class="inline items-end rounded-sm bg-[rgba(0,0,0,0.5)] px-2 py-1 mb-4 mr-4 caption1 text-white">
+                <span class="${currentClass}"></span>
+                <span class="swiper-pagination-line">/</span>
+                <span class="${totalClass}"></span>
+              </div>
+            `;
+          },
+        } : undefined,
     });
 
     if (onClickIcon) {
