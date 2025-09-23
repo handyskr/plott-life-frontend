@@ -107,7 +107,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [필수] 만 19세 이상 확인
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/info/service-policy"}
+                href={"/info/term-of-service"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />
@@ -128,7 +128,7 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               [선택] 개인정보 마케팅 활용 동의
               <a
                 className="py-2 inline-flex flex-1 justify-end"
-                href={"/info/service-policy"}
+                href={"/info/term-of-service"}
                 target="_blank"
               >
                 <ArrowRight className="w-4 h-4 text-gray-400" />

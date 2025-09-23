@@ -5,6 +5,7 @@ import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
 import { CRMTest } from "../components/crm.tsx";
+import ChannelTalk from "../components/script/ChannelTalk.astro";
 interface Props {
   title?: string;
   subtitle?: string;
@@ -37,6 +38,7 @@ const isOpen = Astro.locals.test;
     <Meta title={title} description={description} image={image} />
     <GoogleAnalytics />
     <GoogleTagManager />
+    <ChannelTalk />
   </head>
   <body class='flex justify-center'>
     <GoogleTagManagerFallback />
@@ -79,8 +81,6 @@ const isOpen = Astro.locals.test;
       document.getElementById('nav-search'),
       document.getElementById('nav-contract'),
       document.getElementById('btn-inquiry'),
-      document.getElementById('btn-contract'),
-      document.getElementById('help'),
     ];
 
     const handleExceptionEvent = (event) => {
