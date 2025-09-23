@@ -44,6 +44,7 @@ async function fetchRooms(
     page: page.toString(),
     size: size.toString(),
     ...query,
+    stateOrCity: query.q,
   });
 
   const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?${searchParams.toString()}`, {
