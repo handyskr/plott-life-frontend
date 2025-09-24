@@ -13,13 +13,21 @@
     "@hookform/resolvers": "^5.2.2",
     "@plott-life/ui": "workspace:*",
     "@plott-life/utils": "workspace:*",
+    "@strapi/blocks-react-renderer": "^1.0.2",
     "@tosspayments/tosspayments-sdk": "^2.4.0",
     "astro": "^5.13.5",
     "ioredis": "^5.7.0",
+    "lodash": "^4.17.21",
     "react": "npm:@preact/compat@18.3.1",
     "react-dom": "npm:@preact/compat@18.3.1",
     "react-hook-form": "^7.62.0",
+    "rehype-sanitize": "^6.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "remark-toc": "^9.0.0",
     "swiper": "^11.2.10",
+    "unified": "^11.0.5",
     "web-vitals": "^5.1.0"
   },
   "devDependencies": {
@@ -29,6 +37,7 @@
     "@plott-life/dev": "workspace:*",
     "@preact/compat": "18.3.1",
     "@tailwindcss/vite": "^4.1.13",
+    "@types/lodash": "^4",
     "eslint": "^9.34.0",
     "typescript": "^5.9.2"
   }

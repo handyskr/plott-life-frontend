@@ -1,0 +1,41 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import _ from "lodash";
+import { getAnnouncements } from "../../libs/strapi";
+import dayjs from "dayjs";
+
+const { data } = await getAnnouncements();
+console.log(data);
+---
+<Layout>
+  <Header
+    slot="header"
+    title="공지사항"
+    showBackIcon={true}
+    showHomeIcon={true} />
+  <section class='px-6 py-8 flex flex-col gap-6'>
+    <section class='flex flex-col gap-6'>
+      <div class="w-full max-w-2xl mx-auto">
+        <ul class="space-y-4">
+          {data?.map(it => (
+            <li>
+              <a class="card shadow-sm" href={`/info/${it.slug}`}>
+                <div class="space-y-2 p-4">
+                  <div class="flex items-center justify-between text-xs">
+                    <div>
+                      <span class="min-w-10 badge badge-primary px-1 text-white">{it.importance}</span>
+                      <span class="min-w-10 badge badge-secondary px-1">{it.audience}</span>
+                    </div>
+                    <time class="text-gray-600">{dayjs(it.createdAt).format("YYYY년 MM월 DD일")}</time>
+                  </div>
+                  <h3 class="text-base font-semibold">{it.title}</h3>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </section>
+</Layout>

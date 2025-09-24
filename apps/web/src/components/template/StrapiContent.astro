@@ -1,0 +1,22 @@
+---
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
+import { markdownToHtml } from "@libs/markdown.ts";
+
+const { content } = Astro.props;
+
+async function parseContent(content: any) {
+  switch (content?.__component) {
+    case "content.html":
+      return "";
+    case "content.markdown":
+      return markdownToHtml(content.markdown);
+  }
+  return "TODO";
+}
+---
+{content.html ? (
+  <BlocksRenderer content={content.html} />
+) : (
+  <Fragment set:html={parseContent(content)} />
+)}
+
