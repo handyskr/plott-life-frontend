@@ -15,7 +15,7 @@ import {
   Building,
 } from '@plott-life/ui/components/icons';
 
-import NaverStaticMap from '@plott-life/ui/components/NaverStaticMap';
+import { NaverStaticMap, parseNaverURL } from '@plott-life/ui/components/NaverStaticMap';
 
 import IconByCode from './_components/IconByCode.astro';
 
@@ -44,6 +44,8 @@ const {
   name,
   address,
   images,
+  latitude,
+  longitude,
   descIntro,
   descCaution,
   descLocation,
@@ -75,6 +77,11 @@ const structure = formatFeatures({
   livingrooms,
   kitchens,
 });
+
+const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
+  Astro.url, Astro.request?.headers?.get("user-agent") as string,
+ address
+)
 
 const bedInfo = formatBedOptions(bedOptions);
 
@@ -245,22 +252,24 @@ console.log(roomDetail);
     <div class='py-6'>
       <h2 class='text-gray-900 title3 mb-4'>위치 & 교통</h2>
       <p class='body3 text-gray-900'>{address}</p>
-      <a
-        href=`https://map.naver.com/search/${address}`
-        target='_blank'
-        class='my-6 h-[300px] bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'
-      >
-        <NaverStaticMap
-          width={600}
-          height={300}
-          center={[127.029963, 37.492101]}
-          level={14}
-          scale={2}
-          apiKeyId={import.meta.env.PUBLIC_NAVER_MAP_CLIENT_ID}
-          alt='강남 지도'
-          className='w-full h-full object-cover object-center'
-        />
-      </a>
+      {(latitude && longitude) ? (
+        <a
+          id="naver-map"
+          href=`${naverUrl}` target={isMobile ? '_self' : '_blank'}
+          data-naver-map={naverUrl} data-naver-map-fallback={naverUrlFallback}
+          class='my-6 h-[300px] bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'>
+          <NaverStaticMap
+            width={600}
+            height={300}
+            center={[latitude, longitude]}
+            level={14}
+            scale={2}
+            apiKeyId={import.meta.env.PUBLIC_NAVER_MAP_CLIENT_ID}
+            alt={address}
+            className='w-full h-full object-cover object-center'
+          />
+        </a>
+      ) : null}
       <p class='body3 text-gray-900'>
         {descLocation}
       </p>
@@ -303,3 +312,17 @@ console.log(roomDetail);
     cleaningFee={cleaningFee}
   />
 </Layout>
+<script>
+  document.addEventListener('click', (e) => {
+    const el = (e.target instanceof Element) ? e.target.closest('[data-naver-map]') : null;
+    if (!el) return;
+    if (window.__naver_map_timeout) {
+      return;
+    }
+    window.__naver_map_timeout = setTimeout(function() {
+      clearTimeout((window as any).__naver_fabllack)
+
+      window.open((el as HTMLElement).dataset.naverMapFallback, '_blank');
+    }, 1500);
+  });
+</script>
