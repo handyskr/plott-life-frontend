@@ -17,7 +17,7 @@ import {
 
 import { NaverStaticMap, parseNaverURL } from '@plott-life/ui/components/NaverStaticMap';
 
-import IconByCode from './_components/IconByCode.astro';
+import { OptionMoreButton, IconByCode } from './_components';
 
 const { id } = Astro.params;
 const isLoggedIn = Astro.locals.isLoggedIn;
@@ -84,6 +84,7 @@ const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
 );
 
 const bedInfo = formatBedOptions(bedOptions);
+
 ---
 
 <Layout
@@ -123,7 +124,7 @@ const bedInfo = formatBedOptions(bedOptions);
       </div>
       <div class='flex flex-col items-center gap-1'>
         <Ruler />
-        <span>{areaExclusive}㎡</span>
+        <span>{Math.floor(areaExclusive * 10 / 10)}㎡</span>
       </div>
       <div class='flex flex-col items-center gap-1'>
         <Building />
@@ -149,7 +150,7 @@ const bedInfo = formatBedOptions(bedOptions);
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>전용 면적</span>
-          <span class='body3 text-gray-700'>{areaExclusive}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
+          <span class='body3 text-gray-700'>{Math.floor(areaExclusive * 100 / 100)}㎡ / {Math.floor(areaExclusivePyeong)}평</span>
         </div>
         <div class='flex'>
           <span class='w-[100px] flex-shrink-0 body1 text-gray-900'>침대 사이즈</span>
@@ -188,7 +189,7 @@ const bedInfo = formatBedOptions(bedOptions);
         <div class='py-6'>
           <h2 class='text-gray-900 title3 mb-4'>기본 옵션</h2>
           <div class='grid grid-cols-2 gap-4 mb-6'>
-            {defaultOptions.map((option) => {
+            {defaultOptions.slice(0, 8).map((option) => {
               return (
                 <div class='flex items-center gap-x-3 gap-y-2 h-12'>
                   <IconByCode code={option.code} className='w-6 h-6 text-gray-900' />
@@ -197,9 +198,10 @@ const bedInfo = formatBedOptions(bedOptions);
               );
             })}
           </div>
-          <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
-            기본 옵션 {defaultOptions.length}가지 모두 보기
-          </button>
+          <OptionMoreButton
+            client:only="preact"
+            defaultOptions={defaultOptions}
+          />
         </div>
       </>
     )}
@@ -294,7 +296,7 @@ const bedInfo = formatBedOptions(bedOptions);
           </li>
           <li class='py-4'>
             <p class='body4 text-gray-900 mb-2'>보증금</p>
-            <p class='body6 text-gray-800'>{(deposit).toLocaleString()}원 /1주</p>
+            <p class='body6 text-gray-800'>{(deposit).toLocaleString()}원</p>
           </li>
         </ul>
       </div>
