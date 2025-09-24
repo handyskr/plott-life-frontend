@@ -1,8 +1,9 @@
 import { actions, isInputError } from 'astro:actions';
 import { useState } from 'preact/hooks';
-import ConfirmModal from '@components/template/ConfirmModal';
-import clsx from "clsx";
-import {ContractStatus, type ContractStatusType} from "@libs/values.ts";
+import clsx from 'clsx';
+
+import ConfirmModal from '@components/template/ConfirmModal.tsx';
+import {ContractStatus, type ContractStatusType} from '@libs/values.ts';
 
 interface MoveOutButtonProps {
   id: number;

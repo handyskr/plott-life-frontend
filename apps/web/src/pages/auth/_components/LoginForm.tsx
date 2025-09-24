@@ -70,7 +70,7 @@ export const LoginForm = (props: Props) => {
           placeholder="이메일 주소 입력"
         />
       </Fieldset>
-      <button type="submit" className="btn btn-lg btn-block btn-primary">
+      <button type="submit" className="btn btn-lg btn-block btn-primary body2">
         이메일로 계속하기
       </button>
     </form>
