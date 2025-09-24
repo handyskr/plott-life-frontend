@@ -28,7 +28,7 @@ export default function Calendar(props: CalendarProps) {
     startAtParam ? (dayjs(startAtParam).day() + 6) % 7 : null
   );
 
-  const months = Array.from({ length: 6 }, (_, i) => today.add(i, 'month'));
+  const months = Array.from({ length: 12 }, (_, i) => today.add(i, 'month'));
 
   const handleDateClick = (day: Dayjs) => {
     if (day.isBefore(today, 'day')) {
