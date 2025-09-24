@@ -93,48 +93,48 @@ export default function TermsAgreementModal(props: TermsAgreementModalProps) {
               </a>
             </p>
           </label>
-          <label className="label gap-4">
-            <input
-              {...register("IS_ADULT")}
-              className="checkbox checkbox-neutral w-6 h-6"
-              type="checkbox"
-            />
-            <p
-              className={
-                "inline-flex flex-1 justify-between items-center text-black"
-              }
-            >
-              [필수] 만 19세 이상 확인
-              <a
-                className="py-2 inline-flex flex-1 justify-end"
-                href={"/info/term-of-service"}
-                target="_blank"
-              >
-                <ArrowRight className="w-4 h-4 text-gray-400" />
-              </a>
-            </p>
-          </label>
-          <label className="label gap-4">
-            <input
-              {...register("MARKETING_CONSENT")}
-              className="checkbox checkbox-neutral w-6 h-6"
-              type="checkbox"
-            />
-            <p
-              className={
-                "inline-flex flex-1 justify-between items-center text-black"
-              }
-            >
-              [선택] 개인정보 마케팅 활용 동의
-              <a
-                className="py-2 inline-flex flex-1 justify-end"
-                href={"/info/term-of-service"}
-                target="_blank"
-              >
-                <ArrowRight className="w-4 h-4 text-gray-400" />
-              </a>
-            </p>
-          </label>
+          {/*<label className="label gap-4">*/}
+          {/*  <input*/}
+          {/*    {...register("IS_ADULT")}*/}
+          {/*    className="checkbox checkbox-neutral w-6 h-6"*/}
+          {/*    type="checkbox"*/}
+          {/*  />*/}
+          {/*  <p*/}
+          {/*    className={*/}
+          {/*      "inline-flex flex-1 justify-between items-center text-black"*/}
+          {/*    }*/}
+          {/*  >*/}
+          {/*    [필수] 만 19세 이상 확인*/}
+          {/*    <a*/}
+          {/*      className="py-2 inline-flex flex-1 justify-end"*/}
+          {/*      href={"/info/term-of-service"}*/}
+          {/*      target="_blank"*/}
+          {/*    >*/}
+          {/*      <ArrowRight className="w-4 h-4 text-gray-400" />*/}
+          {/*    </a>*/}
+          {/*  </p>*/}
+          {/*</label>*/}
+          {/*<label className="label gap-4">*/}
+          {/*  <input*/}
+          {/*    {...register("MARKETING_CONSENT")}*/}
+          {/*    className="checkbox checkbox-neutral w-6 h-6"*/}
+          {/*    type="checkbox"*/}
+          {/*  />*/}
+          {/*  <p*/}
+          {/*    className={*/}
+          {/*      "inline-flex flex-1 justify-between items-center text-black"*/}
+          {/*    }*/}
+          {/*  >*/}
+          {/*    [선택] 개인정보 마케팅 활용 동의*/}
+          {/*    <a*/}
+          {/*      className="py-2 inline-flex flex-1 justify-end"*/}
+          {/*      href={"/info/term-of-service"}*/}
+          {/*      target="_blank"*/}
+          {/*    >*/}
+          {/*      <ArrowRight className="w-4 h-4 text-gray-400" />*/}
+          {/*    </a>*/}
+          {/*  </p>*/}
+          {/*</label>*/}
           <button type="submit" className="w-full btn btn-lg btn-neutral body2">
             다음
           </button>

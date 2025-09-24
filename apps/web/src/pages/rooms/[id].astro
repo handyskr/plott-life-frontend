@@ -81,11 +81,9 @@ const structure = formatFeatures({
 const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
   Astro.url, Astro.request?.headers?.get("user-agent") as string,
  address
-)
+);
 
 const bedInfo = formatBedOptions(bedOptions);
-
-console.log(roomDetail);
 ---
 
 <Layout
@@ -135,10 +133,10 @@ console.log(roomDetail);
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='py-6'>
       <h2 class='text-gray-900 title3 mb-5'>소개글</h2>
-      <p class='text-gray-900 body3 font-normal mb-6'>{descIntro}</p>
-      <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
-        더 보기
-      </button>
+      <p class='text-gray-900 body3 font-normal'>{descIntro}</p>
+      <!--<button class='w-full btn bg-gray-100 mt-6 rounded-lg body2 text-gray-900'>-->
+      <!--  더 보기-->
+      <!--</button>-->
     </div>
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <!-- 기본 정보 -->
@@ -174,11 +172,11 @@ console.log(roomDetail);
           <span class='body3 text-gray-700'>{parkingOption ? parkingOption?.name : '없음'}</span>
         </div>
       </div>
-      {parkingOption && (
+      {(parkingOption && parkingOption?.description) && (
         <div class='mt-6 p-4 bg-gray-50 rounded-lg'>
           <p class='mb-2 body4 text-gray-900'>주차 상세 정보</p>
           <p class='body6 text-gray-800'>
-            {parkingOption?.description || '주차 정보가 제공되지 않습니다.'}
+            {parkingOption?.description}
           </p>
         </div>
       )}
@@ -200,7 +198,7 @@ console.log(roomDetail);
             })}
           </div>
           <button class='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'>
-            편의시설 {defaultOptions.length}가지 모두 보기
+            기본 옵션 {defaultOptions.length}가지 모두 보기
           </button>
         </div>
       </>
@@ -238,15 +236,17 @@ console.log(roomDetail);
       </>
     )}
     <!-- 주의사항 -->
-    <div class='w-full h-px bg-gray-300 my-0'></div>
-    <div class='py-6'>
-      <h2 class='text-gray-900 title3 mb-4'>주의사항</h2>
-      <div class=''>
+    {descCaution && (
+      <div class='w-full h-px bg-gray-300 my-0'></div>
+      <div class='py-6'>
+        <h2 class='text-gray-900 title3 mb-4'>주의사항</h2>
+        <div class=''>
         <span class='body3'>
           {descCaution}
         </span>
+        </div>
       </div>
-    </div>
+    )}
     <!-- 위치 -->
     <div class='w-full h-px bg-gray-300 my-0'></div>
     <div class='py-6'>
@@ -290,7 +290,7 @@ console.log(roomDetail);
           </li>
           <li class='py-4'>
             <p class='body4 text-gray-900 mb-2'>청소비</p>
-            <p class='body6 text-gray-800'>{(cleaningFee).toLocaleString()}원 /1주</p>
+            <p class='body6 text-gray-800'>{(cleaningFee).toLocaleString()}원</p>
           </li>
           <li class='py-4'>
             <p class='body4 text-gray-900 mb-2'>보증금</p>

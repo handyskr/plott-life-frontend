@@ -3,8 +3,8 @@ import { z } from "zod";
 export const USER_POLICY_CODES = [
   "TERMS_OF_SERVICE",
   "PRIVACY_POLICY",
-  "IS_ADULT",
-  "MARKETING_CONSENT",
+  // "IS_ADULT",
+  // "MARKETING_CONSENT",
 ] as const;
 
 export const emailInput = z.object({
@@ -69,8 +69,8 @@ export const signUpInput = signInInput
 export const termAgreementInput = z.object({
   TERMS_OF_SERVICE: z.literal(true),
   PRIVACY_POLICY: z.literal(true),
-  IS_ADULT: z.literal(true),
-  MARKETING_CONSENT: z.boolean().optional(),
+  // IS_ADULT: z.literal(true),
+  // MARKETING_CONSENT: z.boolean().optional(),
 });
 
 export const verifyCodeInput = z.object({
