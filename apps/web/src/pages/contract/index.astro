@@ -51,7 +51,6 @@ async function fetchContractList() {
   return res.json();
 }
 
-
 const {
   items: contracts,
 } = await fetchContractList();
@@ -61,13 +60,13 @@ const {
   background={'bg-gray-50'}
 >
   <Header slot='header'>
-    <div class='flex flex-col w-full'>
+    <div class='flex flex-col w-full h-[88px] justify-center'>
       <p class='title1 text-gray-900 px-6'>
         계약
       </p>
     </div>
   </Header>
-  <div>
+  <div class='h-full'>
     {(Array.isArray(contracts) && contracts.length > 0) ? (
       <div class='px-6 py-6 pb-12 space-y-8'>
         {contracts.map((contract: Contract) => {
@@ -120,7 +119,7 @@ const {
         })}
       </div>
     ) : (
-      <div class='relative h-full w-full flex flex-col justify-center items-center text-center'>
+      <div class='relative h-full w-full flex flex-col justify-center items-center text-center bg-white'>
         <Image
           alt='bed image'
           src='/images/bed.png'

@@ -1,7 +1,9 @@
 import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import ContractSuccessModal from './ContractSuccessModal.tsx';
+
 import { toast } from '@libs/toast.ts';
+import { useThrottle } from '@hooks/useThrottle.ts';
 
 interface BottomContractButtonProps {
   id: number;
@@ -18,7 +20,7 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onContractClick = async () => {
+  const { onClick: onContractButtonClick, loading } = useThrottle(async () => {
     if (import.meta.env.MODE !== 'development') {
       toast.show({
         message: '현재 준비중입니다.',
@@ -56,7 +58,7 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
           break;
       }
     }
-  };
+  });
 
   return (
     <>
@@ -67,10 +69,10 @@ export default function BottomContractButton(props: BottomContractButtonProps) {
         <button
           className='w-full rounded-lg btn btn-primary body2 text-white'
           onClick={async () => {
-            await onContractClick();
+            await onContractButtonClick();
           }}
         >
-          계약 요청하기
+          {!loading ? '계약 요청하기' : <span class='loading loading-dots loading-md'></span>}
         </button>
       </div>
       <ContractSuccessModal

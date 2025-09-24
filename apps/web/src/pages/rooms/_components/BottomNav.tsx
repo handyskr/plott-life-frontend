@@ -2,6 +2,8 @@ import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
 import DateModal from './DateModal.tsx';
 
+import { useThrottle } from '@hooks/useThrottle.ts';
+
 import {
   getWeeksBetween,
   getPriceData,
@@ -9,6 +11,7 @@ import {
 import { EXPOSE_DATE_FORMAT } from '@libs/values.ts';
 
 import { navigateWithQuery } from '../../../navigator';
+import { toast } from '@libs/toast.ts';
 
 interface BottomNavProps {
   id: number | string;
@@ -48,8 +51,13 @@ export default function BottomNav(props: BottomNavProps) {
     managementFeePerWeek,
   });
 
-  const onContractButtonClick = async () => {
+  const { onClick: onContractButtonClick, loading } = useThrottle(async () => {
     if (!isLoggedIn) {
+      toast.show({
+        type: 'info',
+        message: '로그인이 필요한 서비스입니다.',
+      });
+
       const redirectURL = `${window.location.pathname}${window.location.search}`;
 
       await navigateWithQuery(`/auth/login`, {
@@ -63,7 +71,7 @@ export default function BottomNav(props: BottomNavProps) {
       startAt,
       endAt,
     });
-  };
+  });
 
   const handleDateApply = (newStartAt: string, newEndAt: string) => {
     const params = new URLSearchParams(window.location.search);
@@ -94,9 +102,10 @@ export default function BottomNav(props: BottomNavProps) {
         </div>
         <button
           class='w-[120px] rounded-lg btn btn-primary body2'
+          disabled={loading}
           onClick={onContractButtonClick}
         >
-          계약하기
+          {!loading ? '계약하기' : <span class='loading loading-dots loading-md'></span>}
         </button>
       </nav>
       <DateModal

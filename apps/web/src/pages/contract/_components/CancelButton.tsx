@@ -1,8 +1,10 @@
 import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
+
 import ConfirmModal from '@components/template/ConfirmModal.tsx';
 import { navigateWithQuery } from '../../../navigator';
 import { toast } from '@libs/toast.ts';
+import { useThrottle } from '@hooks/useThrottle.ts';
 
 interface CancelButtonProps {
   id: number;
@@ -25,7 +27,7 @@ export default function CancelButton(props: CancelButtonProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onContractClick = async () => {
+  const { onClick: handleCancelContract, loading } = useThrottle(async () => {
     try {
       const { error } = await actions.cancelContract({
         id: Number(id),
@@ -40,24 +42,24 @@ export default function CancelButton(props: CancelButtonProps) {
 
       window.location.reload();
     } catch (error: any) {
+      console.log(error);
+
       switch (error?.code) {
         case 'BAD_REQUEST':
           toast.show({
             message: '취소 정보가 일치하지 않습니다.',
             type: 'default',
           });
-          console.log(error);
           break;
         default:
           toast.show({
             message: '알 수 없는 에러가 발생했습니다.',
             type: 'default',
           });
-          console.error(error);
           break;
       }
     }
-  };
+  });
 
   return (
     <>
@@ -65,7 +67,6 @@ export default function CancelButton(props: CancelButtonProps) {
         <button
           class='btn bg-white w-full text-gray-900 body2'
           onClick={async () => {
-            // MEMO: 위약금이 발생하는 경우, 별도의 취소 페이지로 이동
             if (expectedPenalty !== null) {
               await navigateWithQuery(`/contract/${id}/cancel`, {});
               return;
@@ -74,7 +75,7 @@ export default function CancelButton(props: CancelButtonProps) {
             setIsOpen(true);
           }}
         >
-          계약 취소하기
+          {!loading ? '계약 취소하기' : <span class='loading loading-dots loading-md'></span>}
         </button>
       </div>
       <ConfirmModal
@@ -82,7 +83,7 @@ export default function CancelButton(props: CancelButtonProps) {
         title='계약을 취소하시겠습니까?'
         description='현재 시점에서는 수수료 없이 취소가 가능합니다.'
         actionButtonText='취소 진행'
-        onAction={onContractClick}
+        onAction={handleCancelContract}
         onClose={() => setIsOpen(false)}
       />
     </>
