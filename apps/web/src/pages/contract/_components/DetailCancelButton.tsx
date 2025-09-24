@@ -1,4 +1,6 @@
-import { actions, isInputError } from 'astro:actions';
+import { actions } from 'astro:actions';
+import { useThrottle } from '@hooks/useThrottle.ts';
+import { toast } from '@libs/toast.ts';
 
 interface Props {
   id: number;
@@ -12,12 +14,12 @@ interface Props {
 export default function DetailCancelButton(props: Props) {
   const {
     id,
-    buildingUnit,
     startAt,
     endAt,
+    buildingUnit,
   } = props;
 
-  const onContractClick = async () => {
+  const { onClick: handleCancelContract, loading } = useThrottle(async () => {
     try {
       const { error } = await actions.cancelContract({
         id: Number(id),
@@ -32,22 +34,24 @@ export default function DetailCancelButton(props: Props) {
 
       window.location.href = `/contract/${id}`;
     } catch (error: any) {
-      if (isInputError(error)) {
-        console.log(error);
-        return;
-      }
+      console.log(error);
 
       switch (error?.code) {
         case 'BAD_REQUEST':
-          console.log(error);
+          toast.show({
+            message: '취소 정보가 일치하지 않습니다.',
+            type: 'default',
+          });
           break;
         default:
-          alert('알 수 없는 에러가 발생했습니다.');
-          console.error(error);
+          toast.show({
+            message: '알 수 없는 에러가 발생했습니다.',
+            type: 'default',
+          });
           break;
       }
     }
-  };
+  });
 
   return (
     <div className={'sticky w-full px-6 py-4 flex gap-2'}>
@@ -59,13 +63,11 @@ export default function DetailCancelButton(props: Props) {
       </button>
       <button
         className={'btn btn-neutral body2 text-white flex-1'}
-        onClick={() => {
-          if (onContractClick) {
-            onContractClick();
-          }
+        onClick={async () => {
+          await handleCancelContract();
         }}
       >
-        취소 진행
+        {!loading ? '취소 진행' : <span class='loading loading-dots loading-md'></span>}
       </button>
     </div>
   );

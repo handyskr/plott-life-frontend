@@ -1,9 +1,11 @@
-import { actions, isInputError } from 'astro:actions';
+import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
 import clsx from 'clsx';
 
+import { useThrottle } from '@hooks/useThrottle.ts';
 import ConfirmModal from '@components/template/ConfirmModal.tsx';
-import {ContractStatus, type ContractStatusType} from '@libs/values.ts';
+import { ContractStatus, type ContractStatusType } from '@libs/values.ts';
+import { toast } from '@libs/toast.ts';
 
 interface MoveOutButtonProps {
   id: number;
@@ -20,7 +22,7 @@ export default function MoveOutButton(props: MoveOutButtonProps) {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const onContractClick = async () => {
+  const { onClick: handleMoveOutContract, loading } = useThrottle(async () => {
     try {
       const { error } = await actions.moveOutContract({
         id: Number(id),
@@ -32,22 +34,14 @@ export default function MoveOutButton(props: MoveOutButtonProps) {
 
       window.location.href = `/contract/move-out`;
     } catch (error: any) {
-      if (isInputError(error)) {
-        console.log(error);
-        return;
-      }
+      console.error(error);
 
-      switch (error?.code) {
-        case 'BAD_REQUEST':
-          console.log(error);
-          break;
-        default:
-          alert('알 수 없는 에러가 발생했습니다.');
-          console.error(error);
-          break;
-      }
+      toast.show({
+        message: '알 수 없는 에러가 발생했습니다.',
+        type: 'default',
+      });
     }
-  };
+  });
 
   return (
     <>
@@ -67,7 +61,7 @@ export default function MoveOutButton(props: MoveOutButtonProps) {
         title='퇴실을 진행하시겠습니까?'
         description='퇴실과 동시에 보증금 반환 신청이 진행됩니다.'
         actionButtonText='퇴실 진행'
-        onAction={onContractClick}
+        onAction={handleMoveOutContract}
         onClose={() => setIsOpen(false)}
       />
     </>
