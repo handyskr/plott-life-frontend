@@ -3,9 +3,11 @@ import Header from "../../components/template/Header.astro";
 import { getFaqs } from "../../libs/strapi";
 import Layout from "../../layouts/Layout.astro";
 import StrapiContent from "../../components/template/StrapiContent.astro";
+import _ from "lodash";
 
 const { faqCategories, faqs } = await getFaqs();
-console.log(faqCategories, faqs);
+const [guests, hosts] = _.partition(faqs, it => it.category.audience === "guest");
+console.log(guests);
 ---
 <Layout>
   <Header
@@ -14,25 +16,47 @@ console.log(faqCategories, faqs);
     showBackIcon={true}
     showHomeIcon={true} />
   <section class='px-6 py-8 flex flex-col gap-6'>
-    <div class='flex flex-row flex-wrap gap-4'>
-      {faqCategories.map(it => (
-        <div class:list={["badge", it.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{it.name}</div>
-      ))}
-    </div>
-    <article class='w-full mx-auto prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline'>
-      <div class="join join-vertical">
-        {faqs.map(faq => (
-          <div tabindex="0" class="collapse collapse-arrow join-item border-base-300 border">
-            <div class="collapse-title font-semibold">
-              <div class:list={["badge", faq.category?.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{faq.category?.name}</div>
-              {faq.question}
+    <section class='flex flex-col gap-6'>
+      <div class="w-full max-w-2xl mx-auto card shadow-sm">
+        <header class="space-y-1 p-4">
+          <h1 class="text-2xl font-semibold">FAQ – 게스트</h1>
+          <p class="text-sm text-gray-600">결제, 예약, 취소 등 게스트용 안내</p>
+        </header>
+        <article class="join join-vertical prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline">
+          {guests.map((it) => (
+            <div tabindex="0" class="collapse collapse-arrow join-item">
+              <div class="collapse-title font-semibold flex flex-col gap-2">
+                <div class:list={["badge", it.category.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{it.category.name}</div>
+                <div>{it.question}</div>
+              </div>
+              <div class="collapse-content text-sm">
+                {it.answer?.map(content => (<StrapiContent content={content} />))}
+              </div>
             </div>
-            <div class="collapse-content text-sm">
-              {faq.answer.map(content => (<StrapiContent content={content} />))}
-            </div>
-          </div>
-        ))}
+          ))}
+        </article>
       </div>
-    </article>
+    </section>
+    <section class='flex flex-col gap-6'>
+      <div class="w-full max-w-2xl mx-auto card shadow-sm">
+        <header class="space-y-1 p-4">
+          <h1 class="text-2xl font-semibold">FAQ – 호스트</h1>
+          <p class="text-sm text-gray-600">매물 등록, 계약 절차 등 호스트용 안내</p>
+        </header>
+        <article class="join join-vertical prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline">
+          {hosts.map((it) => (
+            <div tabindex="0" class="collapse collapse-arrow join-item">
+              <div class="collapse-title font-semibold flex flex-col gap-2">
+                <div class:list={["badge", it.category.audience == "host" ? "badge-soft badge-primary" : "badge-secondary"]}>{it.category.name}</div>
+                <div>{it.question}</div>
+              </div>
+              <div class="collapse-content text-sm">
+                {it.answer?.map(content => (<StrapiContent content={content} />))}
+              </div>
+            </div>
+          ))}
+        </article>
+      </div>
+    </section>
   </section>
 </Layout>

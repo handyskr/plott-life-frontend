@@ -1,6 +1,5 @@
 import type { paths as Paths } from "./strapi.type";
 import { withQuery } from "ufo";
-import { markdownToHtml } from "@libs/markdown.ts";
 
 const STRAPI_API_URL = `${import.meta.env.STRAPI_URL}/api`;
 
@@ -39,16 +38,6 @@ async function getFetch<TPath extends keyof Paths & string>(
   return data as SuccessJSON<Operation<TPath, "get">>;
 }
 
-export async function parseContent(content: any) {
-  switch (content?.__component) {
-    case "content.html":
-      return content.html;
-    case "content.markdown":
-      return markdownToHtml(content.markdown);
-  }
-  return "TODO";
-}
-
 export async function getBlogPosts() {
   return await getFetch("/blog-posts", {
     populate: "*",
@@ -83,4 +72,20 @@ export async function getFaqs() {
   });
 
   return { faqCategories, faqs };
+}
+
+export async function getAnnouncements() {
+  return await getFetch("/announcements", {
+    populate: "*",
+    sort: "createdAt:desc",
+  });
+}
+
+export async function getAnnouncement(slug: string) {
+  const { data: [data] } = await getFetch("/announcements", {
+    "filters[slug][$eq]": slug,
+    populate: "*",
+  });
+
+  return data;
 }
