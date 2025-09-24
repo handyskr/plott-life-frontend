@@ -8,15 +8,15 @@
     "./eslint": "./eslint.config.mjs",
     "./tsconfig": "./tsconfig.json",
     "./style": "./dist/style.css",
-    "./components/icons": "./dist/icons/index.js",
+    "./components/icons": "./dist/icons/index.jsx",
     "./components/*": "./components/*",
     "./icons/*": "./icons/*"
   },
   "scripts": {
     "dev:styles": "tailwindcss -i styles/index.css -o ./dist/style.css --watch",
-    "dev:icons": "svgr --out-dir ./dist/icons -- ./icons",
+    "dev:icons": "svgr --out-dir ./dist/icons --ext jsx -- ./icons",
     "build:styles": "tailwindcss -i styles/index.css -o ./dist/style.css",
-    "build:icons": "svgr --out-dir ./dist/icons -- ./icons",
+    "build:icons": "svgr --out-dir ./dist/icons  --ext jsx -- ./icons",
     "lint": "eslint ."
   },
   "dependencies": {
