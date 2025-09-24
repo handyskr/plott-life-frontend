@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 import dayjs from 'dayjs';
-import { ContractStatus, EXPOSE_DATE_FORMAT } from '@libs/values';
+import { ContractStatus, EXPOSE_DATE_FORMAT } from '@libs/values.ts';
 import type { ContractStatusType } from '@libs/values.ts';
 import {
   ArrowDown,

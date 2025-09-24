@@ -38,14 +38,14 @@ export default function Filters(props: FiltersProps) {
   return (
     <>
       <button
-        className={`btn btn-sm border-gray-300 text-gray-900 border-1
+        className={`btn btn-sm border-gray-300 text-gray-900 border-1 px-2.5 gap-0.5
           ${hasSort ? 'border-gray-900 bg-gray-50 body4' : 'border-gray-200 bg-white body6'}
         `}
         onClick={() => setIsSortOpen(true)}
       >
         <Sort
           viewBox='0 0 24 24'
-          className={'size-3'}
+          className={'size-6'}
         />
         {sortLabel}
       </button>

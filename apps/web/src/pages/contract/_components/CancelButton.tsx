@@ -1,7 +1,7 @@
 import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
-import ConfirmModal from '@components/template/ConfirmModal';
-import { navigateWithQuery } from '../../navigator';
+import ConfirmModal from '@components/template/ConfirmModal.tsx';
+import { navigateWithQuery } from '../../../navigator';
 import { toast } from '@libs/toast.ts';
 
 interface CancelButtonProps {

@@ -1,11 +1,6 @@
-import { useState, useEffect } from 'preact/hooks';
-import dayjs from 'dayjs';
-import {ContractStatus, EXPOSE_DATE_FORMAT} from '@libs/values';
-import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
-import type { ContractStatusType } from '@libs/values.ts';
-import usePayment from "@hooks/usePayment.ts";
-import {actions, isInputError} from "astro:actions";
-import {toast} from "@libs/toast.ts";
+import usePayment from '@hooks/usePayment.ts';
+import { actions } from 'astro:actions';
+import { toast } from '@libs/toast.ts';
 
 interface Props {
   id: number;
@@ -44,7 +39,7 @@ export default function ContractInfo(props: Props) {
       }
 
       if (!data) {
-        toast.show({ message: "결제 생성에 실패했습니다.", type: "default" });
+        toast.show({ message: '결제 생성에 실패했습니다.', type: 'default' });
         return;
       }
 
@@ -72,17 +67,11 @@ export default function ContractInfo(props: Props) {
         customerMobilePhone: phone.length > 0 ? (phone).replaceAll('-', '') : '',
       });
     } catch (error: any) {
-      if (isInputError(error)) {
-        console.log(error);
-        return;
-      }
-
       switch (error?.code) {
         case 'BAD_REQUEST':
           toast.show({
             message: '잘못된 요청입니다. 새로고침 후 다시 시도해주세요.',
             type: 'default',
-            duration: 3000,
           });
           break;
         default:
@@ -101,8 +90,8 @@ export default function ContractInfo(props: Props) {
         >
           <h3 className='body1 text-gray-900 px-6'>결제 방법</h3>
         </div>
-        <div id="tosspayments-payment-methods" className="p-0 m-0" />
-        <div id="tosspayments-agreement" className="p-0 m-0" />
+        <div id='tosspayments-payment-methods' className='p-0 m-0' />
+        <div id='tosspayments-agreement' className='p-0 m-0' />
       </section>
       <div
         slot='footer'

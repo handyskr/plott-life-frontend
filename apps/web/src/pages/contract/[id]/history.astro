@@ -1,8 +1,8 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import Header from '../../../components/template/Header.astro';
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/template/Header.astro';
 import dayjs from 'dayjs';
-import {EXPOSE_DATE_FORMAT, EXPOSE_DATETIME_FORMAT, PaymentStatus} from '../../../libs/values';
+import { EXPOSE_DATETIME_FORMAT, PaymentStatus } from '@libs/values';
 const { API_URL } = import.meta.env;
 
 const { id } = Astro.params;

@@ -1,6 +1,6 @@
 import { actions } from 'astro:actions';
 import { useState } from 'preact/hooks';
-import ContractSuccessModal from '@components/contract/ContractSuccessModal.tsx';
+import ContractSuccessModal from './ContractSuccessModal.tsx';
 import { toast } from '@libs/toast.ts';
 
 interface BottomContractButtonProps {

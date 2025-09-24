@@ -9,19 +9,19 @@ import {
   Payment,
   CancelButton,
   MoveOutButton,
-} from '@components/contract';
+} from '../_components';
 
-import StatusTimeline from '@components/contract/StatusTimeline.astro';
-import Description from '@components/contract/Description.astro';
-import Notice from '@components/contract/Notice.astro';
-import CancelInfo from '@components/contract/CancelInfo.astro';
+import StatusTimeline from '../_components/StatusTimeline.astro';
+import Description from '../_components/Description.astro';
+import Notice from '../_components/Notice.astro';
+import CancelInfo from '../_components/CancelInfo.astro';
 
 import {
   getWeeksBetween,
   getPriceData,
 } from '@plott-life/utils';
 import { ContractStatus } from '@libs/values';
-import { ArrowRight } from "@plott-life/ui/components/icons";
+import { ArrowRight } from '@plott-life/ui/components/icons';
 
 const { API_URL } = import.meta.env;
 
@@ -121,7 +121,7 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
           class='header flex justify-between'
         >
           <h3 class='body1 text-gray-900'>{isPaymentCompleted ? '결제 내역' : '취소 내역'}</h3>
-          <ArrowRight width="24" height="24" />
+          <ArrowRight width='24' height='24' />
         </a>
       </section>
       <div class='bg-gray-100 w-full h-2' />
@@ -146,6 +146,6 @@ const isPaymentCompleted = contractStatus === ContractStatus.COMPLETED || contra
   )}
 
   {contractStatus === ContractStatus.APPROVED && (
-    <div class="h-[90px] pb-[calc(var(--bait)+24px)]"></div>
+    <div class='h-[90px] pb-[calc(var(--bait)+24px)]'></div>
   )}
 </Layout>

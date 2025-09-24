@@ -9,6 +9,21 @@ import {
   EXPOSE_DATE_FORMAT,
   ContractStatus,
 } from '../../libs/values';
+import type { ContractStatusType } from '@libs/values';
+
+type Contract = {
+  id: number;
+  startAt: string;
+  endAt: string;
+  weeks: number;
+  contractStatus: ContractStatusType;
+  contractStatusLabel: string;
+  buildingUnit: {
+    id: number;
+    name: string;
+    mainImage: string | null;
+  };
+};
 
 if (!Astro.locals.isLoggedIn) {
   return Astro.redirect('/auth/login');
@@ -36,12 +51,15 @@ async function fetchContractList() {
   return res.json();
 }
 
+
 const {
-  items,
+  items: contracts,
 } = await fetchContractList();
 ---
 
-<Layout>
+<Layout
+  background={'bg-gray-50'}
+>
   <Header slot='header'>
     <div class='flex flex-col w-full'>
       <p class='title1 text-gray-900 px-6'>
@@ -49,10 +67,10 @@ const {
       </p>
     </div>
   </Header>
-  <div class="bg-gray-50">
-    {items.length > 0 ? (
+  <div>
+    {(Array.isArray(contracts) && contracts.length > 0) ? (
       <div class='px-6 py-6 pb-12 space-y-8'>
-        {items.map((item) => {
+        {contracts.map((contract: Contract) => {
           const {
             id,
             startAt,
@@ -64,12 +82,12 @@ const {
               mainImage: image,
               name,
             },
-          } = item;
+          } = contract;
 
           return (
             <a
               href=`/contract/${id}`
-              class='rounded-2xl border-1 border-gray-200 shadow-[0_5px_20px_0_rgba(0,0,0,0.12)] cursor-pointer flex flex-col'
+              class='rounded-2xl border-1 bg-white border-gray-200 shadow-[0_5px_20px_0_rgba(0,0,0,0.12)] cursor-pointer flex flex-col'
             >
               <div class='relative'>
                 <div
