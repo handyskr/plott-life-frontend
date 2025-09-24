@@ -88,8 +88,9 @@ export default function BottomNav(props: BottomNavProps) {
           ₩{(totalPrice).toLocaleString()}
         </span>
           <span class='caption1 text-gray-700 underline'>
-          {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~ {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
-        </span>
+            {weeks}주 · {dayjs(startAt).format(EXPOSE_DATE_FORMAT)} ~<br/>
+            {dayjs(endAt).format(EXPOSE_DATE_FORMAT)}
+          </span>
         </div>
         <button
           class='w-[120px] rounded-lg btn btn-primary body2'
