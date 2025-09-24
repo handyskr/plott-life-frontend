@@ -18,7 +18,7 @@ interface Option<T> {
   value: T;
 }
 
-const MIN_PRICE = 300000;
+const MIN_PRICE = 0;
 const MAX_PRICE = 2000000;
 const bedroomOptions: Option<BedroomOption>[] = [
   { label: '1개', value: BedroomOption.ONE },
