@@ -25,6 +25,7 @@ interface ApiResponse {
 }
 
 const PUBLIC_API_URL = import.meta.env.PUBLIC_API_URL;
+const EXCEPTION_KEYWORD = '전체';
 
 function getQueryParams(): Record<string, string> {
   const params = new URLSearchParams(window.location.search);
@@ -44,7 +45,7 @@ async function fetchRooms(
     page: page.toString(),
     size: size.toString(),
     ...query,
-    stateOrCity: query.q,
+    stateOrCity: query.q !== EXCEPTION_KEYWORD ? query.q : '',
   });
 
   const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?${searchParams.toString()}`, {

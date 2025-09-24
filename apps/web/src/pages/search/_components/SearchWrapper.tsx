@@ -98,8 +98,11 @@ export default function SearchWrapper(props: SearchWrapperProps) {
               <div className='flex items-center mb-2'>
                 <Info className='text-gray-600' />
                 <p className='ml-1.5 mr-2 body6 text-gray-600'>원하는 지역이 없나요?</p>
-                {/* TODO: 문의하기 링크 붙여야함 */}
-                <a className='body6 text-gray-900 underline'>
+                <a
+                  href='#'
+                  data-chat-open
+                  className='body6 text-gray-900 underline'
+                >
                   문의하기
                 </a>
               </div>
