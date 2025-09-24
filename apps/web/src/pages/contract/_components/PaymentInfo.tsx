@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import { ArrowDown } from '@plott-life/ui/components/icons';
+import {ContractStatus} from "@libs/values.ts";
 
 interface Props {
   currency: string;
@@ -28,7 +29,7 @@ export default function PaymentInfo(props: Props) {
     contractStatus,
   } = props;
 
-  const isCanceled = contractStatus === 'CANCELED' || contractStatus === 'CANCELED_NOPAY';
+  const isCanceled = contractStatus === ContractStatus.CANCELED || contractStatus === ContractStatus.CANCELED_NOPAY || contractStatus === ContractStatus.REJECTED;
 
   // MEMO: 취소 상태면 강제로 열림 유지
   const [open, setOpen] = useState(isCanceled || !!isOpen);

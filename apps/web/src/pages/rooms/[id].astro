@@ -80,7 +80,7 @@ const structure = formatFeatures({
 
 const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
   Astro.url, Astro.request?.headers?.get("user-agent") as string,
- address
+  address
 );
 
 const bedInfo = formatBedOptions(bedOptions);

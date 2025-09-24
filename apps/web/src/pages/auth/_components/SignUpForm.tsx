@@ -97,12 +97,12 @@ export const SignUpForm = (props: Props) => {
         >
           <div className={'flex flex-col gap-3'}>
             <input
-              {...register('lastName')}
+              {...register('firstName')}
               className={'w-full input input-lg input-neutral validator'}
               placeholder='이름 입력 (예: 길동)'
             />
             <input
-              {...register('firstName')}
+              {...register('lastName')}
               className={'w-full input input-lg input-neutral validator'}
               placeholder='성 입력 (예: 홍)'
             />
@@ -124,6 +124,11 @@ export const SignUpForm = (props: Props) => {
               className={'w-full input input-lg input-neutral validator'}
               name='phoneNumber'
               placeholder='전화번호'
+              inputMode='numeric'
+              pattern='\d*'
+              onInput={(e) => {
+                e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '');
+              }}
             />
           </div>
         </Fieldset>
