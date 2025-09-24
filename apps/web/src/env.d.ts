@@ -17,6 +17,7 @@ interface Window {
   toast: any;
   ChannelIO: any;
   ChannelIOInitialized: boolean;
+  __naver_map_timeout: number | Node.Timeout;
 }
 
 declare namespace App {
