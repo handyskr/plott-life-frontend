@@ -1,7 +1,7 @@
 /** @jsxImportSource preact */
 import { useState, useEffect, useRef, useCallback } from 'preact/hooks';
 import { Card } from '@plott-life/ui';
-import { navigateWithQuery } from '../../navigator';
+import { navigateWithQuery } from '../navigator';
 import { DEFAULT_PAGE_SIZE } from '@libs/values.ts';
 
 interface Room {

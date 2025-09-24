@@ -1,5 +1,5 @@
 import { Modal, ModalContent, ModalFooter, ModalHeader } from '@components/common';
-import { SORT_OPTIONS } from '@libs/values';
+import { SORT_OPTIONS } from '@libs/values.ts';
 import { RadioButtonActive, RadioButtonInactive } from '@plott-life/ui/components/icons';
 
 interface SortModalProps {

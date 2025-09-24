@@ -1,8 +1,5 @@
-import { useState, useEffect, useMemo } from 'preact/hooks';
-import {
-  SortModal,
-  FilterModal,
-} from '@components/search';
+import { useState, useMemo } from 'preact/hooks';
+import { SortModal, FilterModal } from './';
 import { SORT_OPTIONS } from '@libs/values.ts';
 
 import { ArrowDown, Sort } from '@plott-life/ui/components/icons';
