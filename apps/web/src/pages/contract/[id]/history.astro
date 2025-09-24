@@ -42,7 +42,10 @@ const {
     totalCancelPrice,
     paymentStatus,
   },
+  cancels,
 } = contract;
+
+console.log(contract);
 
 const isCanceled = paymentStatus === PaymentStatus.CANCELED || paymentStatus === PaymentStatus.PARTIAL_CANCELED;
 ---
@@ -119,14 +122,57 @@ const isCanceled = paymentStatus === PaymentStatus.CANCELED || paymentStatus ===
       <div class='w-full h-px bg-gray-900'></div>
       <div class='flex justify-between items-center pt-2'>
         <span class='body4 text-gray-900'>
-          {isCanceled ? '환불 금액' : '최종 결제 금액'}
+          {paymentStatus === PaymentStatus.CANCELED ? '환불 금액' : '최종 결제 금액'}
         </span>
         <span class='body1 text-gray-900'>
-          {(isCanceled ? totalCancelPrice : totalPrice).toLocaleString()}원
+          {(paymentStatus === PaymentStatus.CANCELED ? totalCancelPrice : totalPrice).toLocaleString()}원
         </span>
       </div>
     </div>
   </section>
+
+  {cancels?.length > 0 && (
+    <div class='bg-gray-100 w-full h-2' />
+    <section class={`p-6`}>
+      <div class='header flex justify-between pb-6'>
+        <h3 class='body1 text-gray-900'>취소/환불 정보</h3>
+      </div>
+      <div class='space-y-4'>
+        <div class='flex justify-between'>
+          <span class='min-w-[100px] body6 text-gray-600'>결제 금액</span>
+          <span class='body6 text-gray-900 text-right'>
+            {(totalPrice).toLocaleString()}원
+          </span>
+        </div>
+      </div>
+      {cancels.map((cancel) => (
+        <div class='w-full h-px bg-gray-300 my-4'></div>
+        <div class='space-y-4'>
+          <div class='flex justify-between'>
+            <span class='min-w-[100px] body6 text-gray-600'>위약금</span>
+            <span class='body6 text-gray-900 text-right'>
+              {(cancel?.penalty || 0).toLocaleString()}원
+            </span>
+          </div>
+          <div class='flex justify-between'>
+            <span class='min-w-[100px] body6 text-gray-600'>취소 일시</span>
+            <span class='body6 text-gray-900 text-right'>
+              {cancel?.caneledAt !== null ? dayjs(cancel?.caneledAt).format(EXPOSE_DATETIME_FORMAT) : '-'}
+            </span>
+          </div>
+        </div>
+        <div class='w-full h-px bg-gray-900 my-4'></div>
+        <div class='flex justify-between items-center pt-2'>
+          <span class='body4 text-gray-900'>
+            환불 금액
+          </span>
+          <span class='body1 text-gray-900'>
+            {(totalPrice).toLocaleString()}원
+          </span>
+        </div>
+      ))}
+    </section>
+  )}
 
   <div class='bg-gray-100 w-full h-2' />
   <section class={`p-6`}>
