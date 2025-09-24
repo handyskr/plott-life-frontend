@@ -4,6 +4,7 @@ import Header from '@components/template/Header.astro';
 import BottomNav from '@components/template/BottomNav.astro';
 import RoomList from '../components/RoomList';
 import Footer from '@components/template/Footer.astro';
+import FloatingButton from '@components/common/FloatingButton';
 
 import IconSearch from '@plott-life/ui/icons/search.svg';
 import IconLogo from '@plott-life/ui/icons/logo.svg';
@@ -65,6 +66,9 @@ try {
       initialRooms={items}
     />
   </div>
+  <FloatingButton
+    client:only='preact'
+  />
   <Footer slot='footer' />
   <BottomNav slot='nav' />
 </Layout>

@@ -25,8 +25,6 @@ export function Card(props: CardProps) {
     onClick,
   } = props;
 
-  // image 추가해줘야함
-
   return (
     <div
       role='button'
