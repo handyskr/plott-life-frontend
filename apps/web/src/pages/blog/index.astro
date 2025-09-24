@@ -3,7 +3,6 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/template/Header.astro";
 import { getBlogPosts } from "../../libs/strapi";
-import Footer from "../../components/template/Footer.astro";
 import dayjs from "dayjs";
 
 const { data } = await getBlogPosts();
@@ -21,7 +20,7 @@ console.log(data);
         <ul class="space-y-4">
           {data?.map(it => (
             <li>
-              <a class="card shadow-sm" href={`/blog/${it.slug}`}>
+              <a class="card card-custom" href={`/blog/${it.slug}`}>
                 <figure>
                   <img class="w-full h-full object-cover aspect-[16/9]"
                     src={it.coverImage?.formats?.medium?.url}
@@ -49,5 +48,4 @@ console.log(data);
       </div>
     </section>
   </section>
-  <Footer slot="footer" />
 </Layout>

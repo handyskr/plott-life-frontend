@@ -5,3 +5,11 @@
 @plugin "daisyui" {
   themes: "light" --default, "dark" --prefersdark;
 }
+
+.shadow-custom {
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.12);
+}
+
+.card.card-custom {
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.12);
+}
