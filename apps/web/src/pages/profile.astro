@@ -1,6 +1,6 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
-import BottomNav from "../../../components/template/BottomNav.astro";
+import Layout from "../layouts/Layout.astro";
+import BottomNav from "../components/template/BottomNav.astro";
 import IconArrowRight from "@plott-life/ui/icons/arrow-right.svg";
 import IconChat from "@plott-life/ui/icons/chat.svg";
 import IconHeadphone from "@plott-life/ui/icons/headphone.svg";
@@ -9,7 +9,7 @@ import IconExit from "@plott-life/ui/icons/exit.svg";
 import IconContract from "@plott-life/ui/icons/contract.svg";
 const user = Astro.locals.user;
 ---
-<Layout>
+<Layout subtitle="프로필">
   <div class="max-w-lg mx-auto h-full pt-(--sait) flex flex-col justify-between">
     <div class="px-6 space-y-4">
       <section>

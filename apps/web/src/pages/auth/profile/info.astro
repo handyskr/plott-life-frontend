@@ -7,7 +7,7 @@ if (!Astro.locals.isLoggedIn) {
 }
 const user = Astro.locals.user!!;
 ---
-<Layout>
+<Layout subtitle="개인정보">
   <Header
     slot='header'
     title="개인 정보"
