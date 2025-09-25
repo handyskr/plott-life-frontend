@@ -13,12 +13,13 @@ export enum ContractStatus {
   APPROVED = 'APPROVED',
   REJECTED = 'REJECTED',
   EXPIRED = 'EXPIRED',
+  EXPIRED_APPROVAL = 'EXPIRED_APPROVAL',
   COMPLETED = 'COMPLETED',
   CANCELED = 'CANCELED',
   CANCELED_NOPAY = 'CANCELED_NOPAY',
   USING = 'USING',
   MOVED_OUT = 'MOVED_OUT',
-};
+}
 
 export type ContractStatusType = keyof typeof ContractStatus;
 
@@ -27,6 +28,7 @@ export const ContractStatusLabel: Record<ContractStatus, string> = {
   [ContractStatus.APPROVED]: '결제대기',
   [ContractStatus.REJECTED]: '계약거절',
   [ContractStatus.EXPIRED]: '결제만료',
+  [ContractStatus.EXPIRED_APPROVAL]: '승인만료',
   [ContractStatus.COMPLETED]: '계약완료',
   [ContractStatus.CANCELED]: '계약취소',
   [ContractStatus.CANCELED_NOPAY]: '계약취소',
