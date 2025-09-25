@@ -9,7 +9,7 @@ import StrapiContent from "../../components/template/StrapiContent.astro";
 const slug = Astro.params.slug;
 const data = await getBlogPost(slug);
 ---
-<Layout subtitle={data.title}>
+<Layout subtitle={data.title} description={data.excerpt} image={data.coverImage.url}>
   <Header
     slot="header"
     title={data.title}
@@ -34,7 +34,7 @@ const data = await getBlogPost(slug);
           <img src={data.coverImage?.formats.large.url} />
           <figcaption class="sr-only">블로그 커버 이미지</figcaption>
         </figure>
-        <article class="prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl prose-headings:underline">
+        <article class="prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl">
           {data.content.map(content => (
             <StrapiContent content={content} />
           ))}
