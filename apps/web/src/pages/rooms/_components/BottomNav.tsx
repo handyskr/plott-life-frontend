@@ -37,8 +37,8 @@ export default function BottomNav(props: BottomNavProps) {
   const searchParams = new URLSearchParams(window.location.search);
 
   const today = dayjs();
-  const startAt = searchParams.get('startAt') ?? today.format('YYYY-MM-DD');
-  const endAt = searchParams.get('endAt') ?? today.add(6, 'day').format('YYYY-MM-DD');
+  const startAt = searchParams.get('startAt')?.trim() || today.format('YYYY-MM-DD');
+  const endAt = searchParams.get('endAt')?.trim() || today.add(6, 'day').format('YYYY-MM-DD');
   const weeks = getWeeksBetween(startAt, endAt);
 
   const {

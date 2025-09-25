@@ -42,9 +42,6 @@ export default function DateModal(props: DateModalProps) {
     onClose();
   };
 
-  console.log(localStartAt);
-  console.log(localEndAt);
-
   return (
     <Modal
       isOpen={isOpen}

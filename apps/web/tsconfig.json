@@ -17,6 +17,9 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
+      "@actions/*": [
+        "src/actions"
+      ],
       "@components/*": [
         "src/components/*"
       ],
