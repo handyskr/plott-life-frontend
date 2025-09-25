@@ -9,7 +9,7 @@ import StrapiContent from "../../components/template/StrapiContent.astro";
 const slug = Astro.params.slug;
 const data = await getBlogPost(slug);
 ---
-<Layout subtitle={data.title}>
+<Layout subtitle={data.title} description={data.excerpt} image={data.coverImage.url}>
   <Header
     slot="header"
     title={data.title}
