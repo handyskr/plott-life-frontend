@@ -1,29 +1,42 @@
 ---
 import Meta from '@layouts/Meta.astro';
 import '@styles/style.css';
+import { descriptionSample, defaultKeywords } from "./defaultKeywords";
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
 import { CRMTest } from "../components/crm.tsx";
 import ChannelTalk from "../components/script/ChannelTalk.astro";
+
 interface Props {
   title?: string;
   subtitle?: string;
+  keywords?: string;
+  keywordsPreset?: Exclude<keyof typeof defaultKeywords, "base">;
   description?: string;
   image?: string;
   background?: string;
 }
 
-let { title, subtitle, description, image, background } = Astro.props;
+let { title, subtitle, description, keywords, keywordsPreset,, image, background } = Astro.props;
 if (!title) {
   if (subtitle) {
-    title = `plott LIFE | ${subtitle}`;
+    title = `${subtitle} - plott LIFE`;
   } else {
-    title = 'plott LIFE | 단기임대 플라트 라이프';
+    title = `플라트 라이프 | 단기임대의 새로운 기준 - plott LIFE`;
   }
 }
 if (!description) {
-  description = '레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프';
+  description = descriptionSample();
+}
+if (!keywords) {
+  if (keywordsPreset && (keywordsPreset in defaultKeywords)) {
+    keywords = `${defaultKeywords.base}, ${defaultKeywords[keywordsPreset]}`;
+  } else {
+    keywords = defaultKeywords.base;
+  }
+} else {
+  keywords += `${defaultKeywords.base}, ${keywords}`;
 }
 if (!image) {
   image = 'https://cdn.plott.co.kr/images/ogimage.webp?w=1200&h=630';
@@ -31,12 +44,10 @@ if (!image) {
 
 const isOpen = Astro.locals.test;
 ---
-<html
-  lang='ko'
-  data-theme='light'
->
+<!DOCTYPE html>
+<html lang='ko' data-theme='light'>
   <head>
-    <Meta title={title} description={description} image={image} />
+    <Meta title={title} description={description} keywords={keywords} image={image} />
     <GoogleAnalytics />
     <GoogleTagManager />
     <ChannelTalk />
