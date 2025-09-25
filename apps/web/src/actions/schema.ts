@@ -11,7 +11,17 @@ export const emailInput = z.object({
   email: z.string().email(),
 });
 
-export const password = z.string().min(8).max(20);
+export const password = z.string()
+  .min(8, "비밀번호는 8자 이상이어야 합니다.")
+  .max(20, "비밀번호는 20자 이하여야 합니다.")
+  .regex(
+    /^(?=.*[!@#$%^&*(),.?":{}|<>])/,
+    "비밀번호에 특수문자가 최소 1개 포함되어야 합니다."
+  )
+  .regex(
+    /^(?=.*[0-9])(?=.*[a-zA-Z])/,
+    "영문과 숫자가 최소 1개 이상 포함되어야 합니다."
+  );
 
 export const signInInput = emailInput.extend({
   password: password,

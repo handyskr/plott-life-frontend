@@ -1,12 +1,3 @@
-import dayjs from 'dayjs';
-import {
-  Bed,
-  Bathtub,
-  Ruler,
-  Building,
-  // 나중에 필요한 다른 아이콘도 추가
-} from '@plott-life/ui/components/icons';
-
 export function getSearchParams<T extends Record<string, string | null>>(
   searchParams: URLSearchParams,
   defaults: T
@@ -18,7 +9,7 @@ export function getSearchParams<T extends Record<string, string | null>>(
   (Object.keys(defaults) as (keyof T)[]).forEach((key) => {
     const value = searchParams.get(key as string);
 
-    if (value !== null) {
+    if (value !== null && value !== "") {
       result[key] = value;
     } else {
       result[key] = defaults[key];
@@ -27,4 +18,3 @@ export function getSearchParams<T extends Record<string, string | null>>(
 
   return result;
 }
-

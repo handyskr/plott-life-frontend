@@ -71,6 +71,8 @@ export const SignUpForm = (props: Props) => {
     }
   };
 
+  console.log(errors.password?.message);
+
   return (
     <>
       <form
@@ -134,7 +136,7 @@ export const SignUpForm = (props: Props) => {
         </Fieldset>
         <Fieldset
           label={'비밀번호'}
-          error={errors.password && '비밀번호가 올바르지 않습니다.'}
+          error={errors.password?.message}
         >
           <input
             {...register('password')}

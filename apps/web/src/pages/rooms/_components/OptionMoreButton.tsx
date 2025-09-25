@@ -22,7 +22,7 @@ export default function OptionMoreButton(props: OptionMoreButtonProps) {
   return (
     <>
       <button
-        className='w-full btn bg-gray-100 rounded-lg body2 text-gray-900'
+        className='w-full btn bg-gray-100 border-none rounded-lg body2 text-gray-900 hover:bg-gray-200'
         onClick={() => setIsOpen(true)}
       >
         기본 옵션 {defaultOptions.length}가지 모두 보기

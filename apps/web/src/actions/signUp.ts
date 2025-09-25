@@ -95,9 +95,25 @@ export const verifyCode = defineAction({
       body: JSON.stringify(input),
     });
 
+    const text = await res.text();
+    let body: any = null;
+
+    try {
+      body = text ? JSON.parse(text) : null;
+    } catch {
+      body = text;
+    }
+
     if (!res.ok) {
+      let message: string | undefined = undefined;
+
+      if (body && typeof body === 'object' && 'detail' in body) {
+        message = body.detail ?? null;
+      }
+
       throw new ActionError({
         code: ActionError.statusToCode(res.status),
+        message,
       });
     }
 
