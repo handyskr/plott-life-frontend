@@ -13,3 +13,19 @@
 .card.card-custom {
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.12);
 }
+
+.article {
+  @apply prose;
+  @apply prose-h1:font-bold prose-h1:text-xl;
+  @apply prose-a:text-blue-600;
+  @apply prose-p:text-justify;
+  @apply prose-img:rounded-xl;
+  @apply prose-table:max-w-full prose-table:block prose-table:border-collapse prose-table:overflow-x-auto;
+  @apply prose-thead:bg-gray-100;
+  @apply prose-th:border prose-th:border-gray-100 prose-th:px-4 prose-th:py-2 prose-th:text-left prose-th:font-semibold prose-th:no-underline prose-th:whitespace-nowrap;
+  @apply prose-td:border prose-td:border-gray-100 prose-td:px-4 prose-td:py-2 prose-td:whitespace-normal;
+
+  thead, tbody, tr {
+    width: max-content;
+  }
+}

@@ -7,13 +7,14 @@ import Header from "../../components/template/Header.astro";
 <Layout subtitle={frontmatter.title} keywordsPreset="term">
   <Header
     slot="header"
-    title={frontmatter.title}
     showBackIcon={true}
     showHomeIcon={true} />
   <div class="px-6 py-8 text-gray-900 flex flex-col items-center gap-6">
     <h1 class="text-2xl font-bold">{frontmatter.title}</h1>
     <Prose>
-      <Content />
+      <div  class="prose-img:min-w-36">
+        <Content />
+      </div>
     </Prose>
   </div>
 </Layout>
