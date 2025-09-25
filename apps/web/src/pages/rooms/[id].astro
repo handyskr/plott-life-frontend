@@ -84,11 +84,18 @@ const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
 );
 
 const bedInfo = formatBedOptions(bedOptions);
+const subtitle = `${name} - ${address} | plott LIFE `
+const keywords = [
+  name, address, structure, bedInfo, buildingType,
+  ...(defaultOptions?.map((opt) => opt.name) || []),
+  ...(facilityOptions?.map((opt) => opt.name) || []),
+  ...(additionalOptions?.map((opt) => opt.name) || [])
+].join(', ');
 ---
-
 <Layout
-  subtitle={name}
+  title={subtitle}
   description={descIntro}
+  keywords={keywords}
   image={roomDetail[0]}
 >
   <Header
