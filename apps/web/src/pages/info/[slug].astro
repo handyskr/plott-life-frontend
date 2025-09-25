@@ -10,7 +10,7 @@ const slug = Astro.params.slug;
 const data = await getAnnouncement(slug);
 console.log(data, data.body);
 ---
-<Layout>
+<Layout subtitle="공지사항" keywordsPreset="term">
   <Header
     slot="header"
     title="공지사항"

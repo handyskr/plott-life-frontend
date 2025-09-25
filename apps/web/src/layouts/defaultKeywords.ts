@@ -18,14 +18,7 @@ export const defaultKeywords = {
     "강남, 홍대, 여의도, 잠실, 종로, 마포, 센텀시티, 해운대해수욕장, 홍대입구역",
 };
 
-export function keywordSample() {
-  return defaultKeywords.base;
-}
-
-const defaultDescriptions = {
+export const defaultDescriptions = {
   base: "출장, 이사, 한달살기, 리모델링까지. 전국 주요 도시의 풀옵션 원룸·투룸·오피스텔·아파트·레지던스에서 원하는 기간 머무는 단기임대의 새로운 기준.",
 };
 
-export function descriptionSample() {
-  return defaultDescriptions.base;
-}

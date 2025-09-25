@@ -46,11 +46,12 @@ const {
 } = contract;
 
 const isCanceled = paymentStatus === PaymentStatus.CANCELED || paymentStatus === PaymentStatus.PARTIAL_CANCELED;
+const subtitle = isCanceled ? '취소 내역' : '결제 내역'
 ---
-<Layout>
+<Layout subtitle={subtitle}>
   <Header
     slot='header'
-    title={isCanceled ? '취소 내역' : '결제 내역'}
+    title={subtitle}
     showBackIcon={true}
   />
   <section class={`p-6`}>

@@ -9,7 +9,7 @@ const { faqCategories, faqs } = await getFaqs();
 const [guests, hosts] = _.partition(faqs, it => it.category.audience === "guest");
 console.log(guests);
 ---
-<Layout>
+<Layout subtitle="FAQ">
   <Header
     slot="header"
     title="자주 묻는 질문"

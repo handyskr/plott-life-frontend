@@ -1,7 +1,7 @@
 ---
 import Meta from '@layouts/Meta.astro';
 import '@styles/style.css';
-import { descriptionSample, defaultKeywords } from "./defaultKeywords";
+import { defaultDescriptions, defaultKeywords } from "./defaultKeywords";
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
@@ -18,16 +18,16 @@ interface Props {
   background?: string;
 }
 
-let { title, subtitle, description, keywords, keywordsPreset,, image, background } = Astro.props;
+let { title, subtitle, description, keywords, keywordsPreset, image, background } = Astro.props;
 if (!title) {
   if (subtitle) {
-    title = `${subtitle} - plott LIFE`;
+    title = `${subtitle} - 플라트 라이프 | 단기임대의 새로운 기준 - plott LIFE`;
   } else {
     title = `플라트 라이프 | 단기임대의 새로운 기준 - plott LIFE`;
   }
 }
 if (!description) {
-  description = descriptionSample();
+  description = defaultDescriptions.base;
 }
 if (!keywords) {
   if (keywordsPreset && (keywordsPreset in defaultKeywords)) {

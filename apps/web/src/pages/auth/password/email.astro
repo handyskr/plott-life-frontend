@@ -6,7 +6,7 @@ import {Image} from "astro:assets";
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
 ---
-<Layout>
+<Layout subtitle='비밀번호 재설정'>
   <Header
     slot='header'
     showBackIcon={true}
