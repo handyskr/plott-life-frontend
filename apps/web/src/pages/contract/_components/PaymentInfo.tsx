@@ -29,7 +29,11 @@ export default function PaymentInfo(props: Props) {
     contractStatus,
   } = props;
 
-  const isCanceled = contractStatus === ContractStatus.CANCELED || contractStatus === ContractStatus.CANCELED_NOPAY || contractStatus === ContractStatus.REJECTED;
+  const isCanceled = contractStatus === ContractStatus.CANCELED
+    || contractStatus === ContractStatus.CANCELED_NOPAY
+    || contractStatus === ContractStatus.REJECTED
+    || contractStatus === ContractStatus.EXPIRED
+    || contractStatus === ContractStatus.EXPIRED_APPROVAL;
 
   // MEMO: 취소 상태면 강제로 열림 유지
   const [open, setOpen] = useState(isCanceled || !!isOpen);

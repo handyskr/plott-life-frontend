@@ -88,6 +88,8 @@ export default function NotificationBanner(props: NotificationBannerProps) {
         return <>현재 입주중입니다.</>;
       case 'EXPIRED':
         return <>결제 시간 만료로 계약이 취소되었습니다.</>;
+      case 'EXPIRED_APPROVAL':
+        return <>호스트의 승인 시간 만료로 계약이 취소되었습니다.</>;
       case 'REJECTED':
         return <>호스트의 요청으로 계약이 취소되었습니다.</>;
       case 'CANCELED':

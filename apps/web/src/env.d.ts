@@ -40,6 +40,7 @@ interface User {
   email: string;
   phoneCode: string;
   phoneNumber: string;
+  phone: string;
   firstName: string;
   lastName: string;
   status: EntityStatus;

@@ -91,6 +91,8 @@ const {
   cleaningFee,
   managementFeePerWeek,
 });
+
+console.log(user);
 ---
 
 <Layout>
@@ -122,7 +124,7 @@ const {
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
         <p class='body4 text-gray-900'>게스트</p>
-        <p class='body5 text-gray-700 mt-1.5 mb-3'>{user.firstName}{user.lastName} / {user.phoneNumber}</p>
+        <p class='body5 text-gray-700 mt-1.5 mb-3'>{user.lastName}{user.firstName} / {user.phone}</p>
       </div>
       <div class='w-full h-px bg-gray-300'></div>
       <div class='w-full flex flex-col justify-center'>
