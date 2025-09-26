@@ -12,6 +12,7 @@ import { EXPOSE_DATE_FORMAT } from '@libs/values.ts';
 
 import { navigateWithQuery } from '../../../navigator';
 import { toast } from '@libs/toast.ts';
+import ConfirmModal from "@components/template/ConfirmModal.tsx";
 
 interface BottomNavProps {
   id: number | string;
@@ -33,6 +34,7 @@ export default function BottomNav(props: BottomNavProps) {
   } = props;
 
   const [isDateModalOpen, setIsDateModalOpen] = useState(false);
+  const [isNoticeModalOpen, setIsNoticeModalOpen] = useState(false);
 
   const searchParams = new URLSearchParams(window.location.search);
 
@@ -82,6 +84,16 @@ export default function BottomNav(props: BottomNavProps) {
     window.location.href = newUrl;
   };
 
+  const handleContractButtonClick = async () => {
+    const diffDays = dayjs(startAt).diff(today, 'day');
+
+    if (diffDays <= 14) {
+      setIsNoticeModalOpen(true);
+    } else {
+      await onContractButtonClick();
+    }
+  };
+
   return (
     <>
       <nav
@@ -103,7 +115,7 @@ export default function BottomNav(props: BottomNavProps) {
         <button
           class='w-[120px] rounded-lg btn btn-primary body2'
           disabled={loading}
-          onClick={onContractButtonClick}
+          onClick={handleContractButtonClick}
         >
           {!loading ? '계약하기' : <span class='loading loading-dots loading-md'></span>}
         </button>
@@ -114,6 +126,13 @@ export default function BottomNav(props: BottomNavProps) {
         endAt={endAt}
         onAction={handleDateApply}
         onClose={() => setIsDateModalOpen(false)}
+      />
+      <ConfirmModal
+        isOpen={isNoticeModalOpen}
+        description={`입주일이 가까운 계약(15일 이내)은 취소시 위약금이 발생합니다.\n임대기간과 환불규정을 확인 후 계약을 진행해주세요`}
+        actionButtonText={'계약하기'}
+        onAction={onContractButtonClick}
+        onClose={() => setIsNoticeModalOpen(false)}
       />
     </>
   );
