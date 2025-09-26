@@ -87,25 +87,4 @@ const isOpen = Astro.locals.test;
     import { toast } from "../libs/toast";
     window.toast = toast;
   </script>
-  <script type="module">
-    const elements = [
-      document.getElementById('search-button'),
-      document.getElementById('nav-search'),
-      document.getElementById('nav-contract'),
-      document.getElementById('btn-inquiry'),
-    ];
-
-    const handleExceptionEvent = (event) => {
-      event.preventDefault();
-      toast.show({
-        'message': '준비중인 서비스입니다.',
-        type: 'warning',
-        'duration': 3000,
-      });
-    };
-
-    elements.forEach((el) => {
-      if (el) el.addEventListener('click', handleExceptionEvent);
-    });
-  </script>
 </html>
