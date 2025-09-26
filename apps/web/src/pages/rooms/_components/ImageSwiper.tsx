@@ -126,7 +126,7 @@ export default function ImageSwiper({
               <div key={index} class='swiper-slide'>
                 <img
                   src={`${IMAGE_URL}/${image}.webp?w=800`}
-                  class='w-full h-full object-cover cursor-pointer'
+                  class='w-full h-full object-cover cursor-pointer text-gray-100 bg-gray-100'
                   loading="lazy"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -149,7 +149,7 @@ export default function ImageSwiper({
           <div class="relative col-span-2 row-span-2">
             <img
               src={`${IMAGE_URL}/${gridImages[0]}.webp?w=1024`}
-              class="w-full h-full object-cover cursor-pointer"
+              class="w-full h-full object-cover cursor-pointer text-gray-100  bg-gray-100"
               loading="lazy"
               alt="room image"
               onClick={() => {
@@ -166,7 +166,7 @@ export default function ImageSwiper({
           <div key={i} class="relative">
             <img
               src={`${IMAGE_URL}/${img}.webp?w=800`}
-              class="w-full h-full object-cover cursor-pointer"
+              class="w-full h-full object-cover cursor-pointer text-gray-100  bg-gray-100"
               loading="lazy"
               alt={`room image ${i + 2}`}
               onClick={() => {
@@ -192,7 +192,7 @@ export default function ImageSwiper({
                   <div key={idx} class="swiper-slide flex! items-center justify-center">
                     <img
                       src={`${IMAGE_URL}/${image}.webp?w=1024`}
-                      class="max-h-[80vh] w-full lg:max-w-[80vw] object-contain rounded-lg"
+                      class="max-h-[80vh] w-full lg:max-w-[80vw] object-contain rounded-lg text-gray-100  bg-gray-100"
                       loading="lazy"
                       alt={`room image ${idx + 1}`}
                     />
