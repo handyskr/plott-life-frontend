@@ -1,11 +1,12 @@
 import { actions, isInputError } from "astro:actions";
 import type { ActionSubmitHandler } from "../../../actions/types.ts";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigate } from "../../../navigator";
+import { navigate, navigateWithQuery } from "../../../navigator";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signInInput } from "../../../actions/schema.ts";
 import { handleSetActionInputError } from "../../../actions/utils.ts";
+import { withQuery } from "ufo";
 
 interface Props {
   email?: string | null;
@@ -29,14 +30,20 @@ export const SignInForm = (props: Props) => {
   });
   const setActionError = handleSetActionInputError(setError);
 
-  const onSubmit: ActionSubmitHandler<typeof actions.signIn> = async (data) => {
+  const onSubmit: ActionSubmitHandler<typeof actions.signIn> = async (form) => {
     try {
-      const { error } = await actions.signIn(data);
+      const { error, data } = await actions.signIn(form);
       if (error) {
         throw error;
       }
 
-      await navigate(props.successURL);
+      if (data.redirectURL) {
+        await navigateWithQuery(data.redirectURL, {
+          redirectURL: props.successURL
+        });
+      } else {
+        await navigate(props.successURL);
+      }
     } catch (error: any) {
       if (isInputError(error)) {
         setActionError(error);
