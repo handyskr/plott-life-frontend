@@ -41,11 +41,12 @@ async function fetchRooms(
   size: number,
   query: Record<string, string>
 ): Promise<ApiResponse> {
+  const stateOrCity = typeof query.q === 'string' && query.q !== EXCEPTION_KEYWORD ? query.q : '';
   const searchParams = new URLSearchParams({
     page: page.toString(),
     size: size.toString(),
     ...query,
-    stateOrCity: query.q !== EXCEPTION_KEYWORD ? query.q : '',
+    stateOrCity,
   });
 
   const res = await fetch(`${PUBLIC_API_URL}/v1/building-unit?${searchParams.toString()}`, {
