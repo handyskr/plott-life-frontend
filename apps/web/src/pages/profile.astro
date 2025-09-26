@@ -6,7 +6,6 @@ import IconChat from '@plott-life/ui/icons/chat.svg';
 import IconHeadphone from '@plott-life/ui/icons/headphone.svg';
 import IconBook from '@plott-life/ui/icons/book.svg';
 import IconExit from '@plott-life/ui/icons/exit.svg';
-import IconContract from '@plott-life/ui/icons/contract.svg';
 import IconBlog from '@plott-life/ui/icons/blog.svg';
 import IconNotice from '@plott-life/ui/icons/notice.svg';
 const user = Astro.locals.user;
@@ -54,7 +53,12 @@ const user = Astro.locals.user;
           <h3 class='flex-1 text-base text-gray-900'>자주 묻는 질문</h3>
           <IconArrowRight class='size-4 text-gray-400' />
         </a>
-        <a class='flex flex-row gap-4 justify-between items-center py-4 channel-talk' href='#' data-chat-open>
+        <a
+          href='#'
+          data-chat-open
+          data-chat-type={'support'}
+          class='flex flex-row gap-4 justify-between items-center py-4 channel-talk'
+        >
           <IconHeadphone class='size-6 text-gray-900' />
           <h3 class='flex-1 text-base text-gray-900'>고객지원</h3>
           <IconArrowRight class='size-4 text-gray-400' />
@@ -73,7 +77,12 @@ const user = Astro.locals.user;
         )}
       </section>
     </div>
-    <a class='mx-6 my-8 flex flex-row justify-between items-center bg-gray-50 rounded-lg pl-6 pr-4 channel-talk' href='#' data-chat-open>
+    <a
+      href='#'
+      data-chat-open
+      data-chat-type={'host'}
+      class='mx-6 my-8 flex flex-row justify-between items-center bg-gray-50 rounded-lg pl-6 pr-4 channel-talk'
+    >
       <div>
         <h3 class='text-base font-bold'>방 등록하기</h3>
         <p class='text-sm text-gray-600'>
