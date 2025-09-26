@@ -180,23 +180,19 @@ export default function ImageSwiper({
       </div>
 
       {/* Fullscreen Gallery Modal */}
-      <div
-        ref={modalContainerRef}
+      <div ref={modalContainerRef}
         class={`fixed inset-0 z-[2000] ${isGalleryOpen ? '' : 'hidden'} bg-black/80 flex items-center justify-center p-4`}
-        onClick={() => setGalleryOpen(false)}
-      >
-        <div
-          class="relative w-full max-w-[1200px] max-h-[90vh]"
-          onClick={(e) => e.stopPropagation()}
-        >
+        onClick={() => setGalleryOpen(false)}>
+        <div class="relative w-full max-w-[1200px] max-h-[90vh]"
+          onClick={(e) => e.stopPropagation()}>
           <div class="h-full flex items-center justify-center">
             <div ref={modalSwiperEl} class="swiper w-full max-h-full">
               <div class="swiper-wrapper">
                 {images.map((image, idx) => (
-                  <div key={idx} class="swiper-slide flex items-center justify-center">
+                  <div key={idx} class="swiper-slide flex! items-center justify-center">
                     <img
                       src={`${IMAGE_URL}/${image}.webp?w=1024`}
-                      class="max-h-[80vh] w-auto object-contain rounded-lg"
+                      class="max-h-[80vh] w-full lg:max-w-[80vw] object-contain rounded-lg"
                       loading="lazy"
                       alt={`room image ${idx + 1}`}
                     />
@@ -204,8 +200,12 @@ export default function ImageSwiper({
                 ))}
               </div>
               <div class="modal-pagination absolute bottom-4 right-6 text-white"></div>
-              <button class="modal-prev absolute left-4 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center">‹</button>
-              <button class="modal-next absolute right-4 top-1/2 -translate-y-1/2 text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 flex items-center justify-center">›</button>
+              <button class="modal-prev fixed z-10 inset-y-0 left-0 w-[20vw] lg:w-[10vw] flex items-center justify-center disabled:hidden">
+                <span class='text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 hidden lg:flex! items-center justify-center'>‹</span>
+              </button>
+              <button class="modal-next fixed z-10 inset-y-0 right-0 w-[20vw] lg:w-[10vw] flex items-center justify-center disabled:hidden">
+                <span class='text-white bg-white/10 hover:bg-white/20 rounded-full w-10 h-10 hidden lg:flex! items-center justify-center'>›</span>
+              </button>
             </div>
           </div>
         </div>
