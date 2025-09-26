@@ -53,14 +53,14 @@ export default function MoveOutButton(props: MoveOutButtonProps) {
           disabled={!isUsing}
           onClick={() => setIsOpen(true)}
         >
-          퇴실 및 보증금 반환 신청&nbsp;{contractStatus === ContractStatus.MOVED_OUT && '완료'}
+          퇴거 및 보증금 반환 신청&nbsp;{contractStatus === ContractStatus.MOVED_OUT && '완료'}
         </button>
       </div>
       <ConfirmModal
         isOpen={isOpen}
-        title='퇴실을 진행하시겠습니까?'
-        description='퇴실과 동시에 보증금 반환 신청이 진행됩니다.'
-        actionButtonText='퇴실 진행'
+        title='퇴거를 진행하시겠습니까?'
+        description='퇴거와 동시에 보증금 반환 신청이 진행됩니다.'
+        actionButtonText='퇴거 진행'
         onAction={handleMoveOutContract}
         onClose={() => setIsOpen(false)}
       />

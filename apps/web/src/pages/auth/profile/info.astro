@@ -3,6 +3,7 @@ import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/template/Header.astro";
 import IconArrowRight from "@plott-life/ui/icons/arrow-right.svg";
 import { formatPhoneNumber } from "../../../libs/utils";
+
 if (!Astro.locals.isLoggedIn) {
   return Astro.redirect("/auth/login");
 }
