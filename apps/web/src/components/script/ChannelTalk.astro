@@ -1,14 +1,55 @@
 ---
+// import crypto from 'crypto';
+const user = Astro.locals.user;
+
+const mode = import.meta.env.MODE;
+
+let token;
+if (user) {
+  // const secretKey = '6dcdf5bf4ac936a8898249523eb529c208054d434a095f1bcaf476fb7c1560ec';
+  // const hash = crypto.createHmac('sha256', Buffer.from(secretKey, 'hex'))
+  //   .update(user.id.toString())
+  //   .digest('hex');
+  const memberId = mode === "production" ? user.id : `test:${user.id}`;
+  token = Buffer.from(JSON.stringify({
+    id: memberId,
+    name: encodeURIComponent(`${user.lastName} ${user.firstName}`),
+    email: user.email,
+    mobile: `${user.phoneCode}${user.phoneNumber}`,
+  }), 'utf8').toString('base64');
+}
 ---
+{token ? (
+<>
+  <meta name="support:token" content={token}>
+</>
+) : null}
+
 <script>
   (function(){var w=window;if(w.ChannelIO){return w.console.error("ChannelIO script included twice.");}var ch=function(){ch.c(arguments);};ch.q=[];ch.c=function(args){ch.q.push(args);};w.ChannelIO=ch;function l(){if(w.ChannelIOInitialized){return;}w.ChannelIOInitialized=true;var s=document.createElement("script");s.type="text/javascript";s.async=true;s.src="https://cdn.channel.io/plugin/ch-plugin-web.js";var x=document.getElementsByTagName("script")[0];if(x.parentNode){x.parentNode.insertBefore(s,x);}}if(document.readyState==="complete"){l();}else{w.addEventListener("DOMContentLoaded",l);w.addEventListener("load",l);}})();
+
+  const memberToken = document
+    .querySelector('meta[name="support:token"]')
+    ?.getAttribute('content');
+  const { id, name, email, mobile } = memberToken ? JSON.parse(atob(memberToken)) : {};
 
   window.ChannelIO('boot', {
     pluginKey: '1c41e7e4-cacc-492f-b62f-85f9ad633b7c',
     hideChannelButtonOnBoot: true,
     trackDefaultEvent: true,
     trackUtmSource: true,
+    memberId: id,
   });
+
+  if (id) {
+    window.ChannelIO('updateUser', {
+      profile: {
+        name: decodeURIComponent(name),
+        email: email || undefined,
+        mobileNumber: mobile || undefined,
+      }
+    });
+  }
 
   window.addEventListener('openChat', (e) => {
     const chatType = String(e.detail?.chatType);
