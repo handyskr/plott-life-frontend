@@ -81,7 +81,7 @@ export const PasswordUpdateForm = (props: Props) => {
       <Fieldset
         label={"현재 비밀번호"}
         hidden={!(bit & 1)}
-        error={errors.password && "비밀번호가 올바르지 않습니다."}
+        error={errors?.password?.message}
       >
         <input
           {...register("password")}
@@ -94,7 +94,7 @@ export const PasswordUpdateForm = (props: Props) => {
         <>
           <Fieldset
             label={"새로운 비밀번호"}
-            error={errors.newPassword && "비밀번호가 올바르지 않습니다."}
+            error={errors.newPassword?.message}
           >
             <input
               {...register("newPassword")}
@@ -105,7 +105,7 @@ export const PasswordUpdateForm = (props: Props) => {
           </Fieldset>
           <Fieldset
             label={"비밀번호 확인"}
-            error={errors.passwordConfirm && "비밀번호가 일치하지 않습니다."}
+            error={errors.passwordConfirm?.message}
           >
             <input
               {...register("passwordConfirm")}

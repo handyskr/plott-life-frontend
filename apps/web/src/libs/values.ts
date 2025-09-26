@@ -33,7 +33,7 @@ export const ContractStatusLabel: Record<ContractStatus, string> = {
   [ContractStatus.CANCELED]: '계약취소',
   [ContractStatus.CANCELED_NOPAY]: '계약취소',
   [ContractStatus.USING]: '이용중',
-  [ContractStatus.MOVED_OUT]: '퇴실완료',
+  [ContractStatus.MOVED_OUT]: '퇴거완료',
 };
 
 export enum PaymentStatus {

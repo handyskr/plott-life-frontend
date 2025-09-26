@@ -1,11 +1,11 @@
-import { actions, isInputError } from "astro:actions";
-import type { ActionSubmitHandler } from "../../../actions/types.ts";
-import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import codes from "../../../libs/dial-codes.json"
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { phoneInput } from "../../../actions/schema.ts";
-import { handleSetActionInputError } from "../../../actions/utils.ts";
+import { actions, isInputError } from 'astro:actions';
+import type { ActionSubmitHandler } from '../../../actions/types.ts';
+import { Fieldset } from '@plott-life/ui/components/Fieldset.tsx';
+import codes from '../../../libs/dial-codes.json'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { phoneInput } from '../../../actions/schema.ts';
+import { handleSetActionInputError } from '../../../actions/utils.ts';
 
 export const PhoneForm = () => {
   const {
@@ -25,7 +25,7 @@ export const PhoneForm = () => {
         throw error;
       }
 
-      history.back();
+      window.location.href = '/auth/profile/info';
     } catch (error: any) {
       if (isInputError(error)) {
         setActionError(error);
@@ -33,11 +33,11 @@ export const PhoneForm = () => {
       }
 
       switch (error?.code) {
-        case "BAD_REQUEST":
-          alert("입력한 정보를 다시 확인해 주세요.");
+        case 'BAD_REQUEST':
+          alert('입력한 정보를 다시 확인해 주세요.');
           break;
         default:
-          alert("알 수 없는 에러가 발생했습니다.");
+          alert('알 수 없는 에러가 발생했습니다.');
           console.error(error);
           break;
       }
@@ -46,17 +46,17 @@ export const PhoneForm = () => {
 
   return (
     <form
-      className="flex flex-col w-full gap-6"
+      className='flex flex-col w-full gap-6'
       onSubmit={handleSubmit(onSubmit)}
     >
       <Fieldset
-        label={"연락처"}
-        error={errors.phoneNumber && "전화번호를 입력해주세요."}
+        label={'연락처'}
+        error={errors.phoneNumber && '전화번호를 입력해주세요.'}
       >
-        <div className={"flex flex-col gap-3"}>
+        <div className={'flex flex-col gap-3'}>
           <select
-            {...register("phoneCode")}
-            className={"w-full input input-lg input-neutral validator"}
+            {...register('phoneCode')}
+            className={'w-full input input-lg input-neutral validator'}
           >
             {codes.map(({ code, name}) => (
               <option key={code} value={code}>
@@ -65,14 +65,17 @@ export const PhoneForm = () => {
             ))}
           </select>
           <input
-            {...register("phoneNumber")}
-            className={"w-full input input-lg input-neutral validator"}
-            name="phoneNumber"
-            placeholder="전화번호"
+            {...register('phoneNumber')}
+            className={'w-full input input-lg input-neutral validator'}
+            name='phoneNumber'
+            placeholder='전화번호'
+            onInput={(e) => {
+              e.currentTarget.value = e.currentTarget.value.replace(/\D/g, '');
+            }}
           />
         </div>
       </Fieldset>
-      <button type="submit" className="block btn btn-lg btn-neutral">
+      <button type='submit' className='block btn btn-lg btn-neutral'>
         변경 완료
       </button>
     </form>

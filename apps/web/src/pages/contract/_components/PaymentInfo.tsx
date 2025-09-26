@@ -109,7 +109,7 @@ export default function PaymentInfo(props: Props) {
           </span>
         </div>
         <div className='flex justify-between'>
-          <span className='body6 text-gray-600'>퇴실 청소비</span>
+          <span className='body6 text-gray-600'>퇴거 청소비</span>
           <span className={`body4 ${priceClass}`}>
             {cleaningFee.toLocaleString()}원
           </span>
@@ -134,7 +134,7 @@ export default function PaymentInfo(props: Props) {
           </span>
         </div>
         <div className='w-full px-4 py-2 rounded-md bg-gray-50 body6 text-gray-700 mb-6'>
-          보증금은 plott LIFE에서 보관하며, 퇴실 후 반환됩니다.
+          보증금은 plott LIFE에서 보관하며, 퇴거 후 반환됩니다.
         </div>
       </div>
     </section>
