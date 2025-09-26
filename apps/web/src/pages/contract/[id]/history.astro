@@ -3,8 +3,14 @@ import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import dayjs from 'dayjs';
 import { EXPOSE_DATETIME_FORMAT, PaymentStatus } from '@libs/values';
-const { API_URL } = import.meta.env;
 
+type Cancel = {
+  amount: number;
+  penalty: number | null;
+  canceledAt: string;
+};
+
+const { API_URL } = import.meta.env;
 const { id } = Astro.params;
 const accessToken = await Astro.session?.get('accessToken');
 
@@ -144,19 +150,19 @@ const subtitle = isCanceled ? '취소 내역' : '결제 내역'
           </span>
         </div>
       </div>
-      {cancels.map((cancel) => (
+      {cancels.map((cancel: Cancel) => (
         <div class='w-full h-px bg-gray-300 my-4'></div>
         <div class='space-y-4'>
           <div class='flex justify-between'>
             <span class='min-w-[100px] body6 text-gray-600'>위약금</span>
             <span class='body6 text-gray-900 text-right'>
-              {(cancel?.penalty || 0).toLocaleString()}원
+              - {(cancel?.penalty || 0).toLocaleString()}원
             </span>
           </div>
           <div class='flex justify-between'>
             <span class='min-w-[100px] body6 text-gray-600'>취소 일시</span>
             <span class='body6 text-gray-900 text-right'>
-              {cancel?.caneledAt !== null ? dayjs(cancel?.caneledAt).format(EXPOSE_DATETIME_FORMAT) : '-'}
+              {cancel?.canceledAt !== null ? dayjs(cancel?.canceledAt).format(EXPOSE_DATETIME_FORMAT) : '-'}
             </span>
           </div>
         </div>
@@ -166,7 +172,7 @@ const subtitle = isCanceled ? '취소 내역' : '결제 내역'
             환불 금액
           </span>
           <span class='body1 text-gray-900'>
-            {(totalPrice).toLocaleString()}원
+            {(amount || 0).toLocaleString()}원
           </span>
         </div>
       ))}

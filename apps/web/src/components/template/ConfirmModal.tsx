@@ -14,7 +14,7 @@ export default function ConfirmModal(props: ConfirmModalProps) {
     isOpen,
     title,
     description,
-    actionButtonText,
+    actionButtonText = '확인',
     onAction,
     onClose,
   } = props;
@@ -33,12 +33,12 @@ export default function ConfirmModal(props: ConfirmModalProps) {
           height={40}
         />
         {!!title && (
-          <p className="title2 text-gray-900 mt-10 mb-2">{title}</p>
+          <p className='title2 text-gray-900 mt-10 px-4'>{title}</p>
         )}
         {!!description && (
-          <p className="body6 text-gray-600 mb-14">{description}</p>
+          <p className='body6 text-gray-600 mt-2 px-4 text-center whitespace-pre-wrap'>{description}</p>
         )}
-        <div className={'w-full px-6 flex gap-2'}>
+        <div className={'w-full px-6 flex gap-2 mt-14'}>
           <button
             className={'btn bg-gray-100 body2 text-gray-900 flex-1'}
             onClick={onClose}
