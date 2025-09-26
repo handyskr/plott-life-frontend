@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signUpInput, termAgreementInput } from '../../../actions/schema.ts';
 import { handleSetActionInputError } from '../../../actions/utils.ts';
 import { navigateWithQuery } from '../../../navigator';
+import codes from "@libs/dial-codes.json";
 
 interface Props {
   email?: string | null;
@@ -119,7 +120,11 @@ export const SignUpForm = (props: Props) => {
               {...register('phoneCode')}
               className={'w-full input input-lg input-neutral validator'}
             >
-              <option value={82}>+82 (South Korea)</option>
+              {codes.map(({ code, name}) => (
+                <option key={code} value={code}>
+                  +{code} ({name})
+                </option>
+              ))}
             </select>
             <input
               {...register('phoneNumber')}
