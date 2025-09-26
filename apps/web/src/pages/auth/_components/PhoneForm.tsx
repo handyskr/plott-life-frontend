@@ -1,7 +1,7 @@
 import { actions, isInputError } from "astro:actions";
 import type { ActionSubmitHandler } from "../../../actions/types.ts";
 import { Fieldset } from "@plott-life/ui/components/Fieldset.tsx";
-import { navigate } from "../../../navigator";
+import codes from "../../../libs/dial-codes.json"
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { phoneInput } from "../../../actions/schema.ts";
@@ -58,7 +58,11 @@ export const PhoneForm = () => {
             {...register("phoneCode")}
             className={"w-full input input-lg input-neutral validator"}
           >
-            <option value={82}>+82 (South Korea)</option>
+            {codes.map(({ code, name}) => (
+              <option key={code} value={code}>
+                +{code} ({name})
+              </option>
+            ))}
           </select>
           <input
             {...register("phoneNumber")}
