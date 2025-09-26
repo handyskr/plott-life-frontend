@@ -16,6 +16,7 @@ const schema = z
   })
   .refine((data) => data.newPassword === data.passwordConfirm, {
     path: ["passwordConfirm"],
+    message: "비밀번호가 일치하지 않습니다.",
   });
 
 type DataType = z.infer<typeof schema>;
@@ -30,6 +31,7 @@ export const PasswordUpdateForm = (props: Props) => {
     handleSubmit,
     register,
     setError,
+    watch,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),

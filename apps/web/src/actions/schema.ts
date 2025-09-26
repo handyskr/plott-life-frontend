@@ -59,6 +59,7 @@ export const userInput = z.union([
     })
     .refine((data) => data.newPassword === data.passwordConfirm, {
       path: ["passwordConfirm"],
+      message: "비밀번호가 일치하지 않습니다."
     }),
   phoneInput,
 ]);
@@ -74,6 +75,7 @@ export const signUpInput = signInInput
   })
   .refine((data) => data.password === data.passwordConfirm, {
     path: ["passwordConfirm"],
+    message: "비밀번호가 일치하지 않습니다."
   });
 
 export const termAgreementInput = z.object({
