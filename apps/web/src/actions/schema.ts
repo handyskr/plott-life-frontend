@@ -3,15 +3,25 @@ import { z } from "zod";
 export const USER_POLICY_CODES = [
   "TERMS_OF_SERVICE",
   "PRIVACY_POLICY",
-  "IS_ADULT",
-  "MARKETING_CONSENT",
+  // "IS_ADULT",
+  // "MARKETING_CONSENT",
 ] as const;
 
 export const emailInput = z.object({
   email: z.string().email(),
 });
 
-export const password = z.string().min(8).max(20);
+export const password = z.string()
+  .min(8, "비밀번호는 8자 이상이어야 합니다.")
+  .max(20, "비밀번호는 20자 이하여야 합니다.")
+  .regex(
+    /^(?=.*[!@#$%^&*(),.?":{}|<>])/,
+    "비밀번호에 특수문자가 최소 1개 포함되어야 합니다."
+  )
+  .regex(
+    /^(?=.*[0-9])(?=.*[a-zA-Z])/,
+    "영문과 숫자가 최소 1개 이상 포함되어야 합니다."
+  );
 
 export const signInInput = emailInput.extend({
   password: password,
@@ -69,10 +79,24 @@ export const signUpInput = signInInput
 export const termAgreementInput = z.object({
   TERMS_OF_SERVICE: z.literal(true),
   PRIVACY_POLICY: z.literal(true),
-  IS_ADULT: z.literal(true),
-  MARKETING_CONSENT: z.boolean().optional(),
+  // IS_ADULT: z.literal(true),
+  // MARKETING_CONSENT: z.boolean().optional(),
 });
 
 export const verifyCodeInput = z.object({
   code: z.string().length(6),
+});
+
+export const contractData = z.object({
+  buildingUnitId: z.number(),
+  start: z.string(),
+  end: z.string(),
+});
+
+export const contractCancelData = contractData.extend({
+  id: z.number(),
+});
+
+export const contractIdData = z.object({
+  id: z.number(),
 });

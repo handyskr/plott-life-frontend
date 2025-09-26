@@ -1,28 +1,42 @@
 ---
 import Meta from '@layouts/Meta.astro';
 import '@styles/style.css';
+import { defaultDescriptions, defaultKeywords } from "./defaultKeywords";
 import GoogleAnalytics from '../components/script/GoogleAnalytics.astro';
 import GoogleTagManager from '../components/script/GoogleTagManager.astro';
 import GoogleTagManagerFallback from '../components/script/GoogleTagManagerFallback.astro';
 import { CRMTest } from "../components/crm.tsx";
 import ChannelTalk from "../components/script/ChannelTalk.astro";
+
 interface Props {
   title?: string;
   subtitle?: string;
+  keywords?: string;
+  keywordsPreset?: Exclude<keyof typeof defaultKeywords, "base">;
   description?: string;
   image?: string;
+  background?: string;
 }
 
-let { title, subtitle, description, image } = Astro.props;
+let { title, subtitle, description, keywords, keywordsPreset, image, background } = Astro.props;
 if (!title) {
   if (subtitle) {
-    title = `plott LIFE | ${subtitle}`;
+    title = `${subtitle} - 플라트 라이프 | 단기임대의 새로운 기준 - plott LIFE`;
   } else {
-    title = 'plott LIFE | 단기임대 플라트 라이프';
+    title = `플라트 라이프 | 단기임대의 새로운 기준 - plott LIFE`;
   }
 }
 if (!description) {
-  description = '레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프';
+  description = defaultDescriptions.base;
+}
+if (!keywords) {
+  if (keywordsPreset && (keywordsPreset in defaultKeywords)) {
+    keywords = `${defaultKeywords.base}, ${defaultKeywords[keywordsPreset]}`;
+  } else {
+    keywords = defaultKeywords.base;
+  }
+} else {
+  keywords += `${defaultKeywords.base}, ${keywords}`;
 }
 if (!image) {
   image = 'https://cdn.plott.co.kr/images/ogimage.webp?w=1200&h=630';
@@ -30,12 +44,10 @@ if (!image) {
 
 const isOpen = Astro.locals.test;
 ---
-<html
-  lang='ko'
-  data-theme='light'
->
+<!DOCTYPE html>
+<html lang='ko' data-theme='light'>
   <head>
-    <Meta title={title} description={description} image={image} />
+    <Meta title={title} description={description} keywords={keywords} image={image} />
     <GoogleAnalytics />
     <GoogleTagManager />
     <ChannelTalk />
@@ -43,13 +55,13 @@ const isOpen = Astro.locals.test;
   <body class='flex justify-center'>
     <GoogleTagManagerFallback />
     <div class='relative flex flex-col w-full bg-base-100'>
-      <main class='flex flex-col max-w-(--max-width) bg-white mx-auto w-full shadow-[0_0_20px_rgba(0,0,0,0.05)] min-h-[calc(100dvh-var(--sait)-var(--bait))]'>
+      <main class=`flex flex-col max-w-(--max-width) mx-auto w-full shadow-[0_0_20px_rgba(0,0,0,0.05)] min-h-[calc(100dvh-var(--sait)-var(--bait))] ${background || 'bg-white'}`>
         <slot name='header' />
         <div class='flex-1 overflow-y-auto'>
           <slot />
         </div>
         <slot name='footer' />
-        <nav class="bottom-navigation sticky bottom-0 left-0 w-full z-1000 bg-white pb-(--bait)">
+        <nav class="bottom-navigation sticky w-full mx-auto bottom-0 z-1000 bg-white pb-(--bait)">
           <slot name='nav' />
         </nav>
       </main>
@@ -74,27 +86,5 @@ const isOpen = Astro.locals.test;
   <script>
     import { toast } from "../libs/toast";
     window.toast = toast;
-  </script>
-  <script type="module">
-    const elements = [
-      document.getElementById('search-button'),
-      document.getElementById('nav-search'),
-      document.getElementById('nav-contract'),
-      document.getElementById('btn-contract'),
-      document.getElementById('btn-inquiry'),
-    ];
-
-    const handleExceptionEvent = (event) => {
-      event.preventDefault();
-      toast.show({
-        'message': '준비중인 서비스입니다.',
-        type: 'warning',
-        'duration': 3000,
-      });
-    };
-
-    elements.forEach((el) => {
-      if (el) el.addEventListener('click', handleExceptionEvent);
-    });
   </script>
 </html>

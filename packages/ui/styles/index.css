@@ -48,7 +48,7 @@
   /* ETC */
   --radius-selector: 0.25rem;
   --radius-field: 0.5rem;
-  --radius-box: 0.5rem;
+  --radius-box: 1rem;
   --border: 1px;
   --depth: 0;
   --noise: 0;
@@ -149,5 +149,29 @@
     border-color: var(--color-gray-700);
     color: var(--color-neutral-content);
     --alert-color: var(--color-gray-700);
+  }
+}
+
+@layer utilities {
+  .steps .step:not(:has(.step-icon))::after {
+    width: 26px;
+    height: 26px;
+
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .steps .step-default:not(:has(.step-icon))::after {
+    background: white;
+  }
+
+  .steps .step::before {
+    width: calc(100% - 50px);
+    height: 1px;
+    border: none;
+  }
+
+  .steps .step {
+    gap: 2px;
   }
 }

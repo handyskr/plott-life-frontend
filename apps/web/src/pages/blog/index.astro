@@ -1,0 +1,51 @@
+---
+
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import { getBlogPosts } from "../../libs/strapi";
+import dayjs from "dayjs";
+
+const { data } = await getBlogPosts();
+console.log(data);
+---
+<Layout subtitle="블로그">
+  <Header
+    slot="header"
+    title="블로그"
+    showBackIcon={true}
+    showHomeIcon={true} />
+  <section class='px-6 py-8 flex flex-col gap-6'>
+    <section class='flex flex-col gap-6'>
+      <div class="w-full max-w-2xl mx-auto">
+        <ul class="space-y-4">
+          {data?.map(it => (
+            <li>
+              <a class="card card-custom" href={`/blog/${it.slug}`}>
+                <figure>
+                  <img class="w-full h-full object-cover aspect-[16/9]"
+                    src={it.coverImage?.formats?.medium?.url}
+                    alt="Shoes" />
+                </figure>
+                <div class="card-body space-y-2 p-4">
+                  <div class="flex items-center justify-between text-xs">
+                    <div>
+                      <span class="min-w-10 badge badge-primary px-1 text-white">{it.category.name}</span>
+                    </div>
+                    <time class="text-gray-600">{dayjs(it.createdAt).format("YYYY년 MM월 DD일")}</time>
+                  </div>
+                  <h3 class="text-base font-semibold">{it.title}</h3>
+                  <p class="text-sm text-gray-700">{it.excerpt}</p>
+                  <div class="flex flex-wrap gap-2 pt-1 text-xs">
+                    {it.tags.map(tag => (
+                      <span class="badge badge-ghost px-1">#{tag.name}</span>
+                    ))}
+                  </div>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </section>
+</Layout>

@@ -1,0 +1,98 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BottomNav from '../components/template/BottomNav.astro';
+import IconArrowRight from '@plott-life/ui/icons/arrow-right.svg';
+import IconChat from '@plott-life/ui/icons/chat.svg';
+import IconHeadphone from '@plott-life/ui/icons/headphone.svg';
+import IconBook from '@plott-life/ui/icons/book.svg';
+import IconExit from '@plott-life/ui/icons/exit.svg';
+import IconBlog from '@plott-life/ui/icons/blog.svg';
+import IconNotice from '@plott-life/ui/icons/notice.svg';
+const user = Astro.locals.user;
+---
+<Layout subtitle='프로필'>
+  <div class='max-w-lg mx-auto h-full pt-(--sait) flex flex-col justify-between'>
+    <div class='px-6 space-y-4'>
+      <section>
+        <h1 class='text-2xl font-bold text-gray-900 my-8'>프로필</h1>
+        {user ? (
+          <a class='flex flex-row gap-4 justify-between items-center' href='/auth/profile/info'>
+            <div class='avatar avatar-placeholder'>
+              <div class='bg-neutral text-neutral-content w-12 rounded-full'>
+                <span>{user?.lastName?.substring(0, 1)}</span>
+              </div>
+            </div>
+            <div class='flex flex-col flex-1'>
+              <h2 class='text-lg text-gray-900'>{user?.lastName} {user?.firstName}</h2>
+              <p class='text-sm text-gray-600'>{user?.email}</p>
+            </div>
+            <i class='text-gray-400'>
+              <IconArrowRight />
+            </i>
+          </a>
+        ) : (
+          <a class='btn btn-primary btn-lg btn-block' href='/auth/login'>
+            로그인/회원가입
+          </a>
+        )}
+        <hr class='border-gray-200 mt-6' />
+      </section>
+      <section>
+        <a class='flex flex-row gap-4 justify-between items-center py-4' href='/blog'>
+          <IconBlog class='size-6 text-gray-900' />
+          <h3 class='flex-1 text-base text-gray-900'>블로그</h3>
+          <IconArrowRight class='size-4 text-gray-400' />
+        </a>
+        <a class='flex flex-row gap-4 justify-between items-center py-4' href='/info'>
+          <IconNotice class='size-6 text-gray-900' />
+          <h3 class='flex-1 text-base text-gray-900'>공지사항</h3>
+          <IconArrowRight class='size-4 text-gray-400' />
+        </a>
+        <a class='flex flex-row gap-4 justify-between items-center py-4' href='/faqs'>
+          <IconChat class='size-6 text-gray-900' />
+          <h3 class='flex-1 text-base text-gray-900'>자주 묻는 질문</h3>
+          <IconArrowRight class='size-4 text-gray-400' />
+        </a>
+        <a
+          href='#'
+          data-chat-open
+          data-chat-type={'support'}
+          class='flex flex-row gap-4 justify-between items-center py-4 channel-talk'
+        >
+          <IconHeadphone class='size-6 text-gray-900' />
+          <h3 class='flex-1 text-base text-gray-900'>고객지원</h3>
+          <IconArrowRight class='size-4 text-gray-400' />
+        </a>
+        <a class='flex flex-row gap-4 justify-between items-center py-4' href='/info/terms-of-service' target='_blank'>
+          <IconBook class='size-6 text-gray-900' />
+          <h3 class='flex-1 text-base text-gray-900'>서비스 약관</h3>
+          <IconArrowRight class='size-4 text-gray-400' />
+        </a>
+        {user && (
+          <a class='flex flex-row gap-4 justify-between items-center py-4' href='/auth/logout'>
+            <IconExit class='size-6 text-gray-900' />
+            <h3 class='flex-1 text-base text-gray-900'>로그아웃</h3>
+            <IconArrowRight class='size-4 text-gray-400' />
+          </a>
+        )}
+      </section>
+    </div>
+    <a
+      href='#'
+      data-chat-open
+      data-chat-type={'host'}
+      class='mx-6 my-8 flex flex-row justify-between items-center bg-gray-50 rounded-lg pl-6 pr-4 channel-talk'
+    >
+      <div>
+        <h3 class='text-base font-bold'>방 등록하기</h3>
+        <p class='text-sm text-gray-600'>
+          간단하게 방을 등록하고
+          <br/>
+          다양한 고객들을 만나보세요!
+        </p>
+      </div>
+      <img class='h-[100px]' src='/images/house.png' />
+    </a>
+  </div>
+  <BottomNav slot='nav' />
+</Layout>

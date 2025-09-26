@@ -12,7 +12,6 @@ class ToastManager {
   private container: HTMLElement | null = null;
 
   constructor() {
-    console.log('ToastManager initialized');
     if (typeof window !== 'undefined') {
       this.container = document.getElementById('global-toast-container');
       if (!this.container) {
@@ -24,11 +23,32 @@ class ToastManager {
     }
   }
 
-  show({ message, type = "info", duration = 3000 }: ToastOptions) {
+  show({ message, type = 'info', duration = 3000 }: ToastOptions) {
     if (!this.container) return;
 
-    const toast = document.createElement("div");
-    toast.className = `alert alert-${type} mb-2`;
+    const toast = document.createElement('div');
+
+    let typeClass = '';
+    switch (type) {
+      case 'info':
+        typeClass = 'alert-info';
+        break;
+      case 'success':
+        typeClass = 'alert-success';
+        break;
+      case 'warning':
+        typeClass = 'alert-warning';
+        break;
+      case 'error':
+        typeClass = 'alert-error';
+        break;
+      case 'default':
+      default:
+        typeClass = 'alert-default';
+        break;
+    }
+
+    toast.className = `alert ${typeClass} mb-2`;
     toast.innerHTML = `<span>${message}</span>`;
 
     this.container.appendChild(toast);
@@ -40,7 +60,7 @@ class ToastManager {
 }
 
 export const toast = (() => {
-  if (typeof window === 'undefined')  {
+  if (typeof window === 'undefined') {
     return {} as ToastManager;
   }
 

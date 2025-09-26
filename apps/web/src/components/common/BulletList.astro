@@ -1,0 +1,12 @@
+---
+const { items } = Astro.props;
+---
+
+<ul class='space-y-1.5'>
+  {items.map((content: any) => (
+    <li class='flex items-start'>
+      <span class='mt-2 ml-1 mr-2 h-1 w-1 rounded-full bg-gray-900 flex-shrink-0'></span>
+      <div class='body6 text-gray-900 whitespace-pre-wrap'>{content}</div>
+    </li>
+  ))}
+</ul>

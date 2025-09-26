@@ -1,5 +1,5 @@
 ---
-import Icon from "../../../public/icons/icon-128x128.png";
+import { Image } from 'astro:assets';
 
 interface Props {
   status: number;
@@ -9,10 +9,15 @@ interface Props {
 
 const { status, title, description } = Astro.props;
 ---
-<div>
-  <img src={Icon.src} />
-  <p class="mt-4 text-base text-error font-bold">{status}</p>
-  <h1 class="mt-1 text-5xl font-bold">{title}</h1>
-  <p class="mt-1 text-lg text-gray-500">{description}</p>
-  <a class="mt-4 btn btn-secondary" href="/">홈으로</a>
+<div class='flex flex-col items-center'>
+  <Image
+    alt='error image'
+    src='/images/warning-red.png'
+    format='webp'
+    width={40}
+    height={40}
+  />
+  <h1 class='mt-10 title1'>{title}</h1>
+  <p class='mt-2 mb-6 body6 text-gray-600'>{status} {description}</p>
+  <a href='/' class='btn btn-primary w-[116px] body2'>홈으로</a>
 </div>

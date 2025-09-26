@@ -29,15 +29,13 @@ export const signUp = defineAction({
       await context.session?.set("accessToken", accessToken);
       await context.session?.set("refreshToken", refreshToken);
 
-      // TODO: 이메일 인증은 추후 작업
-      // // 이메일 본인인증 요청
-      // await fetch(`${API_URL}/v1/verification`, {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${accessToken}`,
-      //   },
-      // });
+      await fetch(`${API_URL}/v1/verification`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
 
       return {};
     } catch (e) {
@@ -97,9 +95,25 @@ export const verifyCode = defineAction({
       body: JSON.stringify(input),
     });
 
+    const text = await res.text();
+    let body: any = null;
+
+    try {
+      body = text ? JSON.parse(text) : null;
+    } catch {
+      body = text;
+    }
+
     if (!res.ok) {
+      let message: string | undefined = undefined;
+
+      if (body && typeof body === 'object' && 'detail' in body) {
+        message = body.detail ?? null;
+      }
+
       throw new ActionError({
         code: ActionError.statusToCode(res.status),
+        message,
       });
     }
 

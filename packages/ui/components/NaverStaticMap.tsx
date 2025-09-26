@@ -1,6 +1,7 @@
 import { h } from "preact";
 import { useMemo } from "preact/hooks";
 import type { JSX } from "preact";
+import { withQuery } from "ufo";
 
 // ----- 기본 타입들 -----
 export type CRSCode =
@@ -24,7 +25,7 @@ export type MapType =
   | "terrain"; // 지도 유형
 export type ImageFormat = "jpg" | "jpeg" | "png8" | "png"; // 반환 이미지 형식
 export type Scale = 1 | 2; // 1=저해상도, 2=레티나(픽셀 2배)
-export type LngLat = [lng: number, lat: number];
+export type LatLng = [lat: number, lng: number];
 
 // ----- MarkersParam: 정확한 타입 모델링 (문서 규격) -----
 // 공통 옵션
@@ -128,7 +129,7 @@ export interface StaticMapProps
   height: number;
 
   /** center="x,y" 또는 [x,y]. markers만으로도 자동 view 가능하여 생략 가능 */
-  center?: LngLat | string;
+  center?: LatLng | string;
   /** 줌 레벨 0~20. markers만 있으면 생략 가능 */
   level?: number;
 
@@ -150,9 +151,9 @@ export interface StaticMapProps
 }
 
 // ----- 내부 유틸 -----
-function normalizeCenter(center?: LngLat | string): string | undefined {
+function normalizeCenter(center?: LatLng | string): string | undefined {
   if (!center) return;
-  if (Array.isArray(center)) return `${center[0]},${center[1]}`; // x,y(WGS84면 lng,lat)
+  if (Array.isArray(center)) return `${center[1]},${center[0]}`; // x,y(WGS84면 lng,lat)
   const s = center.trim();
   return s ? s : undefined;
 }
@@ -258,7 +259,7 @@ export function buildStaticMapUrl(props: StaticMapProps): string {
 }
 
 // alt, className 그대로 사용. 나머지 img 속성도 모두 전달.
-export default function StaticMap(props: StaticMapProps) {
+export function NaverStaticMap(props: StaticMapProps) {
   const { width, height, alt = "Map", className } = props;
 
   const src = useMemo(() => buildStaticMapUrl(props), [props]);
@@ -273,4 +274,29 @@ export default function StaticMap(props: StaticMapProps) {
       draggable={false}
     />
   );
+}
+
+export function parseNaverURL(appname: string, userAgent: string, query: string) {
+  const action = withQuery('search', {
+    appname,
+    query,
+  });
+  if (userAgent && userAgent.match(/iPhone|iPad|iPod/)) {
+    return [
+      true,
+      `nmap://${action}`,
+      'https://itunes.apple.com/app/id311867728'
+    ];
+  }
+  if (userAgent && userAgent.match(/Android/)) {
+    return [
+      true,
+      `intent://${action}#Intent;scheme=nmap;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;package=com.nhn.android.nmap;end`,
+      'https://play.google.com/store/apps/details?id=com.nhn.android.nmap'
+    ]
+  }
+  return [
+    false,
+    withQuery('https://map.naver.com/search', { query }),
+  ];
 }

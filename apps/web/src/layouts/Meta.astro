@@ -1,19 +1,24 @@
 ---
 interface Props {
   title?: string;
-  subtitle?: string;
   description?: string;
+  keywords?: string;
   image?: string;
 }
 
+const mode = import.meta.env.MODE;
 const url = Astro.url;
-const canonicalURL = new URL(url.pathname, Astro.site);
-const { title, description, image } = Astro.props;
+const site = Astro.site ?? "http://localhost:4321";
+const canonicalURL = new URL(url.pathname, site);
+const { title, description, keywords, image } = Astro.props;
 ---
 <meta charset="utf-8" />
 <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>{title}</title>
+<meta name="application-name" content={title} />
 <meta name="generator" content={Astro.generator} />
 <meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={image} />
@@ -22,8 +27,10 @@ const { title, description, image } = Astro.props;
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
+<meta name="theme-color" content="#74594B">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#74594B">
 <meta name="theme-color" media="(prefers-color-scheme: dark)"  content="#74594B">
+<meta name="color-scheme" content="light dark">
 <meta name="apple-mobile-web-app-title" content={title} />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -53,4 +60,17 @@ const { title, description, image } = Astro.props;
 <link rel="canonical" href={canonicalURL} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 <meta name="naver-site-verification" content="3ac2c177b35ce8db637a27ac5c2cc53b89821511" />
-<title>{title}</title>
+{mode === "production" ? (
+<>
+  <meta name="robots" content="index,follow">
+  <meta name="googlebot" content="index,follow,noarchive,nosnippet,max-image-preview:large">
+  <meta name="bingbot" content="index,follow">
+</>
+) : (
+<>
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="googlebot" content="noindex,nofollow,noarchive">
+  <meta name="bingbot" content="noindex,nofollow,noarchive">
+</>
+)}
+

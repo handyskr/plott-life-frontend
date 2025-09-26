@@ -86,7 +86,7 @@ const Modal = ({ onClose }: any) => {
           </div>
         </div>
       </div>
-      <div class="absolute inset-x-0 top-0">
+      <div class="absolute inset-x-0 top-(--sait)">
         <div class="max-w-(--max-width) w-full mx-auto flex flex-row justify-end">
           <button class="p-5" onClick={onClose}>
             <X class="size-6 text-white" />

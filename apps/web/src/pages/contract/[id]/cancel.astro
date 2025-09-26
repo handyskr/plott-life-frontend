@@ -1,0 +1,86 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/template/Header.astro';
+import BulletList from '@components/common/BulletList.astro';
+
+import { DetailCancelButton } from '../_components';
+
+const { API_URL } = import.meta.env;
+
+const { id } = Astro.params;
+const accessToken = await Astro.session?.get('accessToken');
+
+async function fetchContract() {
+  const res = await fetch(`${API_URL}/v1/contract/${id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`API Error: ${res.status}`);
+  }
+
+  return res.json();
+}
+
+const contract = await fetchContract();
+
+const {
+  totalPrice,
+  expectedPenalty,
+  expectedRefundPrice,
+} = contract;
+---
+<Layout subtitle="계약 취소">
+  <Header
+    slot='header'
+    title='계약 취소'
+    showBackIcon={true}
+  />
+  <section class={`p-6`}>
+    <div
+      class='header flex justify-between'
+    >
+      <h3 class='body1 text-gray-900'>취소/환불 정보</h3>
+    </div>
+    <div>
+      <div class='flex justify-between items-center pt-6'>
+        <span class='body4 text-gray-900'>결제 금액</span>
+        <span class='body4 text-gray-900'>
+        {totalPrice.toLocaleString()}원
+      </span>
+      </div>
+      <div class='w-full h-px bg-gray-300 my-4'></div>
+      <div class='flex justify-between'>
+        <span class='body6 text-gray-600'>위약금</span>
+        <span class='body4 text-error'>
+        -{(expectedPenalty || 0).toLocaleString()}원
+      </span>
+      </div>
+      </div>
+      <div class='w-full h-px bg-gray-300 my-4'></div>
+      <div class='flex justify-between items-center'>
+        <span class='body1 text-gray-900'>환불 금액</span>
+        <span class='title2 text-error'>
+        {(expectedRefundPrice || 0).toLocaleString()}원
+      </span>
+      </div>
+    </div>
+  </section>
+  <div class='px-6 py-8 bg-gray-50'>
+    <BulletList
+      items={[
+        '결제 당시에 적용된 취소/환불 규정에 따라 위약금이 계산됩니다.',
+        '카드사 반영까지 다소 시간이 소요되며, 체크카드 승인 취소 시 해당 계좌로 입금됩니다.',
+      ]}
+    />
+  </div>
+  <DetailCancelButton
+    client:visible
+    slot='nav'
+    id={Number(id)}
+    {...contract}
+  />
+</Layout>

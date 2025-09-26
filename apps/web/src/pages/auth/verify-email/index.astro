@@ -1,8 +1,8 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
-import { VerifyEmailForm } from '@components/auth';
-import { withQuery } from "ufo";
+import { VerifyEmailForm } from '../_components/VerifyEmailForm';
+import { withQuery } from 'ufo';
 
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
@@ -19,7 +19,7 @@ const redirectURL = searchParams?.get('redirectURL');
       이메일 확인하기
     </p>
     <p class='body3 text-gray-600 pt-2 pb-6'>
-      {email}으로 보낸 코드를 입력하세요
+      {email ? `${email}으로 보낸 코드를 입력하세요` : '가입시 입력하신 이메일을 확인해주세요.'}
     </p>
     <VerifyEmailForm
       client:visible

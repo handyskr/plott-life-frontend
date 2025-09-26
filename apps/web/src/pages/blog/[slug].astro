@@ -1,0 +1,45 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/template/Header.astro";
+import _ from "lodash";
+import { getBlogPost } from "../../libs/strapi";
+import dayjs from "dayjs";
+import StrapiContent from "../../components/template/StrapiContent.astro";
+
+const slug = Astro.params.slug;
+const data = await getBlogPost(slug);
+---
+<Layout subtitle={data.title} description={data.excerpt} image={data.coverImage.url}>
+  <Header
+    slot="header"
+    title={data.title}
+    showBackIcon={true}
+    showHomeIcon={true} />
+  <section class='px-6 py-8 flex flex-col gap-6'>
+    <section class='flex flex-col gap-6'>
+      <div class="w-full max-w-2xl mx-auto space-y-8">
+        <header class="space-y-2">
+          <div class="flex items-center gap-2 text-xs text-gray-600">
+            <span class="min-w-10 badge badge-primary px-1 text-info-content">{data.category.name}</span>
+            <time class="js-date">{dayjs(data.createdAt).format("YYYY년 MM월 DD일")}</time>
+          </div>
+          <h1 class="text-2xl font-semibold">{data.title}</h1>
+          <div class="flex flex-wrap gap-2 text-xs">
+            {data.tags.map(tag => (
+              <span class="badge badge-ghost px-1">#{tag.name}</span>
+            ))}
+          </div>
+        </header>
+        <figure class="overflow-hidden rounded-2xl">
+          <img src={data.coverImage?.formats.large.url} />
+          <figcaption class="sr-only">블로그 커버 이미지</figcaption>
+        </figure>
+        <article class="prose prose-h1:font-bold prose-h1:text-xl prose-a:text-blue-600 prose-p:text-justify prose-img:rounded-xl">
+          {data.content.map(content => (
+            <StrapiContent content={content} />
+          ))}
+        </article>
+      </div>
+    </section>
+  </section>
+</Layout>

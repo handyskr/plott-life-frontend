@@ -22,7 +22,7 @@ export const GET: APIRoute = ({ site }) => {
       scope: "/",
       theme_color: "#74594B",
       shortcuts: [],
-      description: "레지던스, 아파트, 오피스텔, 원룸 등 1주 이상 단기임대는 플라트 라이프",
+      description: "출장, 이사, 한달살기, 리모델링까지. 전국 주요 도시의 풀옵션 원룸·투룸·오피스텔·아파트·레지던스에서 원하는 기간 머무는 단기임대의 새로운 기준.",
       screenshots: [],
     }),
     {

@@ -1,4 +1,5 @@
 FROM node:20-alpine AS builder
+
 WORKDIR /app
 
 RUN corepack enable
@@ -11,6 +12,11 @@ WORKDIR /build/full
 
 RUN cp /build/yarn.lock ./
 RUN yarn install --immutable
+
+ARG MODE=production
+ENV MODE=${MODE}
+ENV NODE_ENV=production
+
 RUN yarn build
 
 FROM node:20-alpine AS runner
@@ -19,6 +25,7 @@ WORKDIR /app
 COPY --from=builder /build/full/node_modules ./node_modules
 COPY --from=builder /build/full/apps/web/dist ./apps/web/dist
 
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=4321
 

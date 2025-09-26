@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'preact/hooks';
 import { createPortal } from 'preact/compat';
 
 interface ModalProps {
@@ -8,11 +9,32 @@ interface ModalProps {
 
 function DefaultModal(props: ModalProps) {
   const { isOpen, children, onClose } = props;
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) {
+      return;
+    }
+
+    if (isOpen && !dialog.open) {
+      dialog.showModal();
+    } else if (!isOpen && dialog.open) {
+      dialog.close();
+    }
+
+    const handleClose = () => onClose();
+    dialog.addEventListener('close', handleClose);
+    
+    return () => {
+      dialog.removeEventListener('close', handleClose);
+    };
+  }, [isOpen, onClose]);
 
   return createPortal(
     <dialog
+      ref={dialogRef}
       className='modal z-[3000]'
-      open={isOpen}
       onClose={onClose}
       onClick={onClose}
     >
@@ -42,7 +64,7 @@ function DefaultModal(props: ModalProps) {
 
 export type ModalElementType = {
   className?: string;
-  children?: preact.VNode;
+  children?: preact.VNode | preact.VNode[];
 };
 
 function ModalHeader(props: ModalElementType) {

@@ -25,8 +25,6 @@ export function Card(props: CardProps) {
     onClick,
   } = props;
 
-  // image 추가해줘야함
-
   return (
     <div
       role='button'
@@ -42,7 +40,7 @@ export function Card(props: CardProps) {
         <h3 className='body4 text-gray-900 pt-3 pb-1'>{name}</h3>
         <p className='body6 text-gray-600'>{address}</p>
         <p className='body6 text-gray-600 pt-1 pb-2'>
-          침실 {bedrooms} · 욕실 {bathrooms} · {areaExclusive}㎡
+          침실 {bedrooms} · 욕실 {bathrooms} · {(Math.floor(areaExclusive * 10) / 10)}㎡
         </p>
         <div className='flex'>
           <p className='body4 text-gray-900 mr-1'>₩{(rentFeePerWeek || 0).toLocaleString()}</p>

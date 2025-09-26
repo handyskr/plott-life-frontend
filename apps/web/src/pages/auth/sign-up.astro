@@ -1,19 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
-import { SignUpForm } from '../../components/auth/SignUpForm';
-import { withQuery } from "ufo";
+import { SignUpForm } from './_components/SignUpForm';
 
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
 const redirectURL = searchParams?.get('redirectURL');
-
-// TODO: 이메일 인증 기능 추가
-// withQuery('/auth/verify-email', {
-//   redirectURL
-// })
 ---
-<Layout>
+<Layout subtitle="이메일로 시작하기">
   <Header
     title='이메일로 시작하기'
     slot='header'
@@ -24,7 +18,7 @@ const redirectURL = searchParams?.get('redirectURL');
     <SignUpForm
       client:only="preact"
       email={email}
-      successURL={redirectURL as string}
+      redirectURL={redirectURL as string}
     />
   </div>
 </Layout>

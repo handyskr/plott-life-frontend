@@ -1,14 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
-import { SignInForm } from '../../components/auth/SignInForm';
+import { SignInForm } from './_components/SignInForm';
 import { withQuery } from "ufo";
 
 const searchParams = Astro.url?.searchParams;
 const email = searchParams?.get('email');
 const redirectURL = searchParams?.get('redirectURL');
 ---
-<Layout>
+<Layout subtitle="이메일로 시작하기">
   <Header
     slot='header'
     showBackIcon={true}

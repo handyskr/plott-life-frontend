@@ -3,23 +3,28 @@ import dayjs from 'dayjs';
 import Layout from '@layouts/Layout.astro';
 import Header from '@components/template/Header.astro';
 import { Calendar, LocationSelect, Modal, ModalHeader, ModalContent, ModalFooter } from '@components/common';
-import RoomList from '@components/home/RoomList';
-import { Filters } from '@components/search';
+import RoomList from '@components/RoomList';
+import { Filters } from './_components';
 
 import { getWeeksBetween } from '@plott-life/utils';
 import IconArrowBigLeft from '@plott-life/ui/icons/arrow-big-left.svg';
+import { EXPOSE_DATE_FORMAT } from '@libs/values';
+import { getSearchParams } from '@libs/utils';
 
 const searchParams = Astro.url.searchParams;
 
-const stateOrCity = searchParams.get('stateOrCity') || '전체';
-const startAt = searchParams.get('startAt') ? searchParams.get('startAt') : dayjs().format('YYYY-MM-DD');
-const endAt = searchParams.get('endAt') ? searchParams.get('endAt') : dayjs(startAt).add(1, 'week').format('YYYY-MM-DD');
+const { q, startAt, endAt } = getSearchParams(searchParams, {
+  q: '전체',
+  startAt: dayjs().format('YYYY-MM-DD'),
+  endAt: dayjs().add(6, 'day').format('YYYY-MM-DD'),
+});
+
 const weeks = getWeeksBetween(startAt, endAt);
 
 const queryString = searchParams.toString();
+const subtitle = `${q} · ${weeks > 0 ? `${weeks}주` : ''} 단기임대 | plott LIFE `
 ---
-
-<Layout>
+<Layout title={subtitle}>
   <Header slot='header'>
     <div class='flex flex-col w-full px-6 py-4 shadow-[0_6px_12px_0_rgba(0,0,0,0.05)]'>
       <div class='flex items-center'>
@@ -32,10 +37,10 @@ const queryString = searchParams.toString();
           </div>
           <div class='flex flex-col'>
             <span class='body4 text-gray-900 mb-0.5'>
-              {stateOrCity}
+              {q}
             </span>
             <span class='caption1 text-gray-700'>
-              {weeks}주 · {dayjs(startAt).format('M월 D일')} ~ {dayjs(endAt).format('M월 D일')}
+              {weeks > 0 ? `${weeks}주 · ${startAt ? dayjs(startAt).format(EXPOSE_DATE_FORMAT) : '입주일 선택'} ~ ${endAt ? dayjs(endAt).format(EXPOSE_DATE_FORMAT) : '퇴거일 선택'}` : '날짜를 선택해주세요'}
             </span>
           </div>
         </a>
@@ -50,6 +55,7 @@ const queryString = searchParams.toString();
   <div class='bg-white p-6'>
     <RoomList
       client:only='preact'
+      initialRooms={[]}
     />
   </div>
   <footer
@@ -64,6 +70,8 @@ const queryString = searchParams.toString();
     </span>
     <button
       id='btn-inquiry'
+      data-chat-open
+      data-chat-type={'inquiry'}
       class='w-[148px] btn btn-primary body2'
     >
       문의하기

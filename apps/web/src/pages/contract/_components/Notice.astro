@@ -1,0 +1,17 @@
+---
+import BulletList from "@components/common/BulletList.astro";
+---
+
+<div class='px-6 py-8'>
+  <section>
+    <p class='body1 text-gray-900 mb-4'>입주 안내 사항</p>
+    <BulletList
+      items={[
+        '기본 입주/퇴거 시간은 12시입니다. 정확한 입주 절차 및 시간은 호스트에게 문의바랍니다.',
+        `보증금 반환 절차\n'퇴거 및 보증금 반환 신청' 버튼 클릭 → 호스트의 퇴거 확인 → 영업일 2일 이내 반환`,
+        '임대 중 시설 훼손이나 소모품 손상 시 일부 금액이 보증금에서 공제되거나 추가 비용이 발생할 수 있습니다.',
+        '입주일 이후 계약 취소는 불가능합니다.',
+      ]}
+    />
+  </section>
+</div>

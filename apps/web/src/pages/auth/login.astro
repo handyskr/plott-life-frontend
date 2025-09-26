@@ -1,18 +1,25 @@
 ---
-import { LoginForm } from '../../components/auth/LoginForm';
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/template/Header.astro';
-import IconLogo from '@plott-life/ui/icons/logo.svg';
-import { withQuery } from "ufo";
+import { LoginForm } from './_components/LoginForm';
+import { getSearchParams } from '@libs/utils';
 
-const redirectURL = '/'
+import IconLogo from '@plott-life/ui/icons/logo.svg';
+
+import { withQuery } from 'ufo';
+
+const searchParams = Astro.url.searchParams;
+
+const { redirectURL } = getSearchParams(searchParams, {
+  redirectURL: '/',
+});
 
 const accessToken = await Astro.session?.get('accessToken');
 if (accessToken) {
   return Astro.redirect(redirectURL);
 }
 ---
-<Layout>
+<Layout subtitle="로그인">
   <Header
     slot='header'
     showBackIcon={true}
@@ -29,10 +36,10 @@ if (accessToken) {
     <LoginForm
       client:visible
       successURL={withQuery('/auth/sign-in', {
-        redirectURL
+        redirectURL,
       })}
       failureURL={withQuery('/auth/sign-up', {
-          redirectURL
+        redirectURL,
       })}
     />
   </div>

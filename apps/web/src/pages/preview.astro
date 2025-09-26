@@ -1,0 +1,38 @@
+---
+import { parseQuery, withQuery } from "ufo";
+
+type TYPE = "announcements" | "blog-post" | "blog-category" | "faq" | "faq-category";
+type UID = `api::${TYPE}.${TYPE}`;
+type Query = {
+  preview?: string;
+  documentId?: string;
+  locale?: string;
+  status?: "published" | "draft";
+  uid?: UID;
+}
+const query = parseQuery(Astro.url.search) as Query;
+const {
+  preview,
+  documentId,
+  uid,
+} = query;
+
+if (!preview) {
+  return Astro.redirect("/");
+}
+
+const name = uid?.split(".")?.[1] as TYPE;
+switch (name) {
+  case "announcements":
+    return Astro.redirect(withQuery("/info", query));
+  case "blog-category":
+    return Astro.redirect(withQuery("/blog", query));
+  case "blog-post":
+    return Astro.redirect(withQuery(`/blog/${documentId}`, query));
+  case "faq":
+  case "faq-category":
+    return Astro.redirect(withQuery("/faq", query));
+}
+
+return Astro.redirect("/");
+---

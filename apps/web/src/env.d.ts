@@ -1,7 +1,9 @@
 interface ImportMetaEnv {
   readonly API_URL: string;
+  readonly STRAPI_URL: string;
   readonly PUBLIC_APP_URL: string;
   readonly PUBLIC_IMAGE_URL: string;
+  readonly PUBLIC_MEDIA_URL: string;
   readonly PUBLIC_GA_ID: string;
   readonly PUBLIC_GTM_ID: string;
   readonly PUBLIC_NAVER_MAP_CLIENT_ID: string;
@@ -15,6 +17,7 @@ interface Window {
   toast: any;
   ChannelIO: any;
   ChannelIOInitialized: boolean;
+  __naver_map_timeout: number | Node.Timeout;
 }
 
 declare namespace App {
@@ -37,6 +40,7 @@ interface User {
   email: string;
   phoneCode: string;
   phoneNumber: string;
+  phone: string;
   firstName: string;
   lastName: string;
   status: EntityStatus;
