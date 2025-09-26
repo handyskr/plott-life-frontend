@@ -2,6 +2,7 @@
 import Layout from "../../../layouts/Layout.astro";
 import Header from "../../../components/template/Header.astro";
 import IconArrowRight from "@plott-life/ui/icons/arrow-right.svg";
+import { formatPhoneNumber } from "../../../libs/utils";
 if (!Astro.locals.isLoggedIn) {
   return Astro.redirect("/auth/login");
 }
@@ -33,7 +34,7 @@ const user = Astro.locals.user!!;
         <a class="flex flex-row justify-between items-center gap-4 py-4" href="/auth/profile/phone">
           <div class="flex flex-col gap-1 text-sm">
             <p class="text-gray-900 font-bold">연락처</p>
-            <p class="text-gray-700">{user?.phoneNumber || '없음'}</p>
+            <p class="text-gray-700">{formatPhoneNumber(user?.phoneNumber, user?.phoneCode) || '-'}</p>
           </div>
           <IconArrowRight class="size-4 text-gray-400" />
         </a>
