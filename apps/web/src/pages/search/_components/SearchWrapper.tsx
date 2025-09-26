@@ -101,6 +101,7 @@ export default function SearchWrapper(props: SearchWrapperProps) {
                 <a
                   href='#'
                   data-chat-open
+                  data-chat-type={'inquiry'}
                   className='body6 text-gray-900 underline'
                 >
                   문의하기

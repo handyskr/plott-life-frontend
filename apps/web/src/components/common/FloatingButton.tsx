@@ -37,6 +37,7 @@ export default function FloatingButton() {
     <button
       ref={buttonRef}
       data-chat-open
+      data-chat-type={'host'}
       className='fixed bottom-20 right-[calc(max((100vw-var(--max-width))/2+24px,24px))]  bg-gray-900 pl-4 pr-[22px] rounded-full body5 text-white btn border-none shadow-[0_8px_15px_0_rgba(0,0,0,0.2)] pb-(--bait) transition-transform duration-500 ease-in-out'
     >
       <Plus />방 등록하기
