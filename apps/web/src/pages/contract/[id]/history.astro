@@ -172,7 +172,7 @@ const subtitle = isCanceled ? '취소 내역' : '결제 내역'
             환불 금액
           </span>
           <span class='body1 text-gray-900'>
-            {(amount || 0).toLocaleString()}원
+            {(cancel?.amount || 0).toLocaleString()}원
           </span>
         </div>
       ))}
