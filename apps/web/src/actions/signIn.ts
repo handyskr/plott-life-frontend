@@ -1,5 +1,6 @@
 import { ActionError, defineAction } from "astro:actions";
 import { emailInput, signInInput } from "./schema.ts";
+import { withQuery } from "ufo";
 
 const { API_URL } = import.meta.env;
 
@@ -60,7 +61,23 @@ export const signIn = defineAction({
       await context.session?.set("accessToken", accessToken);
       await context.session?.set("refreshToken", refreshToken);
 
-      // TODO: 만약 비 인증 상태라면 인증하도록 유도
+      const userRes = await fetch(`${API_URL}/v1/user/me`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      // 만약 가가입 상태라면 메일 인증 요청
+      const user = await userRes.json();
+      if (user.status !== 'ACTIVE') {
+        return {
+          redirectURL: withQuery('/auth/verify-email', {
+            email: user.email,
+          }),
+        }
+      }
+
       return {};
     } catch (e) {
       throw new ActionError({
