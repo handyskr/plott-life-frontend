@@ -18,6 +18,7 @@ import {
 import { NaverStaticMap, parseNaverURL } from '@plott-life/ui/components/NaverStaticMap';
 
 import { OptionMoreButton, IconByCode } from './_components';
+import { iconMap } from './_components/IconByCode';
 
 const { id } = Astro.params;
 const isLoggedIn = Astro.locals.isLoggedIn;
@@ -77,20 +78,22 @@ const structure = formatFeatures({
   livingrooms,
   kitchens,
 });
+const bedInfo = formatBedOptions(bedOptions);
+const options = defaultOptions.filter((option) => option.code && !!iconMap[option.code]);
 
 const [isMobile, naverUrl, naverUrlFallback] = parseNaverURL(
-  Astro.url, Astro.request?.headers?.get("user-agent") as string,
+  Astro.url, Astro.request?.headers?.get('user-agent') as string,
   address
 );
 
-const bedInfo = formatBedOptions(bedOptions);
-const subtitle = `${name} - ${address} | plott LIFE `
+const subtitle = `${name} - ${address} | plott LIFE `;
 const keywords = [
   name, address, structure, bedInfo, buildingType,
   ...(defaultOptions?.map((opt) => opt.name) || []),
   ...(facilityOptions?.map((opt) => opt.name) || []),
   ...(additionalOptions?.map((opt) => opt.name) || [])
 ].join(', ');
+
 ---
 <Layout
   title={subtitle}
@@ -194,7 +197,8 @@ const keywords = [
         <div class='py-6'>
           <h2 class='text-gray-900 title3 mb-4'>기본 옵션</h2>
           <div class='grid grid-cols-2 gap-4 mb-6'>
-            {defaultOptions.slice(0, 8).map((option) => {
+            {options.slice(0, 8)
+              .map((option) => {
               return (
                 <div class='flex items-center gap-x-3 gap-y-2 h-12'>
                   <IconByCode code={option.code} className='w-6 h-6 text-gray-900' />
@@ -204,8 +208,8 @@ const keywords = [
             })}
           </div>
           <OptionMoreButton
-            client:only="preact"
-            defaultOptions={defaultOptions}
+            client:only='preact'
+            defaultOptions={options}
           />
         </div>
       </>
@@ -261,7 +265,7 @@ const keywords = [
       <p class='body3 text-gray-900'>{address}</p>
       {(latitude && longitude) ? (
         <a
-          id="naver-map"
+          id='naver-map'
           href=`${naverUrl}` target={isMobile ? '_self' : '_blank'}
           data-naver-map={naverUrl} data-naver-map-fallback={naverUrlFallback}
           class='my-6 h-[300px] bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'>

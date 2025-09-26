@@ -32,7 +32,7 @@ interface Props {
   className?: string;
 }
 
-const map: Record<string, any> = {
+export const iconMap: Record<string, any> = {
   TV: Television,
   WIFI: Wifi,
   AIR_CONDITIONER: AirConditioner,
@@ -65,6 +65,6 @@ const map: Record<string, any> = {
 };
 
   export default function IconByCode({ code, className = '' }: Props) {
-    const Icon = map[code] ?? null;
+    const Icon = iconMap[code] ?? null;
     return Icon ? <Icon className={className} /> : null;
   }
