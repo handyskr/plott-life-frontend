@@ -1,3 +1,6 @@
+/**
+ * @deprecated use ufo
+ */
 export function getSearchParams<T extends Record<string, string | null>>(
   searchParams: URLSearchParams,
   defaults: T
@@ -17,4 +20,18 @@ export function getSearchParams<T extends Record<string, string | null>>(
   });
 
   return result;
+}
+
+export function formatPhoneNumber(phone: string | null, code: string | number | null = null) {
+  if (!phone) {
+    return null
+  }
+  if (!code || code === "82" || code === 82) {
+    if (phone.startsWith("0")) {
+      return phone
+    } else {
+      return "0" + phone
+    }
+  }
+  return `+${code} ${phone}`;
 }
