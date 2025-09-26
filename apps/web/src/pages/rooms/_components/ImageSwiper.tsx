@@ -108,7 +108,7 @@ export default function ImageSwiper({
       {/* Overlay: "사진 모두 보기" */}
       <button
         type="button"
-        class="hidden lg:inline-flex! absolute right-4 bottom-4 z-10 rounded-md bg-white/90 hover:bg-white shadow px-3 py-1.5 text-sm font-medium"
+        class="hidden lg:inline-flex! absolute right-10 bottom-4 z-10 rounded-md bg-white/90 hover:bg-white shadow px-3 py-1.5 text-sm font-medium"
         onClick={(e) => {
           e.stopPropagation();
           setSelectedIndex(0);
@@ -143,13 +143,13 @@ export default function ImageSwiper({
       </div>
 
       {/* Desktop: Grid */}
-      <div class="hidden lg:grid! grid-cols-4 grid-rows-2 gap-2 overflow-hidden aspect-[2/1] max-h-[720px]">
+      <div class="hidden px-6 lg:grid! grid-cols-4 grid-rows-2 gap-2 overflow-hidden aspect-[2/1] max-h-[720px]">
         {/* Large image (spans 2x2) */}
         {gridImages[0] && (
           <div class="relative col-span-2 row-span-2">
             <img
               src={`${IMAGE_URL}/${gridImages[0]}.webp?w=1024`}
-              class="w-full h-full object-cover cursor-pointer text-gray-100  bg-gray-100"
+              class="w-full h-full object-cover cursor-pointer rounded-2xl text-gray-100  bg-gray-100"
               loading="lazy"
               alt="room image"
               onClick={() => {
@@ -166,7 +166,7 @@ export default function ImageSwiper({
           <div key={i} class="relative">
             <img
               src={`${IMAGE_URL}/${img}.webp?w=800`}
-              class="w-full h-full object-cover cursor-pointer text-gray-100  bg-gray-100"
+              class="w-full h-full object-cover cursor-pointer rounded-2xl text-gray-100  bg-gray-100"
               loading="lazy"
               alt={`room image ${i + 2}`}
               onClick={() => {
