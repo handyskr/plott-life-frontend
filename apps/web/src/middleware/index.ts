@@ -53,12 +53,16 @@ export const onRequest = defineMiddleware(async (context, next) => {
       case 'ACTIVE':
         return next();
       case 'INACTIVE': {
-        return new Response('', {
-          status: 302,
-          headers: {
-            Location: '/auth/verify-email',
-          },
-        });
+        if (context.url.pathname === '/') {
+          return new Response('', {
+            status: 302,
+            headers: {
+              Location: '/auth/verify-email',
+            },
+          });
+        } else {
+          return next();
+        }
       }
       default: {
         context.session?.destroy();
